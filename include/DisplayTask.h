@@ -12,8 +12,6 @@ class DisplayTask : public ThreadTask {
 public:
     DisplayTask();
     bool init();
-    QueueHandle_t rxQueue;
-    QueueHandle_t txQueue;
    
 
 };

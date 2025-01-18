@@ -15,9 +15,6 @@ public:
     bool connecttohost(const char* host);
     bool connecttoSD(const char* filename);
     Audio audio;
-    QueueHandle_t rxQueue;
-    QueueHandle_t txQueue;
-
 
 };
 

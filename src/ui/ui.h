@@ -31,11 +31,15 @@ extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Screen1_Title;
 extern lv_obj_t * ui_Screen1_Artist;
 extern lv_obj_t * ui_Screen1_Station;
+extern lv_obj_t * ui_Screen1_Image1;
 // CUSTOM VARIABLES
 
 // EVENTS
 
 extern lv_obj_t * ui____initial_actions0;
+
+// IMAGES AND IMAGE SETS
+LV_IMG_DECLARE(ui_img_untitled_png);    // assets/Untitled.png
 
 // UI INIT
 void ui_init(void);

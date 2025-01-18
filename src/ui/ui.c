@@ -15,6 +15,7 @@ lv_obj_t * ui_Screen1;
 lv_obj_t * ui_Screen1_Title;
 lv_obj_t * ui_Screen1_Artist;
 lv_obj_t * ui_Screen1_Station;
+lv_obj_t * ui_Screen1_Image1;
 // CUSTOM VARIABLES
 
 // EVENTS

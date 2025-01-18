@@ -43,5 +43,16 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_scroll_dir(ui_Screen1_Station, LV_DIR_HOR);
     lv_obj_set_style_text_font(ui_Screen1_Station, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Screen1_Image1 = lv_image_create(ui_Screen1);
+    lv_image_set_src(ui_Screen1_Image1, &ui_img_untitled_png);
+    lv_obj_set_width(ui_Screen1_Image1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen1_Image1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Screen1_Image1, -4);
+    lv_obj_set_y(ui_Screen1_Image1, 44);
+    lv_obj_set_align(ui_Screen1_Image1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Screen1_Image1, LV_OBJ_FLAG_CLICKABLE);     /// Flags
+    lv_obj_remove_flag(ui_Screen1_Image1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_image_set_scale(ui_Screen1_Image1, 90);
+
 
 }

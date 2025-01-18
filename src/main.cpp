@@ -12,6 +12,7 @@
 #include "DisplayTask.h"
 #include "esp_mac.h"
 #include "ThreadTask.h"
+#include "DeviceTask.h"
 
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
@@ -36,6 +37,7 @@ static ulong getMills() { return (esp_timer_get_time() / 1000LL); };
 void setup()
 {
     Serial.begin(115200);
+    delay(10000);
 
     // FSPI default definitions for SS, MOSI, SCK & MISO are 10, 11, 12 & 13 
     // (see pins_arduino.h for more info) and match the boards wiring
@@ -43,8 +45,9 @@ void setup()
 
     if (!SD.begin(SS, *spi_onboardSD)) {
         Serial.println("error mounting microSD");
+    } else {
+        Serial.println("microSD mounted successfully");
     }
-
 
     lv_init();
 
@@ -70,9 +73,11 @@ void setup()
 
     Sound.init();
     Display.init();
-    
+    Device.init();
+
     Sound.connecttohost(RADIO_STREAM);
     Sound.setVolume(1);
+
 }
 
 

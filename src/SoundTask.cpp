@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "SoundTask.h"
-#include "ThreadQueue.h"
 #include "DisplayTask.h"
 
 int indexOf (const char* base, const char* str, int startIndex = 0) {
@@ -146,4 +145,19 @@ void audio_icylogo(const char* info) {
     Serial.print("icylogo  ");Serial.println(info);
 }
 
+void audio_id3image(File& file, const size_t pos, const size_t size){
+    Serial.print("id3image  ");
+}
 
+void audio_oggimage(File& file, std::vector<uint32_t> v){
+    Serial.print("oggimage  ");
+}
+
+void audio_id3lyrics(File& file, const size_t pos, const size_t size){
+    Serial.print("id3lyrics  ");
+}
+
+
+void audio_icydescription(const char* info){
+    Serial.print("icydescription  ");Serial.println(info);
+}

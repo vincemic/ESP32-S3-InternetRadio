@@ -1,5 +1,4 @@
 #include "DisplayTask.h"
-#include "ThreadQueue.h"
 #include "SoundTask.h"
 
 DisplayTask::DisplayTask() {
