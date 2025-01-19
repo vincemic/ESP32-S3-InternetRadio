@@ -2,7 +2,6 @@
 
 #include <Arduino.h>
 #include <Audio.h>
-#include <esp_mac.h>
 #include "ThreadTask.h"
 
 class SoundTask : public ThreadTask {

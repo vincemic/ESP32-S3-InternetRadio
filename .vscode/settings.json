@@ -1,4 +1,13 @@
 {
     "idf.espIdfPathWin": "C:\\Users\\vjm\\esp\\v5.4\\esp-idf",
-    "idf.toolsPathWin": "C:\\Users\\vjm\\.espressif"
+    "idf.toolsPathWin": "C:\\Users\\vjm\\.espressif",
+    "files.associations": {
+        "cstddef": "cpp",
+        "atomic": "cpp",
+        "functional": "cpp",
+        "memory_resource": "cpp",
+        "span": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp"
+    }
 }

@@ -145,15 +145,15 @@ void audio_icylogo(const char* info) {
     Serial.print("icylogo  ");Serial.println(info);
 }
 
-void audio_id3image(File& file, const size_t pos, const size_t size){
+void audio_id3image(fs::File& file, const size_t pos, const size_t size){
     Serial.print("id3image  ");
 }
 
-void audio_oggimage(File& file, std::vector<uint32_t> v){
+void audio_oggimage(fs::File& file, std::vector<uint32_t> v){
     Serial.print("oggimage  ");
 }
 
-void audio_id3lyrics(File& file, const size_t pos, const size_t size){
+void audio_id3lyrics(fs::File& file, const size_t pos, const size_t size){
     Serial.print("id3lyrics  ");
 }
 

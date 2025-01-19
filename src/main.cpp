@@ -1,10 +1,7 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
-#include <FS.h>
-#include <SD.h> 
 #include <Audio.h>
-#include <esp_mac.h>
 #include <TFT_eSPI.h>
 #include "lvgl.h"
 #include "ui/ui.h"
@@ -13,6 +10,7 @@
 #include "esp_mac.h"
 #include "ThreadTask.h"
 #include "DeviceTask.h"
+//#include <esp_mac.h>
 
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
@@ -31,8 +29,9 @@ volatile uint32_t song_count = 0;
 const char ssid[] = "missile";
 const char pass[] = "vincemic123!"; 
 
-SPIClass *spi_onboardSD = new SPIClass(FSPI);
 static ulong getMills() { return (esp_timer_get_time() / 1000LL); };
+
+uint32_t rotary_position = 0;
 
 void setup()
 {
@@ -41,9 +40,9 @@ void setup()
 
     // FSPI default definitions for SS, MOSI, SCK & MISO are 10, 11, 12 & 13 
     // (see pins_arduino.h for more info) and match the boards wiring
-    spi_onboardSD->begin();
+    //spi_onboardSD->begin();
 
-    if (!SD.begin(SS, *spi_onboardSD)) {
+    if (!SD.begin(SS)) {
         Serial.println("error mounting microSD");
     } else {
         Serial.println("microSD mounted successfully");
@@ -81,10 +80,47 @@ void setup()
 }
 
 
+uint32_t wheel(uint32_t wheelPos) {
+  wheelPos = 255 - wheelPos;
+  if (wheelPos < 85) {
+    return Device.color(255 - wheelPos * 3, 0, wheelPos * 3);
+  }
+  if (wheelPos < 170) {
+    wheelPos -= 85;
+    return Device.color(0, wheelPos * 3, 255 - wheelPos * 3);
+  }
+  wheelPos -= 170;
+  return Device.color(wheelPos * 3, 255 - wheelPos * 3, 0);
+}
 
 void loop() 
 {
-   vTaskDelay(100 * configTICK_RATE_HZ ); 
+     if (! Device.readRotarySwitch()) {
+        Serial.println("Button pressed!");
+    }
+
+    int32_t new_position = Device.readRotaryPostion();
+    // did we move arounde?
+    if (rotary_position != new_position)
+    {
+        Serial.println(new_position);         // display new position
+
+        // change the neopixel color
+    //    Device.setRotaryPixelColor(0,wheel(new_position & 0xFF));
+        rotary_position = new_position;      // and save for next round
+    }
+
+    uint16_t x, y, z1, z2;
+  if (Device.readTouch(&x, &y, &z1, &z2)) {
+    Serial.print("Touch point: (");
+    Serial.print(x); Serial.print(", ");
+    Serial.print(y); Serial.print(", ");
+    Serial.print(z1); Serial.print(" / ");
+    Serial.print(z2); Serial.println(")");
+  }
+
+   delay(10); 
 }
+
 
 

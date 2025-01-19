@@ -4,7 +4,6 @@
 #include <TFT_eSPI.h>
 #include "lvgl.h"
 #include "../src/ui/ui.h"
-#include <esp_mac.h>
 #include "ThreadTask.h"
 
 class DisplayTask : public ThreadTask {

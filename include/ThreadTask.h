@@ -1,6 +1,5 @@
 #pragma once
 #include <Arduino.h>
-#include <esp_mac.h>
 #include "ThreadTask.h"
 
 #define MaxThreadMessageSize 250
