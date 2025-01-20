@@ -10,7 +10,6 @@
 #include "esp_mac.h"
 #include "ThreadTask.h"
 #include "DeviceTask.h"
-//#include <esp_mac.h>
 
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 320
@@ -29,7 +28,7 @@ volatile uint32_t song_count = 0;
 const char ssid[] = "missile";
 const char pass[] = "vincemic123!"; 
 
-static ulong getMills() { return (esp_timer_get_time() / 1000LL); };
+static ulong getMills() { return millis(); };
 
 uint32_t rotary_position = 0;
 
@@ -53,6 +52,7 @@ void setup()
     // Initialize the TFT display using the TFT_eSPI library
     disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
     lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_270);
+
 
     /*Set a tick source so that LVGL will know how much time elapsed. */
     lv_tick_set_cb(getMills);
@@ -110,14 +110,7 @@ void loop()
         rotary_position = new_position;      // and save for next round
     }
 
-    uint16_t x, y, z1, z2;
-  if (Device.readTouch(&x, &y, &z1, &z2)) {
-    Serial.print("Touch point: (");
-    Serial.print(x); Serial.print(", ");
-    Serial.print(y); Serial.print(", ");
-    Serial.print(z1); Serial.print(" / ");
-    Serial.print(z2); Serial.println(")");
-  }
+ 
 
    delay(10); 
 }

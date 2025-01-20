@@ -46,7 +46,7 @@ bool DisplayTask::init()
         NULL,                  /* Task handle. */
         1                      /* Core where the task should run */
     );
-
+ 
     return true;
 }
 
