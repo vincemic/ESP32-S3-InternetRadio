@@ -61,14 +61,6 @@ uint8_t SoundTask::getVolume()
 
 bool SoundTask::connecttohost(const char* host)
 {
-    bool result = audio.connecttospeech("Internet Radio is starting.", "en");
-
-    while(result && audio.isRunning())
-    {
-        yield();
-        delay(1000);
-    }
-
     return audio.connecttohost(host);
 }
 

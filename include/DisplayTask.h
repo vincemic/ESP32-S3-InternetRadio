@@ -5,14 +5,27 @@
 #include "lvgl.h"
 #include "../src/ui/ui.h"
 #include "ThreadTask.h"
+#include <Adafruit_TSC2007.h>
+
+#define DRAW_BUF_SIZE (TFT_WIDTH * TFT_HEIGHT / 10 * (LV_COLOR_DEPTH / 8))
+#define TOUCH_ADDR           0x48
+
 
 class DisplayTask : public ThreadTask {
 
 public:
     DisplayTask();
     bool init();
-   
+    lv_indev_t * indev_touchpad;
+    void tick();
+    static void readTouchCB(lv_indev_t *device, lv_indev_data_t *data);
 
+private:
+
+    uint32_t draw_buf[DRAW_BUF_SIZE / 4];
+    Adafruit_TSC2007 touchController;
+    bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
+    lv_display_t * display;
 };
 
 extern DisplayTask Display;
