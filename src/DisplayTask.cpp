@@ -41,68 +41,53 @@ bool DisplayTask::init()
         Serial.println("Touch controller failed to start");
     }
 
-    xTaskCreatePinnedToCore(
-        [](void *parameters)
-        {
-            while(true)
-            {
-                ThreadMessage threadMessage;
-
-                if(Sound.internalReceive(&threadMessage)) 
-                {
-                    switch(threadMessage.messageType)
-                    {
-                        case DISPLAY_MESSAGE_ARTIST:
-                            lv_label_set_text(ui_Screen1_Artist, threadMessage.message);
-                            break;
-                        case DISPLAY_MESSAGE_TITLE:
-                            lv_label_set_text(ui_Screen1_Title, threadMessage.message);
-                            break;
-                        case DISPLAY_MESSAGE_STATION:
-                            lv_label_set_text(ui_Screen1_Station, threadMessage.message);
-                            break;
-                    }
-                    
-                }
-                
-
-                Display.tick();
-                vTaskDelay(100); 
-            }
-        }
-        ,             
-        "displayTask",         
-        10000,                 
-        NULL,                  
-        2 | portPRIVILEGE_BIT, 
-        NULL,                  
-        1                     
-    );
-
-    return true;
+    lv_timer_handler();
+    
+     return true;
 }
-
+   
 void DisplayTask::readTouchCB(lv_indev_t *device, lv_indev_data_t *data)
 {
     uint16_t x,y,z1,z2;
-    int16_t x_diff, y_diff;
+    int32_t x_diff = 0, y_diff = 0;
 
-    Serial.print("Touch point callback");
-
-    if(Display.readTouch(&x, &y, &z1, &z2) && z1 > 100)
+    if(Display.readTouch(&x, &y, &z1, &z2) && z1 > 6)
     {
-        x_diff = x;
-        y_diff = y;
+        x_diff = map(x, 0, 5000, 0, TFT_HEIGHT);
+        y_diff = map(y, 0, 5000, 0,  TFT_WIDTH);
+
+        if(x_diff < 0) 
+            x_diff = 0;
+        if(y_diff < 0) 
+            y_diff = 0;
+
+        if(x_diff > TFT_HEIGHT)
+             x_diff = TFT_HEIGHT;
+        if(y_diff > TFT_WIDTH)
+             y_diff = TFT_WIDTH;
+
+        Serial.print(x); 
+        Serial.print(" - ");
+        Serial.println(y);   
         Serial.print("Touch point: (");
         Serial.print(x_diff); Serial.print(", ");
         Serial.print(y_diff); Serial.print(", ");
         Serial.print(z1); Serial.print(" / ");
         Serial.print(z2); Serial.println(")");
-        //data->point.x = map(x, TS_MINX, TS_MAXX, 0, SCREEN_WIDTH);
-        //data->point.y = map(y, TS_MINY, TS_MAXY, 0, SCREEN_HEIGHT);
-        data->state = LV_INDEV_STATE_PRESSED;
+
+
+        data->point.x = x_diff;
+        data->point.y = y_diff;
+
+        if(z1 > 100)
+            data->state = LV_INDEV_STATE_PRESSED;
+        else
+            data->state = LV_INDEV_STATE_RELEASED;
+
     } else {   
 
+        data->point.x = 0;
+        data->point.y =0;
         data->state = LV_INDEV_STATE_RELEASED;
     }
 
@@ -115,9 +100,25 @@ bool DisplayTask::readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2)
 
 void DisplayTask::tick()
 {
-    lv_indev_read(indev_touchpad);
+    ThreadMessage threadMessage;   
+    if(Sound.internalReceive(&threadMessage)) 
+    {
+        switch(threadMessage.messageType)
+        {
+            case DISPLAY_MESSAGE_ARTIST:
+                lv_label_set_text(ui_Screen1_Artist, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_TITLE:
+                lv_label_set_text(ui_Screen1_Title, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_STATION:
+                lv_label_set_text(ui_Screen1_Station, threadMessage.message);
+                break;
+        }
+        
+    }
     lv_timer_handler();
-
+    lv_indev_read(Display.indev_touchpad);
 }
 
 DisplayTask Display;

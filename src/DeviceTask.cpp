@@ -14,7 +14,7 @@ DeviceTask::DeviceTask()
 
 bool DeviceTask::init()
 {
-    //sspixel = seesaw_NeoPixel(1, 6, NEO_GRB + NEO_KHZ800);
+    sspixel = seesaw_NeoPixel(1, 6, NEO_GRB + NEO_KHZ800);
 
 
     if(rotary_seesaw.begin(ROTARY_ADDR)){
@@ -26,11 +26,11 @@ bool DeviceTask::init()
     }
 
     
-    //sspixel.begin(SEESAW_ADDRESS);
+    //sspixel.begin(ROTARY_ADDR);
 
      // set not so bright!
-    //sspixel.setBrightness(20);
-    //sspixel.show();
+    // sspixel.setBrightness(20);
+     //sspixel.show();
     
     // use a pin for the built in encoder switch
     rotary_seesaw.pinMode(SS_SWITCH, INPUT_PULLUP);

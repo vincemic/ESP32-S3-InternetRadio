@@ -24,7 +24,7 @@ bool ThreadTask::receive(ThreadMessage* message )
 {
     ThreadMessage* incomming;
 
-    if(xQueueReceive(txQueue, &incomming,portMAX_DELAY) == pdPASS) 
+    if(xQueueReceive(txQueue, &incomming,10) == pdPASS) 
     {
         message->copy(incomming);
         // Fee the mewsage that was created
@@ -49,7 +49,7 @@ bool ThreadTask::internalReceive(ThreadMessage* message )
 {
     ThreadMessage* incomming;
 
-    if(xQueueReceive(rxQueue, &incomming,portMAX_DELAY) == pdPASS) 
+    if(xQueueReceive(rxQueue, &incomming,10) == pdPASS) 
     {
         message->copy(incomming);
 

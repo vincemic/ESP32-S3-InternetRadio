@@ -37,8 +37,6 @@ void setup()
         Serial.println("microSD mounted successfully");
     }
 
-    Display.init();
-
     Serial.println("running example \"Play-Radio-Station-with-TFT\":");
 
     // connecting to local WiFi network
@@ -50,14 +48,15 @@ void setup()
     }
     Serial.printf("\n connected successfully to \"%s\". IP address: %s\n", ssid, WiFi.localIP().toString());
 
- 
+    Device.init();
+    Display.init();
 
     Sound.init();
-    Device.init();
 
+    Sound.setVolume(1);
 
     Sound.connecttohost(RADIO_STREAM);
-    Sound.setVolume(1);
+
 
 }
 
@@ -86,13 +85,11 @@ void loop()
     if (rotary_position != new_position)
     {
         Serial.println(new_position);         // display new position
-
-        // change the neopixel color
-    //    Device.setRotaryPixelColor(0,wheel(new_position & 0xFF));
         rotary_position = new_position;      // and save for next round
     }
 
-   delay(10); 
+   Display.tick();
+   delay(10);  
 }
 
 
