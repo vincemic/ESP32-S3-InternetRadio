@@ -301,13 +301,13 @@
                   {
                     "nid": 1000453,
                     "strtype": "CHANGE SCREEN/Speed",
-                    "integer": 1000,
+                    "integer": 500,
                     "InheritedType": 6
                   },
                   {
                     "nid": 1000454,
                     "strtype": "CHANGE SCREEN/Delay",
-                    "integer": 5000,
+                    "integer": 500,
                     "InheritedType": 6
                   }
                 ],
@@ -1382,7 +1382,7 @@
     "uiExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio\\src\\ui",
     "projectExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 6,
+    "backup_cnt": 7,
     "autosave_cnt": 0,
     "lvgl_version": "9.1.0",
     "callfuncsexport": "C_FILE",
