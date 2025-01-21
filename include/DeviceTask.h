@@ -16,16 +16,18 @@ class DeviceTask : public ThreadTask {
 public:
     DeviceTask();
     bool init();
-    uint32_t readRotarySwitch();
-    uint32_t readRotaryPostion();
+
     uint32_t color(uint8_t r, uint8_t g, uint8_t b);
     void setRotaryPixelColor(uint16_t n, uint32_t c);
- 
- private: 
+    void tick();
 
+ private: 
+    bool readRotarySwitch();
+    uint32_t readRotaryPostion();
     Adafruit_seesaw rotary_seesaw;
     seesaw_NeoPixel sspixel;
-    int32_t encoder_position;
+    int32_t encoderPosition = 0;
+    bool rotarySwitchState = false;
 };
 
 extern DeviceTask Device;

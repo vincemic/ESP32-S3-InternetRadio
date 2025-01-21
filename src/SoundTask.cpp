@@ -2,6 +2,8 @@
 #include "SoundTask.h"
 #include "DisplayTask.h"
 
+
+
 int indexOf (const char* base, const char* str, int startIndex = 0) {
     const char *p = base;
     for (; startIndex > 0; startIndex--)
@@ -68,6 +70,25 @@ bool SoundTask::connecttoSD(const char* filename){
     return true;
 }
 
+void SoundTask::turnUpVolume()
+{
+    uint8_t vol = audio.getVolume();
+    if(vol < 21)
+    {
+        vol++;
+        audio.setVolume(vol);
+    }
+}
+
+void SoundTask::turnDownVolume()
+{
+    uint8_t vol = audio.getVolume();
+    if(vol > 0)
+    {
+        vol--;
+        audio.setVolume(vol);
+    }
+}
 SoundTask Sound;
 
 

@@ -11,20 +11,11 @@
 #include "ThreadTask.h"
 #include "DeviceTask.h"
 
-//#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
-//#define RADIO_STREAM "http://stream.srg-ssr.ch/m/rsp/mp3_128"
-//#define RADIO_STREAM "http://www.radioeins.de/frankfurt/livemp3"
-//#define RADIO_STREAM "http://vis.media-ice.musicradio.com/CapitalMP3"
-//#define RADIO_STREAM "http://rfcm.streamguys1.com/thirdrock-icy"
-#define RADIO_STREAM "http://stream.laut.fm/oldies"
 
 
 
-volatile uint32_t song_count = 0; 
 const char ssid[] = "missile";
 const char pass[] = "vincemic123!"; 
-
-uint32_t rotary_position = 0;
 
 void setup()
 {
@@ -55,7 +46,12 @@ void setup()
 
     Sound.setVolume(1);
 
-    Sound.connecttohost(RADIO_STREAM);
+    Serial.printf("Total heap: %d\n", ESP.getHeapSize());
+    Serial.printf("Free heap: %d\n", ESP.getFreeHeap());
+    Serial.printf("Total PSRAM: %d\n", ESP.getPsramSize());
+    Serial.printf("Free PSRAM: %d\n", ESP.getFreePsram());
+
+  
 
 
 }
@@ -76,20 +72,10 @@ uint32_t wheel(uint32_t wheelPos) {
 
 void loop() 
 {
-     if (! Device.readRotarySwitch()) {
-        Serial.println("Button pressed!");
-    }
 
-    int32_t new_position = Device.readRotaryPostion();
-    // did we move arounde?
-    if (rotary_position != new_position)
-    {
-        Serial.println(new_position);         // display new position
-        rotary_position = new_position;      // and save for next round
-    }
-
-   Display.tick();
-   delay(10);  
+  Device.tick();
+  Display.tick();
+  vTaskDelay(100);
 }
 
 

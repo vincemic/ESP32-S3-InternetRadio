@@ -14,7 +14,7 @@ void slide_Animation(lv_obj_t * TargetObject, int delay);
 void ui_Screen2_screen_init(void);
 void ui_event_Screen2(lv_event_t * e);
 lv_obj_t * ui_Screen2;
-lv_obj_t * ui_Screen2_Image2;
+lv_obj_t * ui_Screen2_Image1;
 // CUSTOM VARIABLES
 
 
@@ -27,6 +27,8 @@ lv_obj_t * ui_Screen1_Station;
 void ui_event_Screen1_Button2(lv_event_t * e);
 lv_obj_t * ui_Screen1_Button2;
 lv_obj_t * ui_Screen1_Label1;
+lv_obj_t * ui_Screen1_Label2;
+lv_obj_t * ui_Screen1_Image4;
 // CUSTOM VARIABLES
 
 // EVENTS
@@ -70,7 +72,7 @@ void ui_event_Screen2(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_SCREEN_LOADED) {
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 500, &ui_Screen1_screen_init);
+        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_MOVE_LEFT, 1000, 3000, &ui_Screen1_screen_init);
     }
 }
 
@@ -79,7 +81,7 @@ void ui_event_Screen1_Button2(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_label_set_property(ui_Screen1_Label1, _UI_LABEL_PROPERTY_TEXT, "Got a click!");
+        onButtonClicked(e);
     }
 }
 

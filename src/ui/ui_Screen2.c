@@ -9,17 +9,17 @@ void ui_Screen2_screen_init(void)
 {
     ui_Screen2 = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_Screen2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Screen2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Screen2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Screen2_Image2 = lv_image_create(ui_Screen2);
-    lv_image_set_src(ui_Screen2_Image2, &ui_img_untitled_png);
-    lv_obj_set_width(ui_Screen2_Image2, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Screen2_Image2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Screen2_Image2, 0);
-    lv_obj_set_y(ui_Screen2_Image2, -1);
-    lv_obj_set_align(ui_Screen2_Image2, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Screen2_Image2, LV_OBJ_FLAG_CLICKABLE);     /// Flags
-    lv_obj_remove_flag(ui_Screen2_Image2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_image_set_scale(ui_Screen2_Image2, 100);
+    ui_Screen2_Image1 = lv_image_create(ui_Screen2);
+    lv_image_set_src(ui_Screen2_Image1, &ui_img_bitdog_flattened_png);
+    lv_obj_set_width(ui_Screen2_Image1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Screen2_Image1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Screen2_Image1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Screen2_Image1, LV_OBJ_FLAG_CLICKABLE);     /// Flags
+    lv_obj_remove_flag(ui_Screen2_Image1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_image_set_scale(ui_Screen2_Image1, 300);
 
     lv_obj_add_event_cb(ui_Screen2, ui_event_Screen2, LV_EVENT_ALL, NULL);
 

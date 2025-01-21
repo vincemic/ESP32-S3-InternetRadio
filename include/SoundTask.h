@@ -13,8 +13,11 @@ public:
     uint8_t getVolume();
     bool connecttohost(const char* host);
     bool connecttoSD(const char* filename);
+    void turnUpVolume();
+    void turnDownVolume();
     Audio audio;
-
+private:
+    uint16_t volume = 0;
 };
 
 extern SoundTask Sound;

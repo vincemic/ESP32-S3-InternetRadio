@@ -31,7 +31,7 @@ void slide_Animation(lv_obj_t * TargetObject, int delay);
 void ui_Screen2_screen_init(void);
 void ui_event_Screen2(lv_event_t * e);
 extern lv_obj_t * ui_Screen2;
-extern lv_obj_t * ui_Screen2_Image2;
+extern lv_obj_t * ui_Screen2_Image1;
 // CUSTOM VARIABLES
 
 // SCREEN: ui_Screen1
@@ -43,6 +43,8 @@ extern lv_obj_t * ui_Screen1_Station;
 void ui_event_Screen1_Button2(lv_event_t * e);
 extern lv_obj_t * ui_Screen1_Button2;
 extern lv_obj_t * ui_Screen1_Label1;
+extern lv_obj_t * ui_Screen1_Label2;
+extern lv_obj_t * ui_Screen1_Image4;
 // CUSTOM VARIABLES
 
 // EVENTS
@@ -50,7 +52,8 @@ extern lv_obj_t * ui_Screen1_Label1;
 extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
-LV_IMG_DECLARE(ui_img_untitled_png);    // assets/Untitled.png
+LV_IMG_DECLARE(ui_img_bitdog_flattened_png);    // assets/Bitdog_flattened.png
+LV_IMG_DECLARE(ui_img_point_png);    // assets/point.png
 
 // UI INIT
 void ui_init(void);
