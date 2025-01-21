@@ -1,8 +1,5 @@
 #include "DisplayTask.h"
 #include "SoundTask.h"
-#include "lv_tc.h"
-#include "lv_tc_screen.h"
-#include "esp_nvs_tc.h"
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
 //#define RADIO_STREAM "http://stream.srg-ssr.ch/m/rsp/mp3_128"
