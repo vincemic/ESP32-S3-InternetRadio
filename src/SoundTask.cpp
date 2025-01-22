@@ -26,12 +26,10 @@ bool SoundTask::init()
     xTaskCreatePinnedToCore(
         [](void *parameters)
         {
-            SoundTask *audioTaskp = (SoundTask*) parameters;
-
             while(true)
             {
-                audioTaskp->audio.loop();
-                if (!audioTaskp->audio.isRunning())
+                Sound.audio.loop();
+                if (!Sound.audio.isRunning())
                 {
                 
                 }
@@ -41,7 +39,7 @@ bool SoundTask::init()
       ,             /* Function to implement the task */
         "audioTask",           /* Name of the task */
         10000,                  /* Stack size in words */
-        this,                  /* Task input parameter */
+        NULL,                  /* Task input parameter */
         2 | portPRIVILEGE_BIT, /* Priority of the task */
         NULL,                  /* Task handle. */
         0                      /* Core where the task should run */

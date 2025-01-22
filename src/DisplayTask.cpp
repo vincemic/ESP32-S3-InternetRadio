@@ -10,18 +10,6 @@
 
 static ulong getMills() { return millis(); };
 
-static void drag_event_handler(lv_event_t * e)
-{
-    lv_obj_t * obj = ( lv_obj_t *) lv_event_get_target(e);
-
-    lv_indev_t * indev = lv_indev_get_act();
-    if(indev == NULL)  return;
-     
-    lv_point_t pos;
-    lv_indev_get_point(indev, &pos);
-
-    lv_obj_set_pos(obj, pos.x ,  pos.y );
-}
 
 DisplayTask::DisplayTask() {
   
@@ -32,19 +20,11 @@ DisplayTask::DisplayTask() {
 bool DisplayTask::init()
 {
 
-    lv_log_register_print_cb([](lv_log_level_t level, const char * message) {
-        Serial.printf("%s\n", message);
-    });
-
-
     lv_init();
 
     // Initialize the TFT display using the TFT_eSPI library
     display = lv_tft_espi_create(TFT_WIDTH, TFT_HEIGHT, draw_buf, sizeof(draw_buf));
     lv_display_set_rotation(display, LV_DISPLAY_ROTATION_270);
-
-    Serial.printf("Screen horizontal: %d", lv_display_get_horizontal_resolution(display));
-    Serial.printf("Screen vertical: %d", lv_display_get_vertical_resolution(display));
 
     /*Set a tick source so that LVGL will know how much time elapsed. */
     lv_tick_set_cb(getMills);
@@ -64,11 +44,7 @@ bool DisplayTask::init()
     lv_indev_set_read_cb(indev_touchpad, readTouchCB);
 
     ui_init();
-  
-    lv_obj_add_event_cb(ui_Screen1_Image4, drag_event_handler, LV_EVENT_PRESSING, NULL);
        
-    lv_timer_handler();
-    
      return true;
 }
    
@@ -130,34 +106,62 @@ bool DisplayTask::readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2)
 
 void DisplayTask::tick()
 {
+
     ThreadMessage threadMessage;   
     if(Sound.internalReceive(&threadMessage)) 
     {
         switch(threadMessage.messageType)
         {
             case DISPLAY_MESSAGE_ARTIST:
-                lv_label_set_text(ui_Screen1_Artist, threadMessage.message);
+                lv_label_set_text(ui_Main_Screen_Artist, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_TITLE:
-                lv_label_set_text(ui_Screen1_Title, threadMessage.message);
+                lv_label_set_text(ui_Main_Screen_Title, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_STATION:
-                lv_label_set_text(ui_Screen1_Station, threadMessage.message);
+                lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_WIFI_CONNECTED:
+                lv_obj_remove_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                break;
+            case DISPLAY_MESSAGE_WIFI_DISCONNECTED: 
+                lv_obj_remove_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 break;
         }
         
     }
+
+    if(internalReceive(&threadMessage)) 
+    {
+        switch(threadMessage.messageType)
+        {
+            case DISPLAY_MESSAGE_ARTIST:
+                lv_label_set_text(ui_Main_Screen_Artist, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_TITLE:
+                lv_label_set_text(ui_Main_Screen_Title, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_STATION:
+                lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
+                break;
+            case DISPLAY_MESSAGE_WIFI_CONNECTED:
+                lv_obj_remove_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                break;
+            case DISPLAY_MESSAGE_WIFI_DISCONNECTED: 
+                lv_obj_remove_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                break;
+        }
+        
+    }
+
+
     lv_timer_handler();
     lv_indev_read(Display.indev_touchpad);
 }
-
-void onButtonClicked(lv_event_t * e)
-{
-
-    Sound.connecttohost(RADIO_STREAM);
- 
-}
-
 
 
 DisplayTask Display;

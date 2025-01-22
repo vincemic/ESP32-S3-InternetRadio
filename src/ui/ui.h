@@ -27,25 +27,40 @@ extern "C" {
 
 void slide_Animation(lv_obj_t * TargetObject, int delay);
 
-// SCREEN: ui_Screen2
-void ui_Screen2_screen_init(void);
-void ui_event_Screen2(lv_event_t * e);
-extern lv_obj_t * ui_Screen2;
-extern lv_obj_t * ui_Screen2_Image1;
+// SCREEN: ui_Loading_Screen
+void ui_Loading_Screen_screen_init(void);
+void ui_event_Loading_Screen(lv_event_t * e);
+extern lv_obj_t * ui_Loading_Screen;
+extern lv_obj_t * ui_Loading_Screen_Logo_Image;
+extern lv_obj_t * ui_Loading_Screen__Loading_Label;
 // CUSTOM VARIABLES
+extern lv_obj_t * uic_Loading_Screen;
+extern lv_obj_t * uic_Loading_Screen_Logo_Image;
+extern lv_obj_t * uic_Loading_Screen__Loading_Label;
 
-// SCREEN: ui_Screen1
-void ui_Screen1_screen_init(void);
-extern lv_obj_t * ui_Screen1;
-extern lv_obj_t * ui_Screen1_Title;
-extern lv_obj_t * ui_Screen1_Artist;
-extern lv_obj_t * ui_Screen1_Station;
-void ui_event_Screen1_Button2(lv_event_t * e);
-extern lv_obj_t * ui_Screen1_Button2;
-extern lv_obj_t * ui_Screen1_Label1;
-extern lv_obj_t * ui_Screen1_Label2;
-extern lv_obj_t * ui_Screen1_Image4;
+// SCREEN: ui_Main_Screen
+void ui_Main_Screen_screen_init(void);
+extern lv_obj_t * ui_Main_Screen;
+extern lv_obj_t * ui_Main_Screen_Title;
+extern lv_obj_t * ui_Main_Screen_Artist;
+extern lv_obj_t * ui_Main_Screen_Station;
+extern lv_obj_t * ui_Main_Screen_No_WIFI_Image;
+extern lv_obj_t * ui_Main_Screen_WIFI_Image;
 // CUSTOM VARIABLES
+extern lv_obj_t * uic_Main_Screen;
+extern lv_obj_t * uic_Main_Screen_Title;
+extern lv_obj_t * uic_Main_Screen_Artist;
+extern lv_obj_t * uic_Main_Screen_Station;
+extern lv_obj_t * uic_Main_Screen_No_WIFI_Image;
+extern lv_obj_t * uic_Main_Screen_WIFI_Image;
+
+// SCREEN: ui_Volume_Screen
+void ui_Volume_Screen_screen_init(void);
+void ui_event_Volume_Screen(lv_event_t * e);
+extern lv_obj_t * ui_Volume_Screen;
+extern lv_obj_t * ui_Volume_Screen_Slider;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Volume_Screen_Slider;
 
 // EVENTS
 
@@ -53,7 +68,8 @@ extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
 LV_IMG_DECLARE(ui_img_bitdog_flattened_png);    // assets/Bitdog_flattened.png
-LV_IMG_DECLARE(ui_img_point_png);    // assets/point.png
+LV_IMG_DECLARE(ui_img_1771336624);    // assets/no-wifi-small.png
+LV_IMG_DECLARE(ui_img_696732886);    // assets/wifi-small.png
 
 // UI INIT
 void ui_init(void);

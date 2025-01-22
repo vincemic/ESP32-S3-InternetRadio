@@ -17,10 +17,12 @@
 const char ssid[] = "missile";
 const char pass[] = "vincemic123!"; 
 
+bool initialized = false;
+uint32_t lastMillis = millis();
+
 void setup()
 {
     Serial.begin(115200);
-    delay(10000);
 
     if (!SD.begin(SS)) {
         Serial.println("error mounting microSD");
@@ -28,8 +30,12 @@ void setup()
         Serial.println("microSD mounted successfully");
     }
 
-    Serial.println("running example \"Play-Radio-Station-with-TFT\":");
+    Display.init();
 
+}
+
+void initialize()
+{
     // connecting to local WiFi network
     Serial.printf("connecting to WiFi network \"%s\"\n", ssid);
     WiFi.begin(ssid, pass);
@@ -37,46 +43,42 @@ void setup()
         Serial.print(".");
         delay(2000);
     }
+
+    Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED, "WiFi connected");
+
     Serial.printf("\n connected successfully to \"%s\". IP address: %s\n", ssid, WiFi.localIP().toString());
 
     Device.init();
-    Display.init();
-
     Sound.init();
-
-    Sound.setVolume(1);
 
     Serial.printf("Total heap: %d\n", ESP.getHeapSize());
     Serial.printf("Free heap: %d\n", ESP.getFreeHeap());
     Serial.printf("Total PSRAM: %d\n", ESP.getPsramSize());
     Serial.printf("Free PSRAM: %d\n", ESP.getFreePsram());
 
-  
-
-
+    initialized = true;
 }
 
 
-uint32_t wheel(uint32_t wheelPos) {
-  wheelPos = 255 - wheelPos;
-  if (wheelPos < 85) {
-    return Device.color(255 - wheelPos * 3, 0, wheelPos * 3);
-  }
-  if (wheelPos < 170) {
-    wheelPos -= 85;
-    return Device.color(0, wheelPos * 3, 255 - wheelPos * 3);
-  }
-  wheelPos -= 170;
-  return Device.color(wheelPos * 3, 255 - wheelPos * 3, 0);
+void scheduler()
+{
+    if(! initialized && millis() - lastMillis > 30000)
+    {
+        initialize();
+    }
 }
 
 void loop() 
 {
 
-  Device.tick();
   Display.tick();
+
+  scheduler();
+
+  if(initialized)
+  {
+     Device.tick();
+  }
+
   vTaskDelay(100);
 }
-
-
-

@@ -8,8 +8,13 @@
 #include <Adafruit_TSC2007.h>
 
 #define DRAW_BUF_SIZE (TFT_WIDTH * TFT_HEIGHT / 10 * (LV_COLOR_DEPTH / 8))
-#define TOUCH_ADDR           0x48
+#define TOUCH_ADDR 0x48
 
+#define DISPLAY_MESSAGE_TITLE 1
+#define DISPLAY_MESSAGE_ARTIST 2
+#define DISPLAY_MESSAGE_STATION 3
+#define DISPLAY_MESSAGE_WIFI_CONNECTED 4
+#define DISPLAY_MESSAGE_WIFI_DISCONNECTED 5
 
 class DisplayTask : public ThreadTask {
 
@@ -31,6 +36,3 @@ private:
 extern DisplayTask Display;
 
 
-#define DISPLAY_MESSAGE_TITLE 1
-#define DISPLAY_MESSAGE_ARTIST 2
-#define DISPLAY_MESSAGE_STATION 3
