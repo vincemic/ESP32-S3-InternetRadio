@@ -11,13 +11,16 @@ public:
     bool init();
     void setVolume(uint8_t vol);
     uint8_t getVolume();
-    bool connecttohost(const char* host);
-    bool connecttoSD(const char* filename);
-    void turnUpVolume();
-    void turnDownVolume();
-    Audio audio;
+
+    void tick();
+
 private:
     uint16_t volume = 0;
+    void turnUpVolume();
+    void turnDownVolume();
+    bool connecttohost(const char* host);
+    bool connecttoSD(const char* filename);
+    Audio audio;
 };
 
 extern SoundTask Sound;
@@ -33,3 +36,6 @@ extern SoundTask Sound;
 #define SOUND_MESSAGE_lasthost 9
 #define SOUND_MESSAGE_eof_speech 10
 #define SOUND_MESSAGE_icylogo 11
+#define SOUND_MESSAGE_TURN_UP_VOLUME 12
+#define SOUND_MESSAGE_TURN_DOWN_VOLUME 13
+#define SOUND_MESSAGE_CONNECT 14

@@ -40,19 +40,26 @@ extern lv_obj_t * uic_Loading_Screen__Loading_Label;
 
 // SCREEN: ui_Main_Screen
 void ui_Main_Screen_screen_init(void);
+void ui_event_Main_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen;
-extern lv_obj_t * ui_Main_Screen_Title;
 extern lv_obj_t * ui_Main_Screen_Artist;
 extern lv_obj_t * ui_Main_Screen_Station;
+extern lv_obj_t * ui_Main_Screen_Commercial;
+extern lv_obj_t * ui_Main_Screen_Title;
 extern lv_obj_t * ui_Main_Screen_No_WIFI_Image;
 extern lv_obj_t * ui_Main_Screen_WIFI_Image;
+extern lv_obj_t * ui_Main_Screen_Line_Image;
+extern lv_obj_t * ui_Main_Screen_Clock_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Main_Screen;
-extern lv_obj_t * uic_Main_Screen_Title;
 extern lv_obj_t * uic_Main_Screen_Artist;
 extern lv_obj_t * uic_Main_Screen_Station;
+extern lv_obj_t * uic_Main_Screen_Commercial;
+extern lv_obj_t * uic_Main_Screen_Title;
 extern lv_obj_t * uic_Main_Screen_No_WIFI_Image;
 extern lv_obj_t * uic_Main_Screen_WIFI_Image;
+extern lv_obj_t * uic_Main_Screen_Line_Image;
+extern lv_obj_t * uic_Main_Screen_Clock_Label;
 
 // SCREEN: ui_Volume_Screen
 void ui_Volume_Screen_screen_init(void);
@@ -62,14 +69,34 @@ extern lv_obj_t * ui_Volume_Screen_Slider;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Volume_Screen_Slider;
 
+// SCREEN: ui_Network_Screen
+void ui_Network_Screen_screen_init(void);
+void ui_event_Network_Screen(lv_event_t * e);
+extern lv_obj_t * ui_Network_Screen;
+extern lv_obj_t * ui_Network_Screen_Keyboard1;
+void ui_event_Network_Screen_SSID_Text_Area(lv_event_t * e);
+extern lv_obj_t * ui_Network_Screen_SSID_Text_Area;
+void ui_event_Network_Screen_Password_Text_Area(lv_event_t * e);
+extern lv_obj_t * ui_Network_Screen_Password_Text_Area;
+void ui_event_Network_Screen_Save_Button(lv_event_t * e);
+extern lv_obj_t * ui_Network_Screen_Save_Button;
+extern lv_obj_t * ui_Network_Screen_Save_Button_Label;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Network_Screen;
+extern lv_obj_t * uic_Network_Screen_SSID_Text_Area;
+extern lv_obj_t * uic_Network_Screen_Password_Text_Area;
+extern lv_obj_t * uic_Network_Screen_Save_Button;
+extern lv_obj_t * uic_Network_Screen_Save_Button_Label;
+
 // EVENTS
 
 extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
 LV_IMG_DECLARE(ui_img_bitdog_flattened_png);    // assets/Bitdog_flattened.png
-LV_IMG_DECLARE(ui_img_1771336624);    // assets/no-wifi-small.png
-LV_IMG_DECLARE(ui_img_696732886);    // assets/wifi-small.png
+LV_IMG_DECLARE(ui_img_474145878);    // assets/no-wifi-tiny-blue.png
+LV_IMG_DECLARE(ui_img_239856029);    // assets/wifi-tiny.png
+LV_IMG_DECLARE(ui_img_line_png);    // assets/line.png
 
 // UI INIT
 void ui_init(void);

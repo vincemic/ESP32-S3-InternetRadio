@@ -1,11 +1,13 @@
 SET(SOURCES ui_Loading_Screen.c
     ui_Main_Screen.c
     ui_Volume_Screen.c
+    ui_Network_Screen.c
     ui.c
     ui_comp_hook.c
     ui_helpers.c
     ui_img_bitdog_flattened_png.c
-    ui_img_1771336624.c
-    ui_img_696732886.c)
+    ui_img_474145878.c
+    ui_img_239856029.c
+    ui_img_line_png.c)
 
 add_library(ui ${SOURCES})

@@ -10,6 +10,8 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "compare": "cpp",
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "*.inc": "cpp",
+        "thread": "cpp"
     }
 }

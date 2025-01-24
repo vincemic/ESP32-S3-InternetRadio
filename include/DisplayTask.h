@@ -15,7 +15,9 @@
 #define DISPLAY_MESSAGE_STATION 3
 #define DISPLAY_MESSAGE_WIFI_CONNECTED 4
 #define DISPLAY_MESSAGE_WIFI_DISCONNECTED 5
-
+#define DISPLAY_MESSAGE_START 6
+#define DISPLAY_MESSAGE_COMMERCIAL 7
+#define DISPLAY_MESSAGE_ERROR 8
 class DisplayTask : public ThreadTask {
 
 public:
@@ -31,6 +33,8 @@ private:
     Adafruit_TSC2007 touchController;
     bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
+    volatile bool touchStarted = false;
+
 };
 
 extern DisplayTask Display;

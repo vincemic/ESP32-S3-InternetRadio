@@ -20,11 +20,16 @@ bool ThreadTask::send(u16_t messageType, const char* info)
     return true;
 }
 
+bool ThreadTask::send(u16_t messageType)
+{
+    return send(messageType, NULL);
+}
+
 bool ThreadTask::receive(ThreadMessage* message )
 {
     ThreadMessage* incomming;
 
-    if(xQueueReceive(txQueue, &incomming,10) == pdPASS) 
+    if(xQueueReceive(txQueue, &incomming,0) == pdPASS) 
     {
         message->copy(incomming);
         // Fee the mewsage that was created
@@ -49,7 +54,7 @@ bool ThreadTask::internalReceive(ThreadMessage* message )
 {
     ThreadMessage* incomming;
 
-    if(xQueueReceive(rxQueue, &incomming,10) == pdPASS) 
+    if(xQueueReceive(rxQueue, &incomming,0) == pdPASS) 
     {
         message->copy(incomming);
 

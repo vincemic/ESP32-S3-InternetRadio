@@ -6,7 +6,7 @@
 
 struct ThreadMessage
 {
-    u16_t messageType;
+    u16_t messageType = 0;
     char message[MaxThreadMessageSize];
 
     ThreadMessage()
@@ -17,16 +17,30 @@ struct ThreadMessage
     ThreadMessage(u16_t type, const char * info)
     {
         messageType = type;
-        size_t infosize = strnlen(info, MaxThreadMessageSize -1);
-        strncpy(message, info, infosize);
-        message[infosize] = '\0';
+
+        if(info == NULL)
+        {
+            message[0] = '\0';
+        }
+        else
+        {
+          size_t infosize = strnlen(info, MaxThreadMessageSize -1);
+          strncpy(message, info, infosize);
+          message[infosize] = '\0';
+        }
     }
 
     void copy(ThreadMessage* source)
     {
+      if(source->message == NULL)
+      {
+        message[0] = '\0';
+      } 
+      else{
         size_t infosize = strnlen(source->message, MaxThreadMessageSize -1);
         strncpy(message, source->message, infosize);
         message[infosize] = '\0';
+      }
 
         messageType = source->messageType;
 
@@ -43,6 +57,7 @@ class ThreadTask
 
     // Public endpoints
     bool send(u16_t messageType, const char* message);
+    bool send(u16_t messageType);
     bool receive(ThreadMessage* message);
 
   public:
@@ -52,7 +67,7 @@ class ThreadTask
     
 
   private:
-    QueueHandle_t rxQueue = xQueueCreate( 10, sizeof( struct TaskMessage * ) );
-    QueueHandle_t txQueue = xQueueCreate( 10, sizeof( struct TaskMessage * ) ); 
+    QueueHandle_t rxQueue = xQueueCreate( 40, sizeof( struct TaskMessage * ) );
+    QueueHandle_t txQueue = xQueueCreate( 40, sizeof( struct TaskMessage * ) ); 
 };
 
