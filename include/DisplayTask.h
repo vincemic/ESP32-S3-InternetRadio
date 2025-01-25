@@ -18,6 +18,7 @@
 #define DISPLAY_MESSAGE_START 6
 #define DISPLAY_MESSAGE_COMMERCIAL 7
 #define DISPLAY_MESSAGE_ERROR 8
+#define DISPLAY_MESSAGE_TTIME 9
 class DisplayTask : public ThreadTask {
 
 public:

@@ -139,6 +139,9 @@ void DisplayTask::tick()
                 break;
             case DISPLAY_MESSAGE_START: 
 
+            break;
+            case DISPLAY_MESSAGE_TTIME:
+                lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_ERROR:
                 lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);

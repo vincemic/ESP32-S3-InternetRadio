@@ -11,6 +11,7 @@
 #include "DeviceTask.h"
 #include "WirelessTask.h"
 #include <ArduinoLog.h>
+#include "TimeTask.h"
 
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
@@ -26,7 +27,7 @@ bool initialized = false;
 uint32_t lastMillis = millis();
 
 // Obtain a list of partitions for this device.
-void printPartitions() {
+void logPartitions() {
   const esp_partition_t *partition;
   esp_partition_iterator_t iterator = esp_partition_find(ESP_PARTITION_TYPE_ANY, ESP_PARTITION_SUBTYPE_ANY, NULL);
 
@@ -48,6 +49,12 @@ void printPartitions() {
   esp_partition_iterator_release(iterator);  // Release the iterator once done
 }
 
+void logMemory() {
+    Log.infoln("Total heap: %d", ESP.getHeapSize());
+    Log.infoln("Free heap: %d", ESP.getFreeHeap());
+    Log.infoln("Total PSRAM: %d", ESP.getPsramSize());
+    Log.infoln("Free PSRAM: %d", ESP.getFreePsram());
+}
 
 void setup()
 {
@@ -69,13 +76,12 @@ void initialize()
     Wireless.init();
     Device.init();
     Sound.init();
+    Time.init();
 
-    printPartitions();
+    logPartitions();
+    logMemory();
 
-    Log.infoln("Total heap: %d", ESP.getHeapSize());
-    Log.infoln("Free heap: %d", ESP.getFreeHeap());
-    Log.infoln("Total PSRAM: %d", ESP.getPsramSize());
-    Log.infoln("Free PSRAM: %d", ESP.getFreePsram());
+
 
     Display.send(DISPLAY_MESSAGE_START, NULL);
     Sound.send(SOUND_MESSAGE_CONNECT, RADIO_STREAM);
@@ -101,6 +107,7 @@ void loop()
     {
         Device.tick();
         Sound.tick();
+        Time.tick();
     }
 
     vTaskDelay(10);
