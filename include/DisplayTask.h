@@ -19,6 +19,7 @@
 #define DISPLAY_MESSAGE_COMMERCIAL 7
 #define DISPLAY_MESSAGE_ERROR 8
 #define DISPLAY_MESSAGE_TTIME 9
+#define DISPLAY_MESSAGE_STATION_LIST 10
 class DisplayTask : public ThreadTask {
 
 public:
@@ -28,9 +29,9 @@ public:
     void tick();
     static void readTouchCB(lv_indev_t *device, lv_indev_data_t *data);
     volatile bool touchStarted = false;
-    bool UIWait();
-    void UIRelease();
-
+    static volatile bool fireTouchRead;
+    static volatile bool disableInterrupt;
+    static void IRAM_ATTR touchISR();
 
 private:
     SemaphoreHandle_t mutex;

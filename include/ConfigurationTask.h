@@ -14,6 +14,8 @@ class ConfigurationTask : public ThreadTask {
         void setWifiCredentials(const char* ssid, const char *password);
         void setLastStation(const char* station);
         String getLastStation();
+        void setLastMode(const char* mode);
+        String getLastMode();
     private:
         Preferences preferences;
 };

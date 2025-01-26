@@ -109,8 +109,40 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_style_text_opa(ui_Main_Screen_Clock_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Main_Screen_Clock_Label, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_Main_Screen_Tune_Button = lv_button_create(ui_Main_Screen);
+    lv_obj_set_width(ui_Main_Screen_Tune_Button, 100);
+    lv_obj_set_height(ui_Main_Screen_Tune_Button, 38);
+    lv_obj_set_x(ui_Main_Screen_Tune_Button, 95);
+    lv_obj_set_y(ui_Main_Screen_Tune_Button, 87);
+    lv_obj_set_align(ui_Main_Screen_Tune_Button, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Main_Screen_Tune_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_Main_Screen_Tune_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Main_Screen_Tune_Button_Label = lv_label_create(ui_Main_Screen_Tune_Button);
+    lv_obj_set_width(ui_Main_Screen_Tune_Button_Label, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Main_Screen_Tune_Button_Label, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Main_Screen_Tune_Button_Label, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Main_Screen_Tune_Button_Label, "Tune");
+
+    ui_Main_Screen_Mode_Button = lv_button_create(ui_Main_Screen);
+    lv_obj_set_width(ui_Main_Screen_Mode_Button, 100);
+    lv_obj_set_height(ui_Main_Screen_Mode_Button, 38);
+    lv_obj_set_x(ui_Main_Screen_Mode_Button, -86);
+    lv_obj_set_y(ui_Main_Screen_Mode_Button, 87);
+    lv_obj_set_align(ui_Main_Screen_Mode_Button, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Main_Screen_Mode_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_Main_Screen_Mode_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Main_Screen_Mode_Button_Label = lv_label_create(ui_Main_Screen_Mode_Button);
+    lv_obj_set_width(ui_Main_Screen_Mode_Button_Label, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Main_Screen_Mode_Button_Label, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Main_Screen_Mode_Button_Label, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Main_Screen_Mode_Button_Label, "Mode");
+
     lv_obj_add_event_cb(ui_Main_Screen_No_WIFI_Image, ui_event_Main_Screen_No_WIFI_Image, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Main_Screen_WIFI_Image, ui_event_Main_Screen_WIFI_Image, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Main_Screen_Tune_Button, ui_event_Main_Screen_Tune_Button, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Main_Screen_Mode_Button, ui_event_Main_Screen_Mode_Button, LV_EVENT_ALL, NULL);
     uic_Main_Screen = ui_Main_Screen;
     uic_Main_Screen_Artist = ui_Main_Screen_Artist;
     uic_Main_Screen_Station = ui_Main_Screen_Station;
@@ -120,5 +152,9 @@ void ui_Main_Screen_screen_init(void)
     uic_Main_Screen_WIFI_Image = ui_Main_Screen_WIFI_Image;
     uic_Main_Screen_Line_Image = ui_Main_Screen_Line_Image;
     uic_Main_Screen_Clock_Label = ui_Main_Screen_Clock_Label;
+    uic_Main_Screen_Tune_Button = ui_Main_Screen_Tune_Button;
+    uic_Main_Screen_Tune_Button_Label = ui_Main_Screen_Tune_Button_Label;
+    uic_Main_Screen_Mode_Button = ui_Main_Screen_Mode_Button;
+    uic_Main_Screen_Mode_Button_Label = ui_Main_Screen_Mode_Button_Label;
 
 }

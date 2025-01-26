@@ -19,6 +19,7 @@ public:
     void tick();
     static void IRAM_ATTR rotaryISR();
     static volatile bool fireRotaryRead;
+    static volatile bool disableInterrupt;
  private: 
 
     bool readRotarySwitch();

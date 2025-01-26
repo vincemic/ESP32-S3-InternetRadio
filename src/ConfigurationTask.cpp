@@ -5,6 +5,7 @@
 #define PREFERENCE_WIFI_SSID "wifi_ssid"
 #define PREFERENCE_WIFI_PASSWORD "wifi_password"
 #define PREFERENCE_LAST_STATION "last_station"
+#define PREFERENCE_LAST_MODE "last_mode"
 
 #define RW_MODE false
 #define RO_MODE true
@@ -46,6 +47,16 @@ void ConfigurationTask::setLastStation(const char* station) {
 }
 String ConfigurationTask::getLastStation() {
     return preferences.getString(PREFERENCE_LAST_STATION);
+}
+
+void ConfigurationTask::setLastMode(const char *mode)
+{
+     preferences.putString(PREFERENCE_LAST_MODE, mode);
+}
+
+String ConfigurationTask::getLastMode()
+{
+   return preferences.getString(PREFERENCE_LAST_MODE);
 }
 
 ConfigurationTask Configuration;

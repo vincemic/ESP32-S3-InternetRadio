@@ -10,6 +10,7 @@
 #define SS_SWITCH        24
 
 volatile bool DeviceTask::fireRotaryRead = false;
+volatile bool DeviceTask::disableInterrupt = false;
 
 DeviceTask::DeviceTask() 
 {
@@ -18,7 +19,8 @@ DeviceTask::DeviceTask()
 
 void IRAM_ATTR DeviceTask::rotaryISR()
 {
-    fireRotaryRead = true;
+    if(!disableInterrupt)
+        fireRotaryRead = true;
 }
 
 bool DeviceTask::init()
@@ -64,20 +66,12 @@ uint32_t DeviceTask::readRotaryPostion()
 
 void DeviceTask::tick()
 {
-    if(isrCounter > 0 || fireRotaryRead )
+    if( fireRotaryRead )
     {
-        // count down after ISR fire
-        if(isrCounter < 1)
-        {
-            Log.infoln("Rotary ISR fired");
-            isrCounter = 10;
-            fireRotaryRead = false;
-        }
-        else {
-            isrCounter--;
-            Log.infoln("Rotary ISR fire runout %d", isrCounter);
-        }
-
+        disableInterrupt = true;
+ 
+        Log.infoln("Rotary ISR fired");
+       
         if (rotarySwitchBounce == readRotarySwitch()) {
  
         }
@@ -114,6 +108,7 @@ void DeviceTask::tick()
         }
         
         fireRotaryRead = false;
+        disableInterrupt = false;
     }
 }
 

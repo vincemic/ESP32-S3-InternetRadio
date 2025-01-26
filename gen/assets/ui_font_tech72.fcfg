@@ -1,0 +1,16 @@
+{
+  "codename": "tech72",
+  "ttf_path": "/assets/Technology-Bold.ttf",
+  "bin_path": "/assets\\ui_font_tech72.bin",
+  "c_path": "/assets\\ui_font_tech72.c",
+  "cfg_path": "/assets\\ui_font_tech72.fcfg",
+  "size": 72,
+  "bpp": 1,
+  "letters": 0,
+  "ranges": [
+    "0x20-0x7f"
+  ],
+  "symbols": "",
+  "customparams": "--no-compress --no-prefilter",
+  "uploaded": false
+}

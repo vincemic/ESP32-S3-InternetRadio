@@ -10,17 +10,30 @@
 //#define RADIO_STREAM "http://rfcm.streamguys1.com/thirdrock-icy"
 #define RADIO_STREAM "http://stream.laut.fm/oldies"
 
-static ulong getMills() { return millis(); };
+static uint32_t  getMills() { return esp_timer_get_time() / 1000; };
 
+volatile bool DisplayTask::fireTouchRead = false;
+volatile bool DisplayTask::disableInterrupt = false;
+
+void IRAM_ATTR DisplayTask::touchISR()
+{
+    if(!disableInterrupt)
+        fireTouchRead = true;
+}
 
 DisplayTask::DisplayTask() {
   
  
 }
 
-
 bool DisplayTask::init()
 {
+    // use a pin for touch screen interrupt
+    // Set the GPIO pin mode for the ESP32 f
+    pinMode(17, INPUT_PULLUP);
+
+    // Attach the interrupt to pin 17 for ESP32
+    attachInterrupt(17, touchISR, FALLING);
 
     lv_init();
 
@@ -37,17 +50,23 @@ bool DisplayTask::init()
     lv_indev_set_read_cb(indev_touchpad, readTouchCB);
 
     // slow down the touch sampling to 100ms to avoid blocking the UI
-    lv_timer_t* timer = lv_indev_get_read_timer(indev_touchpad);
-    timer->period = 73;
+    //lv_timer_t* timer = lv_indev_get_read_timer(indev_touchpad);
+    // timer->period = 73;
+
+    // Disable the polling timer all together
+    lv_timer_del(indev_touchpad->read_timer);
 
     ui_init();
 
     lv_obj_add_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
+
 
     lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
-    lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
+    lv_textarea_set_text(uic_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
 
     while(!touchController.begin(TOUCH_ADDR))
     { 
@@ -71,8 +90,6 @@ void DisplayTask::readTouchCB(lv_indev_t *device, lv_indev_data_t *data)
 
     if(Display.readTouch(&x, &y, &z1, &z2)&& z1 > 10)
     {
-        Log.infoln("Touch point: (%d, %d)", x, y);
-    
         if(x > highX) highX = x;
         if(y > highY) highY = y;
 
@@ -88,7 +105,7 @@ void DisplayTask::readTouchCB(lv_indev_t *device, lv_indev_data_t *data)
         data->point.x = x_diff;
         data->point.y = y_diff;
 
-        Log.infoln("Result point: (%d, %d)", x_diff, y_diff);
+        Log.infoln("Touch point: (%d, %d)", x_diff, y_diff);
 
         if(z1 > 100)
             data->state = LV_INDEV_STATE_PRESSED;
@@ -137,6 +154,8 @@ void DisplayTask::tick()
                 lv_label_set_text(ui_Main_Screen_Station,"");
                 lv_obj_remove_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 lv_obj_add_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
 
                 break;
             case DISPLAY_MESSAGE_WIFI_DISCONNECTED: 
@@ -151,13 +170,31 @@ void DisplayTask::tick()
             break;
             case DISPLAY_MESSAGE_TTIME:
                 lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
+                lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_ERROR:
                 lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
                 break;
+                case DISPLAY_MESSAGE_STATION_LIST:
+                lv_roller_set_options(ui_Station_Selection_Screen_Roller1, threadMessage.message, LV_ROLLER_MODE_NORMAL);
+                break;
         }
     }
 
+    // If we get an interrupt from the touch controller, then keep reading for a few more cycles
+    // this prevents drop outs on the touch screen
+    static uint16_t touchRunout = 201;
+    if(fireTouchRead || touchRunout++ < 200) 
+    {
+        // reset the runout timer if we got another interrupt
+       if(fireTouchRead)    
+            touchRunout = 0;
+
+        disableInterrupt = true;
+        lv_indev_read(Display.indev_touchpad);
+        fireTouchRead = false;
+        disableInterrupt = false;
+    } 
 
     lv_timer_handler();
 

@@ -13,6 +13,7 @@
 #include <ArduinoLog.h>
 #include "TimeTask.h"
 #include "ConfigurationTask.h"
+#include <CloudServiceTask.h>
 
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
@@ -79,6 +80,7 @@ void initialize()
     Device.init();
     Sound.init();
     Time.init();
+    CloudService.init();
 
     logPartitions();
     logMemory();
@@ -95,6 +97,7 @@ void initialize()
         Configuration.setLastStation(RADIO_STREAM);
         
         Sound.send(SOUND_MESSAGE_CONNECT, Configuration.getLastStation().c_str());
+        CloudService.send(CLOUD_SERVICE_MESSAGE_GET_STATION_LIST, NULL);
     }
 
     initialized = true;
@@ -119,6 +122,7 @@ void loop()
         Device.tick();
         Sound.tick();
         Time.tick();
+        CloudService.tick();
     }
 
     vTaskDelay(10);
