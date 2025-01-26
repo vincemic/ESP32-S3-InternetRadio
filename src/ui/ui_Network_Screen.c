@@ -13,11 +13,10 @@ void ui_Network_Screen_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Network_Screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Network_Screen_Keyboard1 = lv_keyboard_create(ui_Network_Screen);
-    lv_obj_set_width(ui_Network_Screen_Keyboard1, 300);
+    lv_obj_set_width(ui_Network_Screen_Keyboard1, 311);
     lv_obj_set_height(ui_Network_Screen_Keyboard1, 120);
-    lv_obj_set_x(ui_Network_Screen_Keyboard1, 0);
-    lv_obj_set_y(ui_Network_Screen_Keyboard1, 50);
-    lv_obj_set_align(ui_Network_Screen_Keyboard1, LV_ALIGN_CENTER);
+    lv_obj_set_x(ui_Network_Screen_Keyboard1, -1);
+    lv_obj_set_y(ui_Network_Screen_Keyboard1, -4);
 
     ui_Network_Screen_SSID_Text_Area = lv_textarea_create(ui_Network_Screen);
     lv_obj_set_width(ui_Network_Screen_SSID_Text_Area, 200);
@@ -40,30 +39,31 @@ void ui_Network_Screen_screen_init(void)
 
 
 
-    ui_Network_Screen_Save_Button = lv_button_create(ui_Network_Screen);
-    lv_obj_set_width(ui_Network_Screen_Save_Button, 71);
-    lv_obj_set_height(ui_Network_Screen_Save_Button, 50);
-    lv_obj_set_x(ui_Network_Screen_Save_Button, 99);
-    lv_obj_set_y(ui_Network_Screen_Save_Button, -69);
-    lv_obj_set_align(ui_Network_Screen_Save_Button, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Network_Screen_Save_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_remove_flag(ui_Network_Screen_Save_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    ui_Network_Screen_Cancel_Button = lv_button_create(ui_Network_Screen);
+    lv_obj_set_width(ui_Network_Screen_Cancel_Button, 71);
+    lv_obj_set_height(ui_Network_Screen_Cancel_Button, 76);
+    lv_obj_set_x(ui_Network_Screen_Cancel_Button, 104);
+    lv_obj_set_y(ui_Network_Screen_Cancel_Button, -72);
+    lv_obj_set_align(ui_Network_Screen_Cancel_Button, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Network_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_Network_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Network_Screen_Save_Button_Label = lv_label_create(ui_Network_Screen_Save_Button);
-    lv_obj_set_width(ui_Network_Screen_Save_Button_Label, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Network_Screen_Save_Button_Label, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Network_Screen_Save_Button_Label, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Network_Screen_Save_Button_Label, "Save");
+    ui_Network_Screen_Cancel_Button_Label = lv_label_create(ui_Network_Screen_Cancel_Button);
+    lv_obj_set_width(ui_Network_Screen_Cancel_Button_Label, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Network_Screen_Cancel_Button_Label, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Network_Screen_Cancel_Button_Label, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Network_Screen_Cancel_Button_Label, "Cancel");
 
+    lv_obj_add_event_cb(ui_Network_Screen_Keyboard1, ui_event_Network_Screen_Keyboard1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Network_Screen_SSID_Text_Area, ui_event_Network_Screen_SSID_Text_Area, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Network_Screen_Password_Text_Area, ui_event_Network_Screen_Password_Text_Area, LV_EVENT_ALL,
                         NULL);
-    lv_obj_add_event_cb(ui_Network_Screen_Save_Button, ui_event_Network_Screen_Save_Button, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Network_Screen, ui_event_Network_Screen, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Network_Screen_Cancel_Button, ui_event_Network_Screen_Cancel_Button, LV_EVENT_ALL, NULL);
     uic_Network_Screen = ui_Network_Screen;
+    uic_Network_Screen_Keyboard1 = ui_Network_Screen_Keyboard1;
     uic_Network_Screen_SSID_Text_Area = ui_Network_Screen_SSID_Text_Area;
     uic_Network_Screen_Password_Text_Area = ui_Network_Screen_Password_Text_Area;
-    uic_Network_Screen_Save_Button = ui_Network_Screen_Save_Button;
-    uic_Network_Screen_Save_Button_Label = ui_Network_Screen_Save_Button_Label;
+    uic_Network_Screen_Cancel_Button = ui_Network_Screen_Cancel_Button;
+    uic_Network_Screen_Cancel_Button_Label = ui_Network_Screen_Cancel_Button_Label;
 
 }

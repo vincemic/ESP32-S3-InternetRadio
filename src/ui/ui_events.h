@@ -10,7 +10,8 @@
 extern "C" {
 #endif
 
-void SaveCredentials(lv_event_t * e);
+void keyboardReadyKey(lv_event_t * e);
+void cancelNetworkScreen(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

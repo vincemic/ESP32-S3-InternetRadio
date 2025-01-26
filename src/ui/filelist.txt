@@ -2,6 +2,8 @@ ui_Loading_Screen.c
 ui_Main_Screen.c
 ui_Volume_Screen.c
 ui_Network_Screen.c
+ui_Mode_Screen.c
+ui_Station_Selection_Screen.c
 ui.c
 ui_comp_hook.c
 ui_helpers.c

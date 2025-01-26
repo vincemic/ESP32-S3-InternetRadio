@@ -12,6 +12,8 @@
         "compare": "cpp",
         "cstdint": "cpp",
         "*.inc": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "string": "cpp",
+        "format": "cpp"
     }
 }

@@ -20,6 +20,7 @@ public:
     static void IRAM_ATTR rotaryISR();
     static volatile bool fireRotaryRead;
  private: 
+
     bool readRotarySwitch();
     uint32_t readRotaryPostion();
     Adafruit_seesaw rotary_seesaw;

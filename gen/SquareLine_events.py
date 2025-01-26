@@ -10,3 +10,23 @@ def StartButtonPressed(event_struct):
 def SaveCredentials(event_struct):
     return
 
+
+def CancelNetworkScreen(event_struct):
+    return
+
+
+def KeyboardKey(event_struct):
+    return
+
+
+def keyboardKey(event_struct):
+    return
+
+
+def cancelNetworkScreen(event_struct):
+    return
+
+
+def keyboardReadyKey(event_struct):
+    return
+

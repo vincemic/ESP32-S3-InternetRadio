@@ -10,6 +10,7 @@ public:
     static void timeavailable(struct timeval *t);
     void setClockSource(const char* timezone);
     static void logTime();
+    void updateClock();
     
 };
 

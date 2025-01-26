@@ -8,9 +8,8 @@
 #include <WiFiClientSecure.h>
 #include <SD.h>
 #include <ArduinoJson.h>
+#include "ConfigurationTask.h"
 
-const char ssid[] = "missile";
-const char pass[] = "vincemic123!"; 
 const char hostname[] = "ESPRadio"; 
 
 WirelessTask::WirelessTask() {
@@ -22,15 +21,25 @@ bool WirelessTask::init()
 {
 
     WiFi.setHostname(hostname);
+    String ssid = Configuration.getWifiSSID();
+    uint16_t count = 0;
 
     // connecting to local WiFi network
     Log.infoln("connecting to WiFi network \"%s\"\n", ssid);
-    WiFi.begin(ssid, pass);
-    while ( WiFi.status() != WL_CONNECTED) {
+    WiFi.begin(ssid, Configuration.getWifiPassword());
+    
+    while ( WiFi.status() != WL_CONNECTED && count < 20) {
         Log.info(".");
         delay(2000);
+        count++;
     }
 
+    if(WiFi.status() != WL_CONNECTED)
+    {
+        Log.errorln("Failed to connect to WiFi");
+        return false;
+    }
+    
     Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED, "WiFi connected");
     Log.info("\n connected successfully to \"%s\". IP address: %s\n", ssid, WiFi.localIP().toString());
 

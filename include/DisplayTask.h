@@ -27,14 +27,17 @@ public:
     lv_indev_t * indev_touchpad;
     void tick();
     static void readTouchCB(lv_indev_t *device, lv_indev_data_t *data);
+    volatile bool touchStarted = false;
+    bool UIWait();
+    void UIRelease();
+
 
 private:
-
+    SemaphoreHandle_t mutex;
     uint32_t draw_buf[DRAW_BUF_SIZE / 4];
     Adafruit_TSC2007 touchController;
     bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
-    volatile bool touchStarted = false;
 
 };
 

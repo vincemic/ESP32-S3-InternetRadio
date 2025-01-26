@@ -24,13 +24,14 @@ lv_obj_t * uic_Loading_Screen__Loading_Label;
 
 // SCREEN: ui_Main_Screen
 void ui_Main_Screen_screen_init(void);
-void ui_event_Main_Screen(lv_event_t * e);
 lv_obj_t * ui_Main_Screen;
 lv_obj_t * ui_Main_Screen_Artist;
 lv_obj_t * ui_Main_Screen_Station;
 lv_obj_t * ui_Main_Screen_Commercial;
 lv_obj_t * ui_Main_Screen_Title;
+void ui_event_Main_Screen_No_WIFI_Image(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_No_WIFI_Image;
+void ui_event_Main_Screen_WIFI_Image(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_WIFI_Image;
 lv_obj_t * ui_Main_Screen_Line_Image;
 lv_obj_t * ui_Main_Screen_Clock_Label;
@@ -57,22 +58,48 @@ lv_obj_t * uic_Volume_Screen_Slider;
 
 // SCREEN: ui_Network_Screen
 void ui_Network_Screen_screen_init(void);
-void ui_event_Network_Screen(lv_event_t * e);
 lv_obj_t * ui_Network_Screen;
+void ui_event_Network_Screen_Keyboard1(lv_event_t * e);
 lv_obj_t * ui_Network_Screen_Keyboard1;
 void ui_event_Network_Screen_SSID_Text_Area(lv_event_t * e);
 lv_obj_t * ui_Network_Screen_SSID_Text_Area;
 void ui_event_Network_Screen_Password_Text_Area(lv_event_t * e);
 lv_obj_t * ui_Network_Screen_Password_Text_Area;
-void ui_event_Network_Screen_Save_Button(lv_event_t * e);
-lv_obj_t * ui_Network_Screen_Save_Button;
-lv_obj_t * ui_Network_Screen_Save_Button_Label;
+void ui_event_Network_Screen_Cancel_Button(lv_event_t * e);
+lv_obj_t * ui_Network_Screen_Cancel_Button;
+lv_obj_t * ui_Network_Screen_Cancel_Button_Label;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Network_Screen;
+lv_obj_t * uic_Network_Screen_Keyboard1;
 lv_obj_t * uic_Network_Screen_SSID_Text_Area;
 lv_obj_t * uic_Network_Screen_Password_Text_Area;
-lv_obj_t * uic_Network_Screen_Save_Button;
-lv_obj_t * uic_Network_Screen_Save_Button_Label;
+lv_obj_t * uic_Network_Screen_Cancel_Button;
+lv_obj_t * uic_Network_Screen_Cancel_Button_Label;
+
+
+// SCREEN: ui_Mode_Screen
+void ui_Mode_Screen_screen_init(void);
+lv_obj_t * ui_Mode_Screen;
+lv_obj_t * ui_Mode_Screen_Button6;
+lv_obj_t * ui_Mode_Screen_Label8;
+lv_obj_t * ui_Mode_Screen_Button7;
+lv_obj_t * ui_Mode_Screen_Label9;
+lv_obj_t * ui_Mode_Screen_Button8;
+lv_obj_t * ui_Mode_Screen_Label10;
+lv_obj_t * ui_Mode_Screen_Button9;
+lv_obj_t * ui_Mode_Screen_Label11;
+// CUSTOM VARIABLES
+lv_obj_t * uic_Mode_Screen;
+
+
+// SCREEN: ui_Station_Selection_Screen
+void ui_Station_Selection_Screen_screen_init(void);
+lv_obj_t * ui_Station_Selection_Screen;
+lv_obj_t * ui_Station_Selection_Screen_Roller1;
+lv_obj_t * ui_Station_Selection_Screen_Button10;
+lv_obj_t * ui_Station_Selection_Screen_Label12;
+// CUSTOM VARIABLES
+lv_obj_t * uic_Station_Selection_Screen;
 
 // EVENTS
 lv_obj_t * ui____initial_actions0;
@@ -119,13 +146,21 @@ void ui_event_Loading_Screen(lv_event_t * e)
     }
 }
 
-void ui_event_Main_Screen(lv_event_t * e)
+void ui_event_Main_Screen_No_WIFI_Image(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_LEFT) {
-        lv_indev_wait_release(lv_indev_active());
-        _ui_screen_change(&ui_Network_Screen, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, &ui_Network_Screen_screen_init);
+    if(event_code == LV_EVENT_PRESSED) {
+        _ui_screen_change(&ui_Network_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Network_Screen_screen_init);
+    }
+}
+
+void ui_event_Main_Screen_WIFI_Image(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_PRESSED) {
+        _ui_screen_change(&ui_Network_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Network_Screen_screen_init);
     }
 }
 
@@ -138,13 +173,13 @@ void ui_event_Volume_Screen(lv_event_t * e)
     }
 }
 
-void ui_event_Network_Screen(lv_event_t * e)
+void ui_event_Network_Screen_Keyboard1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_RIGHT) {
-        lv_indev_wait_release(lv_indev_active());
-        _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 0, &ui_Main_Screen_screen_init);
+    if(event_code == LV_EVENT_READY) {
+        keyboardReadyKey(e);
+        _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Main_Screen_screen_init);
     }
 }
 
@@ -166,12 +201,13 @@ void ui_event_Network_Screen_Password_Text_Area(lv_event_t * e)
     }
 }
 
-void ui_event_Network_Screen_Save_Button(lv_event_t * e)
+void ui_event_Network_Screen_Cancel_Button(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_PRESSED) {
-        SaveCredentials(e);
+        cancelNetworkScreen(e);
+        _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_NONE, 500, 0, &ui_Main_Screen_screen_init);
     }
 }
 
@@ -187,6 +223,8 @@ void ui_init(void)
     ui_Main_Screen_screen_init();
     ui_Volume_Screen_screen_init();
     ui_Network_Screen_screen_init();
+    ui_Mode_Screen_screen_init();
+    ui_Station_Selection_Screen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Loading_Screen);
 }

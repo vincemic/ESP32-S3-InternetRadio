@@ -1,6 +1,7 @@
 #include "DisplayTask.h"
 #include "SoundTask.h"
 #include <ArduinoLog.h>
+#include "ConfigurationTask.h"
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
 //#define RADIO_STREAM "http://stream.srg-ssr.ch/m/rsp/mp3_128"
@@ -35,11 +36,18 @@ bool DisplayTask::init()
     lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev_touchpad, readTouchCB);
 
+    // slow down the touch sampling to 100ms to avoid blocking the UI
+    lv_timer_t* timer = lv_indev_get_read_timer(indev_touchpad);
+    timer->period = 73;
+
     ui_init();
 
     lv_obj_add_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
+
+    lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
+    lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
 
     while(!touchController.begin(TOUCH_ADDR))
     { 
@@ -103,6 +111,7 @@ bool DisplayTask::readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2)
 void DisplayTask::tick()
 {
 
+    static uint32_t lastTime = 0;
     ThreadMessage threadMessage;   
 
     if(internalReceive(&threadMessage)) 
@@ -151,11 +160,6 @@ void DisplayTask::tick()
 
 
     lv_timer_handler();
-
-    if(touchStarted)
-    {
-       lv_indev_read(indev_touchpad);
-    }
 
 }
 

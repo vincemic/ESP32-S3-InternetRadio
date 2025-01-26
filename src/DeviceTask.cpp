@@ -6,7 +6,7 @@
 #define TS_MAXX 3800
 #define TS_MAXY 3800
 
-DeviceTask Device;
+
 #define SS_SWITCH        24
 
 volatile bool DeviceTask::fireRotaryRead = false;
@@ -117,3 +117,4 @@ void DeviceTask::tick()
     }
 }
 
+DeviceTask Device;

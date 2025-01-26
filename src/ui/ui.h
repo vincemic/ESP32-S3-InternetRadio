@@ -40,13 +40,14 @@ extern lv_obj_t * uic_Loading_Screen__Loading_Label;
 
 // SCREEN: ui_Main_Screen
 void ui_Main_Screen_screen_init(void);
-void ui_event_Main_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen;
 extern lv_obj_t * ui_Main_Screen_Artist;
 extern lv_obj_t * ui_Main_Screen_Station;
 extern lv_obj_t * ui_Main_Screen_Commercial;
 extern lv_obj_t * ui_Main_Screen_Title;
+void ui_event_Main_Screen_No_WIFI_Image(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_No_WIFI_Image;
+void ui_event_Main_Screen_WIFI_Image(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_WIFI_Image;
 extern lv_obj_t * ui_Main_Screen_Line_Image;
 extern lv_obj_t * ui_Main_Screen_Clock_Label;
@@ -71,22 +72,46 @@ extern lv_obj_t * uic_Volume_Screen_Slider;
 
 // SCREEN: ui_Network_Screen
 void ui_Network_Screen_screen_init(void);
-void ui_event_Network_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Network_Screen;
+void ui_event_Network_Screen_Keyboard1(lv_event_t * e);
 extern lv_obj_t * ui_Network_Screen_Keyboard1;
 void ui_event_Network_Screen_SSID_Text_Area(lv_event_t * e);
 extern lv_obj_t * ui_Network_Screen_SSID_Text_Area;
 void ui_event_Network_Screen_Password_Text_Area(lv_event_t * e);
 extern lv_obj_t * ui_Network_Screen_Password_Text_Area;
-void ui_event_Network_Screen_Save_Button(lv_event_t * e);
-extern lv_obj_t * ui_Network_Screen_Save_Button;
-extern lv_obj_t * ui_Network_Screen_Save_Button_Label;
+void ui_event_Network_Screen_Cancel_Button(lv_event_t * e);
+extern lv_obj_t * ui_Network_Screen_Cancel_Button;
+extern lv_obj_t * ui_Network_Screen_Cancel_Button_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Network_Screen;
+extern lv_obj_t * uic_Network_Screen_Keyboard1;
 extern lv_obj_t * uic_Network_Screen_SSID_Text_Area;
 extern lv_obj_t * uic_Network_Screen_Password_Text_Area;
-extern lv_obj_t * uic_Network_Screen_Save_Button;
-extern lv_obj_t * uic_Network_Screen_Save_Button_Label;
+extern lv_obj_t * uic_Network_Screen_Cancel_Button;
+extern lv_obj_t * uic_Network_Screen_Cancel_Button_Label;
+
+// SCREEN: ui_Mode_Screen
+void ui_Mode_Screen_screen_init(void);
+extern lv_obj_t * ui_Mode_Screen;
+extern lv_obj_t * ui_Mode_Screen_Button6;
+extern lv_obj_t * ui_Mode_Screen_Label8;
+extern lv_obj_t * ui_Mode_Screen_Button7;
+extern lv_obj_t * ui_Mode_Screen_Label9;
+extern lv_obj_t * ui_Mode_Screen_Button8;
+extern lv_obj_t * ui_Mode_Screen_Label10;
+extern lv_obj_t * ui_Mode_Screen_Button9;
+extern lv_obj_t * ui_Mode_Screen_Label11;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Mode_Screen;
+
+// SCREEN: ui_Station_Selection_Screen
+void ui_Station_Selection_Screen_screen_init(void);
+extern lv_obj_t * ui_Station_Selection_Screen;
+extern lv_obj_t * ui_Station_Selection_Screen_Roller1;
+extern lv_obj_t * ui_Station_Selection_Screen_Button10;
+extern lv_obj_t * ui_Station_Selection_Screen_Label12;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Station_Selection_Screen;
 
 // EVENTS
 

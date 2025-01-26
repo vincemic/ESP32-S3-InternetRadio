@@ -54,26 +54,13 @@ bool TimeTask::init()
 
 void TimeTask::tick() 
 {
-    static ulong lastTime = 0;
-    char buffer[20];
+    static uint32_t lastTime = 0;
 
-    if(millis() - lastTime > 15000)
+    if(lastTime++ > 1500)
     {
-        time_t now;                         
-        struct tm timeinfo;
-
-        time(&now); // read the current time
-        localtime_r(&now, &timeinfo);   
-        size_t size = strftime(buffer, 20-1, "%I:%M %p", &timeinfo);
-        buffer[size] = '\0';
+        updateClock();
         
-        if(buffer[0] == '0')
-        {
-            buffer[0] = ' ';
-        }
-        Display.send(DISPLAY_MESSAGE_TTIME, buffer);
-        
-        lastTime = millis();
+        lastTime = 0;
     }
 
     ThreadMessage message;
@@ -93,6 +80,7 @@ void TimeTask::timeavailable(struct timeval *t)
 {
 
     Log.infoln("Got time adjustment from NTP!");
+    Time.updateClock();
     logTime();
 
       
@@ -125,4 +113,23 @@ void TimeTask::logTime()
     Log.infoln(F("Current system time: %s"), asctime(&timeinfo));
 }
 
+void TimeTask::updateClock()
+{
+    char buffer[20];
+    time_t now;                         
+    struct tm timeinfo;
+
+    time(&now); // read the current time
+    localtime_r(&now, &timeinfo);   
+    size_t size = strftime(buffer, 20-1, "%I:%M %p", &timeinfo);
+    buffer[size] = '\0';
+    
+    if(buffer[0] == '0')
+    {
+        buffer[0] = ' ';
+    }
+
+    logTime();
+    Display.send(DISPLAY_MESSAGE_TTIME, buffer);
+}
 TimeTask Time;

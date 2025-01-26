@@ -4,6 +4,8 @@
 #include <Audio.h>
 #include "ui/ui_events.h"
 #include "DisplayTask.h" 
+#include "WirelessTask.h"
+#include "ConfigurationTask.h"
 
 int indexOf (const char* base, const char* str, int startIndex = 0) {
     const char *p = base;
@@ -14,9 +16,22 @@ int indexOf (const char* base, const char* str, int startIndex = 0) {
     return pos - base;
 }
 
-void SaveCredentials(lv_event_t * e)
+void keyboardReadyKey(lv_event_t * e)
 {
-    
+
+    const char* ssid = lv_textarea_get_text(ui_Network_Screen_SSID_Text_Area);
+    const char* password = lv_textarea_get_text(ui_Network_Screen_Password_Text_Area);
+    Configuration.setWifiCredentials(ssid, password);
+    Log.infoln("ssid: %s password: %s",ssid, password);
+
+  
+}
+
+void cancelNetworkScreen(lv_event_t * e)
+{
+    lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
+    lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
+
 }
 
 void audio_id3data(const char *info){  //id3 metadata

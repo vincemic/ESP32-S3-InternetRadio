@@ -32,7 +32,7 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_x(ui_Main_Screen_Station, 16);
     lv_obj_set_y(ui_Main_Screen_Station, 50);
     lv_label_set_long_mode(ui_Main_Screen_Station, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_label_set_text(ui_Main_Screen_Station, "Connecting...");
+    lv_label_set_text(ui_Main_Screen_Station, "Connecting Wi-Fi...");
     lv_obj_remove_flag(ui_Main_Screen_Station,
                        LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_SCROLLABLE);     /// Flags
     lv_obj_set_scroll_dir(ui_Main_Screen_Station, LV_DIR_HOR);
@@ -109,7 +109,8 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_style_text_opa(ui_Main_Screen_Clock_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Main_Screen_Clock_Label, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Main_Screen, ui_event_Main_Screen, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Main_Screen_No_WIFI_Image, ui_event_Main_Screen_No_WIFI_Image, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Main_Screen_WIFI_Image, ui_event_Main_Screen_WIFI_Image, LV_EVENT_ALL, NULL);
     uic_Main_Screen = ui_Main_Screen;
     uic_Main_Screen_Artist = ui_Main_Screen_Artist;
     uic_Main_Screen_Station = ui_Main_Screen_Station;

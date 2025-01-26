@@ -12,6 +12,7 @@
 #include "WirelessTask.h"
 #include <ArduinoLog.h>
 #include "TimeTask.h"
+#include "ConfigurationTask.h"
 
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
@@ -67,13 +68,14 @@ void setup()
         Log.infoln("microSD mounted successfully");
     }
 
+    Configuration.init();
     Display.init();
 
 }
 
 void initialize()
 {
-    Wireless.init();
+    bool wirelessStarted = Wireless.init();
     Device.init();
     Sound.init();
     Time.init();
@@ -84,7 +86,16 @@ void initialize()
 
 
     Display.send(DISPLAY_MESSAGE_START, NULL);
-    Sound.send(SOUND_MESSAGE_CONNECT, RADIO_STREAM);
+
+    if(!wirelessStarted)
+    {
+        Display.send(DISPLAY_MESSAGE_WIFI_DISCONNECTED, NULL);
+
+    } else {
+        Configuration.setLastStation(RADIO_STREAM);
+        
+        Sound.send(SOUND_MESSAGE_CONNECT, Configuration.getLastStation().c_str());
+    }
 
     initialized = true;
 }
