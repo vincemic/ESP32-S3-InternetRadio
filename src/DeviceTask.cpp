@@ -23,7 +23,7 @@ void IRAM_ATTR DeviceTask::rotaryISR()
         fireRotaryRead = true;
 }
 
-bool DeviceTask::init()
+bool DeviceTask::start()
 {
     if(rotary_seesaw.begin(ROTARY_ADDR)){
         Log.infoln("Rotary Seesaw started");
@@ -51,6 +51,11 @@ bool DeviceTask::init()
 
 
     return true;
+}
+
+bool DeviceTask::begin() 
+{
+    return Device.start();
 }
 
 bool DeviceTask::readRotarySwitch()

@@ -53,7 +53,6 @@ class ThreadTask
 
   public:
     ThreadTask();
-    virtual bool init();
 
     // Public endpoints
     bool send(u16_t messageType, const char* message);

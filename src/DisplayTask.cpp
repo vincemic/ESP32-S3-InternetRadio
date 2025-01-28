@@ -26,7 +26,7 @@ DisplayTask::DisplayTask() {
  
 }
 
-bool DisplayTask::init()
+bool DisplayTask::start()
 {
     // use a pin for touch screen interrupt
     // Set the GPIO pin mode for the ESP32 f
@@ -49,29 +49,33 @@ bool DisplayTask::init()
     lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(indev_touchpad, readTouchCB);
 
-    // slow down the touch sampling to 100ms to avoid blocking the UI
-    //lv_timer_t* timer = lv_indev_get_read_timer(indev_touchpad);
-    // timer->period = 73;
 
-    // Disable the polling timer all together
+    // Disable the polling timer all together for interrupts
     lv_timer_del(indev_touchpad->read_timer);
 
     ui_init();
 
-    lv_obj_add_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
-
+    showMessageUI("Starting...");
 
     lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
     lv_textarea_set_text(uic_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
 
     while(!touchController.begin(TOUCH_ADDR))
     { 
+        Wire.end();
+        yield();
+        tick();
+        Wire.begin();
         tick();
         delay(500);
+    }
+
+    lv_obj_t * labels[] = {uic_Station_Selection_Screen_Label_1, uic_Station_Selection_Screen_Label_2, uic_Station_Selection_Screen_Label_3, uic_Station_Selection_Screen_Label_4, uic_Station_Selection_Screen_Label_5, uic_Station_Selection_Screen_Label_6, uic_Station_Selection_Screen_Label_7, uic_Station_Selection_Screen_Label_8, uic_Station_Selection_Screen_Label_9, uic_Station_Selection_Screen_Label_10, uic_Station_Selection_Screen_Label_11, uic_Station_Selection_Screen_Label_12, uic_Station_Selection_Screen_Label_13, uic_Station_Selection_Screen_Label_14};
+
+
+    for(int i = 0; i < 14; i++)
+    {
+       channelLabels[i] = labels[i];
     }
 
     touchStarted = true;
@@ -80,6 +84,11 @@ bool DisplayTask::init()
     return true;
 }
    
+bool DisplayTask::begin()
+{
+    return Display.start();
+}
+
 void DisplayTask::readTouchCB(lv_indev_t *device, lv_indev_data_t *data)
 {
     static uint16_t highX = 0;
@@ -125,59 +134,108 @@ bool DisplayTask::readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2)
     return touchController.read_touch(x,y,z1,z2);
 }
 
-void DisplayTask::tick()
+void DisplayTask::showRadioUI()
 {
 
+    lv_obj_clear_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(uic_Main_Screen_Station, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
+    
+    lv_obj_add_flag(ui_Main_Screen_Message_Label, LV_OBJ_FLAG_HIDDEN);
+    lv_label_set_text(ui_Main_Screen_Message_Label, "");
+}
+
+void DisplayTask::showMessageUI(const char * message)
+{
+    lv_obj_add_flag(uic_Main_Screen_Station, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
+
+
+    lv_label_set_text(ui_Main_Screen_Artist,"");
+    lv_label_set_text(uic_Main_Screen_Title, "");
+    lv_label_set_text(uic_Main_Screen_Commercial, "");
+    lv_label_set_text(uic_Main_Screen_Station, "");
+
+    lv_obj_clear_flag(ui_Main_Screen_Message_Label, LV_OBJ_FLAG_HIDDEN);
+    lv_label_set_text(ui_Main_Screen_Message_Label, message);
+
+}
+
+void DisplayTask::tick()
+{
     static uint32_t lastTime = 0;
-    ThreadMessage threadMessage;   
+    ThreadMessage threadMessage;  
+    static uint16_t stationListIndex = 0;
 
     if(internalReceive(&threadMessage)) 
     {
+        Log.infoln("Display message received: %s", threadMessage.message);
         switch(threadMessage.messageType)
         {
             case DISPLAY_MESSAGE_ARTIST:
                 lv_label_set_text(ui_Main_Screen_Artist, threadMessage.message);
-                lv_obj_remove_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
                 break;
             case DISPLAY_MESSAGE_TITLE:
                 lv_label_set_text(ui_Main_Screen_Title, threadMessage.message);
-                lv_obj_remove_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
                 break;
             case DISPLAY_MESSAGE_STATION:
                 lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
+                showRadioUI();
                 break;
             case DISPLAY_MESSAGE_COMMERCIAL:
                 lv_label_set_text(ui_Main_Screen_Commercial, threadMessage.message);
-                lv_obj_remove_flag(uic_Main_Screen_Commercial, LV_OBJ_FLAG_HIDDEN);
                 break;
             case DISPLAY_MESSAGE_WIFI_CONNECTED:
-                lv_label_set_text(ui_Main_Screen_Station,"");
+
                 lv_obj_remove_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 lv_obj_add_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_remove_flag(uic_Main_Screen_Mode_Button, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_remove_flag(uic_Main_Screen_Tune_Button, LV_OBJ_FLAG_HIDDEN);
+
+                showMessageUI(threadMessage.message);
 
                 break;
             case DISPLAY_MESSAGE_WIFI_DISCONNECTED: 
+                // WiFi Icons
                 lv_obj_remove_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_add_flag(ui_Main_Screen_Artist, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_add_flag(uic_Main_Screen_Title, LV_OBJ_FLAG_HIDDEN);
-                lv_label_set_text(ui_Main_Screen_Station, "Connection lost");
+                
+                showMessageUI(threadMessage.message);
+
                 break;
             case DISPLAY_MESSAGE_START: 
+                lv_screen_load(ui_Main_Screen);
+
+                showMessageUI(threadMessage.message);
 
             break;
             case DISPLAY_MESSAGE_TTIME:
+                //Main screen header
                 lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
+                // Clock screen
                 lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_ERROR:
-                lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
+                showMessageUI(threadMessage.message);
                 break;
-                case DISPLAY_MESSAGE_STATION_LIST:
-                lv_roller_set_options(ui_Station_Selection_Screen_Roller1, threadMessage.message, LV_ROLLER_MODE_NORMAL);
+            case DISPLAY_MESSAGE_STATION_LIST:
+                lv_label_set_text(channelLabels[stationListIndex], threadMessage.message);
+                stationListIndex++;
+                if(stationListIndex > 13) stationListIndex = 0;
                 break;
+            case DISPLAY_MESSAGE_WIFI_CONNECTING:
+                // Wifi Icons
+                lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_clear_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+
+                showMessageUI(threadMessage.message);
+
+                break;    
         }
     }
 

@@ -7,7 +7,7 @@
 class ConfigurationTask : public ThreadTask {
     public:
         ConfigurationTask();
-        bool init();
+        bool begin();
         void tick();
         String getWifiPassword();
         String getWifiSSID();
@@ -16,6 +16,8 @@ class ConfigurationTask : public ThreadTask {
         String getLastStation();
         void setLastMode(const char* mode);
         String getLastMode();
+        void setLastVolume(uint8_t volume);
+        uint8_t getLastVolume();
     private:
         Preferences preferences;
 };

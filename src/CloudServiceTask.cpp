@@ -5,18 +5,26 @@
 #include <ArduinoJson.h>
 #include <SD.h>
 #include <DisplayTask.h>
+#include <WirelessTask.h>
 
 
-SpiRamAllocator allocator;
+
 
 CloudServiceTask::CloudServiceTask()
 {
-    stationListJson = JsonDocument(&allocator);
+   
 }
-bool CloudServiceTask::init()
+bool CloudServiceTask::start()
 {
+   
     return true;
 }
+
+bool CloudServiceTask::begin()
+{
+    return CloudService.start();
+}
+
 void CloudServiceTask::tick()
 {
     ThreadMessage message;
@@ -25,16 +33,18 @@ void CloudServiceTask::tick()
         switch (message.messageType)
         {
             case CLOUD_SERVICE_MESSAGE_GET_STATION_LIST:
-                getStationList();
+                SpiRamAllocator allocator;
+                JsonDocument stationListJson = JsonDocument(&allocator);
+                getStationList(stationListJson);
                 String options;
 
+                int count = 0;
                 for (JsonArray::iterator it = stationListJson.as<JsonArray>().begin(); it != stationListJson.as<JsonArray>().end(); ++it) {
-                    options += (*it).as<String>() + "\n";
-
-
+                    if(count++ > 14) break;
+             
+                    Display.send(DISPLAY_MESSAGE_STATION_LIST, (*it).as<String>().c_str());
                 }
-                Display.send(DISPLAY_MESSAGE_STATION_LIST, options.c_str());
-                Log.infoln("Station list: %s", options.c_str());
+  
                 break;
 
         }
@@ -94,6 +104,43 @@ void CloudServiceTask::getFile(const char *filePath)
     httpClient.end();
 }
 
+bool CloudServiceTask::getIPAddress(String &ipAddress)
+{
+    char returnValueBuffer[40];
+
+    if(Wireless.get("https://ipv4.iplocation.net/","ip", returnValueBuffer, 40))
+    {
+        Log.infoln("Got IP address: %s", returnValueBuffer);
+        ipAddress.concat(returnValueBuffer);
+        return true;
+
+    } else {
+        Log.errorln("Failed to get IP address");
+        return false;
+    }
+}
+
+bool CloudServiceTask::getTimezone(String &ipAddress , String &timezone)
+{
+    char urlBuffer[400];
+    char returnValueBuffer[40];
+
+    sprintf(urlBuffer, "https://www.timeapi.io/api/time/current/ip?ipAddress=%s", ipAddress.c_str());
+
+    if(Wireless.get(urlBuffer,"timeZone", returnValueBuffer,40))
+    {
+        Log.infoln("Got timezone: %s", returnValueBuffer);
+        timezone.concat(returnValueBuffer);
+        return true;
+    }
+    else
+    {
+        Log.errorln("Failed to get timezone");
+        return false;
+
+    }
+}
+
 void CloudServiceTask::createTTSFile(const __FlashStringHelper *text,  const char *filePath)
 {
     JsonDocument jsonDocument;
@@ -139,7 +186,7 @@ void CloudServiceTask::createTTSFile(const __FlashStringHelper *text,  const cha
     https.end();
 }
 
-bool CloudServiceTask::getStationList() {
+bool CloudServiceTask::getStationList(JsonDocument &stationListJson) {
     WiFiClientSecure wifiClient;
     HTTPClient httpClient;
     wifiClient.setInsecure();

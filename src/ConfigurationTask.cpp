@@ -6,13 +6,14 @@
 #define PREFERENCE_WIFI_PASSWORD "wifi_password"
 #define PREFERENCE_LAST_STATION "last_station"
 #define PREFERENCE_LAST_MODE "last_mode"
+#define PREFERENCE_LAST_VOLUME "last_volume"
 
 #define RW_MODE false
 #define RO_MODE true
 
 ConfigurationTask::ConfigurationTask() {}
 
-bool ConfigurationTask::init() {
+bool ConfigurationTask::begin() {
     return preferences.begin(PREFERENCE_NAME_SPACE, RW_MODE); 
 }
 
@@ -57,6 +58,16 @@ void ConfigurationTask::setLastMode(const char *mode)
 String ConfigurationTask::getLastMode()
 {
    return preferences.getString(PREFERENCE_LAST_MODE);
+}
+
+void ConfigurationTask::setLastVolume(uint8_t volume)
+{
+    preferences.putUChar(PREFERENCE_LAST_VOLUME, volume);
+}
+
+uint8_t ConfigurationTask::getLastVolume()
+{
+    return preferences.getUChar(PREFERENCE_LAST_VOLUME);
 }
 
 ConfigurationTask Configuration;

@@ -6,11 +6,13 @@ class WirelessTask : public ThreadTask {
 
     public:
         WirelessTask();
-        bool init();
+        static bool begin();
         void tick();
-
         void sendPackCommand(const __FlashStringHelper *commandUri);
         bool get(const char *url, const char *jsonLabel, char * buffer,uint16_t bufferLength);
+        static bool isWifiConnected();
+    private:
+        bool start();
 };
 
 extern WirelessTask Wireless;

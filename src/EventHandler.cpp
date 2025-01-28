@@ -34,6 +34,14 @@ void cancelNetworkScreen(lv_event_t * e)
 
 }
 
+void stationSelectionChanged(lv_event_t * e) {
+
+}
+
+void playChannel(lv_event_t * e) {
+
+}
+
 void audio_id3data(const char *info){  //id3 metadata
     Log.infoln("id3data     %s",info);
 

@@ -29,7 +29,6 @@ void slide_Animation(lv_obj_t * TargetObject, int delay);
 
 // SCREEN: ui_Loading_Screen
 void ui_Loading_Screen_screen_init(void);
-void ui_event_Loading_Screen(lv_event_t * e);
 extern lv_obj_t * ui_Loading_Screen;
 extern lv_obj_t * ui_Loading_Screen_Logo_Image;
 extern lv_obj_t * ui_Loading_Screen__Loading_Label;
@@ -57,6 +56,7 @@ extern lv_obj_t * ui_Main_Screen_Tune_Button_Label;
 void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_Mode_Button;
 extern lv_obj_t * ui_Main_Screen_Mode_Button_Label;
+extern lv_obj_t * ui_Main_Screen_Message_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Main_Screen;
 extern lv_obj_t * uic_Main_Screen_Artist;
@@ -71,6 +71,7 @@ extern lv_obj_t * uic_Main_Screen_Tune_Button;
 extern lv_obj_t * uic_Main_Screen_Tune_Button_Label;
 extern lv_obj_t * uic_Main_Screen_Mode_Button;
 extern lv_obj_t * uic_Main_Screen_Mode_Button_Label;
+extern lv_obj_t * uic_Main_Screen_Message_Label;
 
 // SCREEN: ui_Volume_Screen
 void ui_Volume_Screen_screen_init(void);
@@ -121,18 +122,54 @@ extern lv_obj_t * uic_Mode_Screen_Select_Button_Label;
 // SCREEN: ui_Station_Selection_Screen
 void ui_Station_Selection_Screen_screen_init(void);
 extern lv_obj_t * ui_Station_Selection_Screen;
-extern lv_obj_t * ui_Station_Selection_Screen_Roller1;
+void ui_event_Station_Selection_Screen_Play_Button(lv_event_t * e);
 extern lv_obj_t * ui_Station_Selection_Screen_Play_Button;
 extern lv_obj_t * ui_Station_Selection_Screen_Play_Button_Label;
 void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e);
 extern lv_obj_t * ui_Station_Selection_Screen_Cancel;
 extern lv_obj_t * ui_Station_Selection_Screen_Cancel_Button_Label;
+extern lv_obj_t * ui_Station_Selection_Screen_Panel2;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_1;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_2;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_3;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_4;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_5;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_6;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_7;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_8;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_9;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_10;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_11;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_12;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_13;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_14;
+extern lv_obj_t * ui_Station_Selection_Screen_Label_15;
+extern lv_obj_t * ui_Station_Selection_Screen_Label16;
+extern lv_obj_t * ui_Station_Selection_Screen_Label17;
+extern lv_obj_t * ui_Station_Selection_Screen_Label18;
+extern lv_obj_t * ui_Station_Selection_Screen_Label19;
+extern lv_obj_t * ui_Station_Selection_Screen_Label20;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Station_Selection_Screen;
 extern lv_obj_t * uic_Station_Selection_Screen_Play_Button;
 extern lv_obj_t * uic_Station_Selection_Screen_Play_Button_Label;
 extern lv_obj_t * uic_Station_Selection_Screen_Cancel;
 extern lv_obj_t * uic_Station_Selection_Screen_Cancel_Button_Label;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_1;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_2;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_3;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_4;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_5;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_6;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_7;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_8;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_9;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_10;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_11;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_12;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_13;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_14;
+extern lv_obj_t * uic_Station_Selection_Screen_Label_15;
 
 // SCREEN: ui_Clock_Screen
 void ui_Clock_Screen_screen_init(void);

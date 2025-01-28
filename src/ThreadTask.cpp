@@ -5,12 +5,6 @@ ThreadTask::ThreadTask()
     
 }
 
-bool ThreadTask::init()
-{
-
-
-    return true;
-}
 
 bool ThreadTask::send(u16_t messageType, const char* info)
 {

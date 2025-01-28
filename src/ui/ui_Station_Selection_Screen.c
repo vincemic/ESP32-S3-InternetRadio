@@ -9,22 +9,9 @@ void ui_Station_Selection_Screen_screen_init(void)
 {
     ui_Station_Selection_Screen = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_Station_Selection_Screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_scroll_dir(ui_Station_Selection_Screen, LV_DIR_TOP);
     lv_obj_set_style_bg_color(ui_Station_Selection_Screen, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Station_Selection_Screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Station_Selection_Screen_Roller1 = lv_roller_create(ui_Station_Selection_Screen);
-    lv_roller_set_options(ui_Station_Selection_Screen_Roller1, "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nOption 6",
-                          LV_ROLLER_MODE_NORMAL);
-    lv_obj_set_width(ui_Station_Selection_Screen_Roller1, 314);
-    lv_obj_set_height(ui_Station_Selection_Screen_Roller1, 170);
-    lv_obj_set_x(ui_Station_Selection_Screen_Roller1, -1);
-    lv_obj_set_y(ui_Station_Selection_Screen_Roller1, -35);
-    lv_obj_set_align(ui_Station_Selection_Screen_Roller1, LV_ALIGN_CENTER);
-    lv_obj_set_style_text_color(ui_Station_Selection_Screen_Roller1, lv_color_hex(0xFEFEFE),
-                                LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Station_Selection_Screen_Roller1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Station_Selection_Screen_Roller1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Station_Selection_Screen_Roller1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Station_Selection_Screen_Play_Button = lv_button_create(ui_Station_Selection_Screen);
     lv_obj_set_width(ui_Station_Selection_Screen_Play_Button, 135);
@@ -56,11 +43,160 @@ void ui_Station_Selection_Screen_screen_init(void)
     lv_obj_set_align(ui_Station_Selection_Screen_Cancel_Button_Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Station_Selection_Screen_Cancel_Button_Label, "Cancel");
 
+    ui_Station_Selection_Screen_Panel2 = lv_obj_create(ui_Station_Selection_Screen);
+    lv_obj_set_width(ui_Station_Selection_Screen_Panel2, 298);
+    lv_obj_set_height(ui_Station_Selection_Screen_Panel2, 158);
+    lv_obj_set_x(ui_Station_Selection_Screen_Panel2, 1);
+    lv_obj_set_y(ui_Station_Selection_Screen_Panel2, -33);
+    lv_obj_set_align(ui_Station_Selection_Screen_Panel2, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_Station_Selection_Screen_Panel2, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_Station_Selection_Screen_Panel2, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START,
+                          LV_FLEX_ALIGN_START);
+    lv_obj_set_scrollbar_mode(ui_Station_Selection_Screen_Panel2, LV_SCROLLBAR_MODE_ON);
+    lv_obj_set_scroll_dir(ui_Station_Selection_Screen_Panel2, LV_DIR_VER);
+
+    ui_Station_Selection_Screen_Label_1 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_1, "1");
+
+    ui_Station_Selection_Screen_Label_2 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_2, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_2, "2");
+
+    ui_Station_Selection_Screen_Label_3 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_3, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_3, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_3, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_3, "3");
+
+    ui_Station_Selection_Screen_Label_4 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_4, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_4, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_4, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_4, "4");
+
+    ui_Station_Selection_Screen_Label_5 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_5, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_5, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_5, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_5, "5");
+
+    ui_Station_Selection_Screen_Label_6 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_6, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_6, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_6, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_6, "6");
+
+    ui_Station_Selection_Screen_Label_7 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_7, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_7, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_7, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_7, "7");
+
+    ui_Station_Selection_Screen_Label_8 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_8, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_8, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_8, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_8, "8");
+
+    ui_Station_Selection_Screen_Label_9 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_9, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_9, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_9, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_9, "9");
+
+    ui_Station_Selection_Screen_Label_10 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_10, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_10, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_10, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_10, "10");
+
+    ui_Station_Selection_Screen_Label_11 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_11, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_11, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_11, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_11, "11");
+
+    ui_Station_Selection_Screen_Label_12 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_12, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_12, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_12, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_12, "12");
+
+    ui_Station_Selection_Screen_Label_13 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_13, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_13, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_13, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_13, "14");
+
+    ui_Station_Selection_Screen_Label_14 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_14, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_14, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_14, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_14, "15");
+
+    ui_Station_Selection_Screen_Label_15 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label_15, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label_15, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label_15, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label_15, "16");
+
+    ui_Station_Selection_Screen_Label16 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label16, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label16, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label16, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label16, "17");
+
+    ui_Station_Selection_Screen_Label17 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label17, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label17, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label17, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label17, "18");
+
+    ui_Station_Selection_Screen_Label18 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label18, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label18, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label18, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label18, "19");
+
+    ui_Station_Selection_Screen_Label19 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label19, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label19, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label19, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label19, "20");
+
+    ui_Station_Selection_Screen_Label20 = lv_label_create(ui_Station_Selection_Screen_Panel2);
+    lv_obj_set_width(ui_Station_Selection_Screen_Label20, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Station_Selection_Screen_Label20, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Station_Selection_Screen_Label20, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Station_Selection_Screen_Label20, "21");
+
+    lv_obj_add_event_cb(ui_Station_Selection_Screen_Play_Button, ui_event_Station_Selection_Screen_Play_Button,
+                        LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Station_Selection_Screen_Cancel, ui_event_Station_Selection_Screen_Cancel, LV_EVENT_ALL, NULL);
     uic_Station_Selection_Screen = ui_Station_Selection_Screen;
     uic_Station_Selection_Screen_Play_Button = ui_Station_Selection_Screen_Play_Button;
     uic_Station_Selection_Screen_Play_Button_Label = ui_Station_Selection_Screen_Play_Button_Label;
     uic_Station_Selection_Screen_Cancel = ui_Station_Selection_Screen_Cancel;
     uic_Station_Selection_Screen_Cancel_Button_Label = ui_Station_Selection_Screen_Cancel_Button_Label;
+    uic_Station_Selection_Screen_Label_1 = ui_Station_Selection_Screen_Label_1;
+    uic_Station_Selection_Screen_Label_2 = ui_Station_Selection_Screen_Label_2;
+    uic_Station_Selection_Screen_Label_3 = ui_Station_Selection_Screen_Label_3;
+    uic_Station_Selection_Screen_Label_4 = ui_Station_Selection_Screen_Label_4;
+    uic_Station_Selection_Screen_Label_5 = ui_Station_Selection_Screen_Label_5;
+    uic_Station_Selection_Screen_Label_6 = ui_Station_Selection_Screen_Label_6;
+    uic_Station_Selection_Screen_Label_7 = ui_Station_Selection_Screen_Label_7;
+    uic_Station_Selection_Screen_Label_8 = ui_Station_Selection_Screen_Label_8;
+    uic_Station_Selection_Screen_Label_9 = ui_Station_Selection_Screen_Label_9;
+    uic_Station_Selection_Screen_Label_10 = ui_Station_Selection_Screen_Label_10;
+    uic_Station_Selection_Screen_Label_11 = ui_Station_Selection_Screen_Label_11;
+    uic_Station_Selection_Screen_Label_12 = ui_Station_Selection_Screen_Label_12;
+    uic_Station_Selection_Screen_Label_13 = ui_Station_Selection_Screen_Label_13;
+    uic_Station_Selection_Screen_Label_14 = ui_Station_Selection_Screen_Label_14;
+    uic_Station_Selection_Screen_Label_15 = ui_Station_Selection_Screen_Label_15;
 
 }

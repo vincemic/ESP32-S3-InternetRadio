@@ -17,35 +17,25 @@ WirelessTask::WirelessTask() {
 }
 
 
-bool WirelessTask::init() 
+bool WirelessTask::start() 
 {
 
     WiFi.setHostname(hostname);
     String ssid = Configuration.getWifiSSID();
-    uint16_t count = 0;
+
+    Display.send(DISPLAY_MESSAGE_WIFI_CONNECTING, "Connecting to WiFi");
 
     // connecting to local WiFi network
     Log.infoln("connecting to WiFi network \"%s\"\n", ssid);
     WiFi.begin(ssid, Configuration.getWifiPassword());
     
-    while ( WiFi.status() != WL_CONNECTED && count < 20) {
-        Log.info(".");
-        delay(2000);
-        count++;
-    }
-
-    if(WiFi.status() != WL_CONNECTED)
-    {
-        Log.errorln("Failed to connect to WiFi");
-        return false;
-    }
-    
-    Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED, "WiFi connected");
-    Log.info("\n connected successfully to \"%s\". IP address: %s\n", ssid, WiFi.localIP().toString());
-
-    MDNS.begin(hostname);
 
     return true;
+}
+
+bool WirelessTask::begin() 
+{
+    return Wireless.start();
 }
 
 void WirelessTask::tick() 
@@ -60,10 +50,7 @@ void WirelessTask::tick()
         }
     }
 
-    if(WiFi.status() != WL_CONNECTED)
-    {
-        Display.send(DISPLAY_MESSAGE_WIFI_DISCONNECTED, "WiFi disconnected");
-    }
+    isWifiConnected();
 }
 
 
@@ -140,6 +127,18 @@ bool WirelessTask::get(const char *url, const char *jsonLabel, char * buffer,uin
 
     return result;
 
+}
+
+bool WirelessTask::isWifiConnected()
+{
+    bool result = WiFi.status() == WL_CONNECTED;
+
+    if(result)
+        Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED, "WiFi connected");
+    else    
+        Display.send(DISPLAY_MESSAGE_WIFI_DISCONNECTED, "WiFi disconnected");
+
+    return  result;
 }
 
 WirelessTask Wireless;

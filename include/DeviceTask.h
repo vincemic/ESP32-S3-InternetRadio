@@ -15,13 +15,13 @@ class DeviceTask : public ThreadTask {
 
 public:
     DeviceTask();
-    bool init();
+    static bool begin();
     void tick();
     static void IRAM_ATTR rotaryISR();
     static volatile bool fireRotaryRead;
     static volatile bool disableInterrupt;
  private: 
-
+    bool start();
     bool readRotarySwitch();
     uint32_t readRotaryPostion();
     Adafruit_seesaw rotary_seesaw;

@@ -12,6 +12,7 @@ extern "C" {
 
 void keyboardReadyKey(lv_event_t * e);
 void cancelNetworkScreen(lv_event_t * e);
+void playChannel(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

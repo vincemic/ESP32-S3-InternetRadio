@@ -12,7 +12,6 @@ void slide_Animation(lv_obj_t * TargetObject, int delay);
 
 // SCREEN: ui_Loading_Screen
 void ui_Loading_Screen_screen_init(void);
-void ui_event_Loading_Screen(lv_event_t * e);
 lv_obj_t * ui_Loading_Screen;
 lv_obj_t * ui_Loading_Screen_Logo_Image;
 lv_obj_t * ui_Loading_Screen__Loading_Label;
@@ -41,6 +40,7 @@ lv_obj_t * ui_Main_Screen_Tune_Button_Label;
 void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_Mode_Button;
 lv_obj_t * ui_Main_Screen_Mode_Button_Label;
+lv_obj_t * ui_Main_Screen_Message_Label;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Main_Screen;
 lv_obj_t * uic_Main_Screen_Artist;
@@ -55,6 +55,7 @@ lv_obj_t * uic_Main_Screen_Tune_Button;
 lv_obj_t * uic_Main_Screen_Tune_Button_Label;
 lv_obj_t * uic_Main_Screen_Mode_Button;
 lv_obj_t * uic_Main_Screen_Mode_Button_Label;
+lv_obj_t * uic_Main_Screen_Message_Label;
 
 
 // SCREEN: ui_Volume_Screen
@@ -109,18 +110,54 @@ lv_obj_t * uic_Mode_Screen_Select_Button_Label;
 // SCREEN: ui_Station_Selection_Screen
 void ui_Station_Selection_Screen_screen_init(void);
 lv_obj_t * ui_Station_Selection_Screen;
-lv_obj_t * ui_Station_Selection_Screen_Roller1;
+void ui_event_Station_Selection_Screen_Play_Button(lv_event_t * e);
 lv_obj_t * ui_Station_Selection_Screen_Play_Button;
 lv_obj_t * ui_Station_Selection_Screen_Play_Button_Label;
 void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e);
 lv_obj_t * ui_Station_Selection_Screen_Cancel;
 lv_obj_t * ui_Station_Selection_Screen_Cancel_Button_Label;
+lv_obj_t * ui_Station_Selection_Screen_Panel2;
+lv_obj_t * ui_Station_Selection_Screen_Label_1;
+lv_obj_t * ui_Station_Selection_Screen_Label_2;
+lv_obj_t * ui_Station_Selection_Screen_Label_3;
+lv_obj_t * ui_Station_Selection_Screen_Label_4;
+lv_obj_t * ui_Station_Selection_Screen_Label_5;
+lv_obj_t * ui_Station_Selection_Screen_Label_6;
+lv_obj_t * ui_Station_Selection_Screen_Label_7;
+lv_obj_t * ui_Station_Selection_Screen_Label_8;
+lv_obj_t * ui_Station_Selection_Screen_Label_9;
+lv_obj_t * ui_Station_Selection_Screen_Label_10;
+lv_obj_t * ui_Station_Selection_Screen_Label_11;
+lv_obj_t * ui_Station_Selection_Screen_Label_12;
+lv_obj_t * ui_Station_Selection_Screen_Label_13;
+lv_obj_t * ui_Station_Selection_Screen_Label_14;
+lv_obj_t * ui_Station_Selection_Screen_Label_15;
+lv_obj_t * ui_Station_Selection_Screen_Label16;
+lv_obj_t * ui_Station_Selection_Screen_Label17;
+lv_obj_t * ui_Station_Selection_Screen_Label18;
+lv_obj_t * ui_Station_Selection_Screen_Label19;
+lv_obj_t * ui_Station_Selection_Screen_Label20;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Station_Selection_Screen;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button_Label;
 lv_obj_t * uic_Station_Selection_Screen_Cancel;
 lv_obj_t * uic_Station_Selection_Screen_Cancel_Button_Label;
+lv_obj_t * uic_Station_Selection_Screen_Label_1;
+lv_obj_t * uic_Station_Selection_Screen_Label_2;
+lv_obj_t * uic_Station_Selection_Screen_Label_3;
+lv_obj_t * uic_Station_Selection_Screen_Label_4;
+lv_obj_t * uic_Station_Selection_Screen_Label_5;
+lv_obj_t * uic_Station_Selection_Screen_Label_6;
+lv_obj_t * uic_Station_Selection_Screen_Label_7;
+lv_obj_t * uic_Station_Selection_Screen_Label_8;
+lv_obj_t * uic_Station_Selection_Screen_Label_9;
+lv_obj_t * uic_Station_Selection_Screen_Label_10;
+lv_obj_t * uic_Station_Selection_Screen_Label_11;
+lv_obj_t * uic_Station_Selection_Screen_Label_12;
+lv_obj_t * uic_Station_Selection_Screen_Label_13;
+lv_obj_t * uic_Station_Selection_Screen_Label_14;
+lv_obj_t * uic_Station_Selection_Screen_Label_15;
 
 
 // SCREEN: ui_Clock_Screen
@@ -168,15 +205,6 @@ void slide_Animation(lv_obj_t * TargetObject, int delay)
 }
 
 ///////////////////// FUNCTIONS ////////////////////
-void ui_event_Loading_Screen(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_SCREEN_LOADED) {
-        _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 3000, &ui_Main_Screen_screen_init);
-    }
-}
-
 void ui_event_Main_Screen_No_WIFI_Image(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -285,6 +313,15 @@ void ui_event_Mode_Screen_Select_Button(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Clock_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Clock_Screen_screen_init);
+    }
+}
+
+void ui_event_Station_Selection_Screen_Play_Button(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        playChannel(e);
     }
 }
 

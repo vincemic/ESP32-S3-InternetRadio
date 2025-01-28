@@ -7,49 +7,38 @@
 #include "DisplayTask.h"
 #include <ArduinoJson.h>
 #include "Timezones.h"
+#include "CloudServiceTask.h"
 
 TimeTask::TimeTask() 
 {
 
 }   
 
-bool TimeTask::init() 
+bool TimeTask::start(String timezone) 
 {
-    char returnValueBuffer[40];
-    char urlBuffer[400];
-    DynamicJsonDocument doc(1024);
+    SpiRamAllocator allocator;
+    JsonDocument doc = JsonDocument(&allocator);
+    
     deserializeJson(doc,timezones);
 
-    if(Wireless.get("https://ipv4.iplocation.net/","ip", returnValueBuffer, 40))
+    const char* timezzoneCode = doc[timezone];
+
+    if(timezzoneCode == NULL)
     {
-        Log.infoln("Got IP address: %s", returnValueBuffer);
-        sprintf(urlBuffer, "https://www.timeapi.io/api/time/current/ip?ipAddress=%s", returnValueBuffer);
-
-        if(Wireless.get(urlBuffer,"timeZone", returnValueBuffer,40))
-        {
-            Log.infoln("Got timezone: %s", returnValueBuffer);
-            const char* timezzoneCode = doc[returnValueBuffer];
-
-            if(timezzoneCode == NULL)
-            {
-                Log.errorln("Failed to get timezone code");
-                return false;
-            }
-
-            Log.infoln("Got timezone code: %s", timezzoneCode);
-            setClockSource(timezzoneCode);
-        }
-        else
-        {
-            Log.errorln("Failed to get timezone");
-        }
+        Log.errorln("Failed to get timezone code");
+        return false;
     }
-    else
-    {
-        Log.errorln("Failed to get IP address");
-    }
+
+    Log.infoln("Got timezone code: %s", timezzoneCode);
+    setClockSource(timezzoneCode);
+      
 
     return true;
+}
+
+bool TimeTask::begin(String timezone) 
+{
+    return Time.start(timezone);
 }
 
 void TimeTask::tick() 
@@ -129,7 +118,6 @@ void TimeTask::updateClock()
         buffer[0] = ' ';
     }
 
-    logTime();
     Display.send(DISPLAY_MESSAGE_TTIME, buffer);
 }
 TimeTask Time;

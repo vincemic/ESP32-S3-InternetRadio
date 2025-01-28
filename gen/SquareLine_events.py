@@ -30,3 +30,15 @@ def cancelNetworkScreen(event_struct):
 def keyboardReadyKey(event_struct):
     return
 
+
+def playChange(event_struct):
+    return
+
+
+def playChannel(event_struct):
+    return
+
+
+def stationSelectionChanged(event_struct):
+    return
+

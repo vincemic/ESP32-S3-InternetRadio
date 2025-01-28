@@ -8,7 +8,7 @@ class SoundTask : public ThreadTask {
 
 public:
     SoundTask();
-    bool init();
+    static bool begin();
     void setVolume(uint8_t vol);
     uint8_t getVolume();
 
@@ -16,6 +16,7 @@ public:
 
 private:
     uint16_t volume = 0;
+    bool start();
     void turnUpVolume();
     void turnDownVolume();
     bool connecttohost(const char* host);

@@ -12,7 +12,7 @@ PackServiceTask::PackServiceTask()
     
 }
 
-bool PackServiceTask::init()
+bool PackServiceTask::begin()
 {
     return true;
 }

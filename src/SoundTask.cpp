@@ -2,6 +2,7 @@
 #include "SoundTask.h"
 #include "DisplayTask.h"
 #include <ArduinoLog.h>
+#include "ConfigurationTask.h"
 
 
 
@@ -10,11 +11,19 @@ SoundTask::SoundTask()
 {
 }
 
-bool SoundTask::init()
+bool SoundTask::start()
 {
     audio.setPinout(I2S_BCLK, I2S_LRCLK, I2S_DOUT);
-    audio.setVolume(2); // 0...21
     audio.setConnectionTimeout(1200,0);  // needed for some stations esp. from around the globe
+
+    auto volume = Configuration.getLastVolume();
+
+    if(volume > audio.maxVolume())
+    {
+        volume = audio.maxVolume();
+    }
+
+    audio.setVolume(volume);
 
     xTaskCreatePinnedToCore(
         [](void *parameters)
@@ -43,6 +52,12 @@ bool SoundTask::init()
     return true;
 }
 
+bool SoundTask::begin()
+{
+   return Sound.start();
+
+}
+
 void SoundTask::setVolume(uint8_t vol)
 {
     audio.setVolume(vol);
@@ -66,10 +81,11 @@ bool SoundTask::connecttoSD(const char* filename){
 void SoundTask::turnUpVolume()
 {
     uint8_t vol = audio.getVolume();
-    if(vol < 21)
+    if(vol < audio.maxVolume())
     {
         vol++;
         audio.setVolume(vol);
+        Configuration.setLastVolume(vol);
     }
 }
 
@@ -80,6 +96,7 @@ void SoundTask::turnDownVolume()
     {
         vol--;
         audio.setVolume(vol);
+        Configuration.setLastVolume(vol);
     }
 }
 

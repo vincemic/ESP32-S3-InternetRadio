@@ -5,7 +5,7 @@ class PackServiceTask : public ServiceTask
 {
     public:
         PackServiceTask();
-        bool init();
+        bool begin();
         void tick();
         void sendPackCommand(const __FlashStringHelper *commandUri);
 };

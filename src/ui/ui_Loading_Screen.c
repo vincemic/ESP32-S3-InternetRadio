@@ -31,7 +31,6 @@ void ui_Loading_Screen_screen_init(void)
     lv_obj_set_style_text_color(ui_Loading_Screen__Loading_Label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Loading_Screen__Loading_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Loading_Screen, ui_event_Loading_Screen, LV_EVENT_ALL, NULL);
     uic_Loading_Screen = ui_Loading_Screen;
     uic_Loading_Screen_Logo_Image = ui_Loading_Screen_Logo_Image;
     uic_Loading_Screen__Loading_Label = ui_Loading_Screen__Loading_Label;

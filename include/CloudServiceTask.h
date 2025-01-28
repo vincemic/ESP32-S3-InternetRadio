@@ -24,13 +24,17 @@ class CloudServiceTask : public ServiceTask
 {
     public:
         CloudServiceTask();
-        bool init();
+        static bool begin();
         void tick();
         void createTTSFile(const __FlashStringHelper *text,  const char *filePath);
         void getFile(const char *filePath);
-        JsonDocument stationListJson;
+        bool getIPAddress(String &ipAddress);
+        bool getTimezone(String &ipAddress , String &timezone);
+
     private:
-        bool getStationList();    
+        bool start();
+        bool getStationList(JsonDocument &stationListJson);  
+        void backgroundLoadStationList();  
 };
 
 extern CloudServiceTask CloudService;
