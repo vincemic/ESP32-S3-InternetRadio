@@ -32,19 +32,8 @@ void CloudServiceTask::tick()
     {
         switch (message.messageType)
         {
-            case CLOUD_SERVICE_MESSAGE_GET_STATION_LIST:
-                SpiRamAllocator allocator;
-                JsonDocument stationListJson = JsonDocument(&allocator);
-                getStationList(stationListJson);
-                String options;
+            default:
 
-                int count = 0;
-                for (JsonArray::iterator it = stationListJson.as<JsonArray>().begin(); it != stationListJson.as<JsonArray>().end(); ++it) {
-                    if(count++ > 14) break;
-             
-                    Display.send(DISPLAY_MESSAGE_STATION_LIST, (*it).as<String>().c_str());
-                }
-  
                 break;
 
         }
@@ -192,6 +181,61 @@ bool CloudServiceTask::getStationList(JsonDocument &stationListJson) {
     wifiClient.setInsecure();
     httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     const char * url= "https://api.laut.fm/station_names";
+    bool result = false;
+
+    Log.traceln(F("[HTTP] begin %s"), url);
+
+    if (httpClient.begin(wifiClient, url))
+    {   
+        // set 5 minute timeout
+        httpClient.setTimeout(37856);
+        httpClient.addHeader("accept", "application/json");
+
+        // HTTPS
+        Log.traceln(F("[HTTP] GET %s"), url);
+        // start connection and send HTTP header
+        int httpCode = httpClient.GET();
+
+        // httpCode will be negative on error
+        if (httpCode == HTTP_CODE_OK)
+        {
+            // HTTP header has been send and Server response header has been handled
+            // getSize may not work with chunked encoding
+            Log.traceln(F("[HTTP] GET... code: %d content size %d"), httpCode, httpClient.getSize());
+
+            // Parse JSON object
+            DeserializationError error = deserializeJson(stationListJson, httpClient.getString());
+
+            if(error.code() == DeserializationError::Ok)
+            {
+                result = true;
+
+            } else {
+                Log.errorln(F("[HTTP] GET... failed, error parsing JSON code: %d"), error.code());
+            }
+        }
+        else
+        {
+             Log.errorln(F("[HTTP] GET... failed, code:%d-%s"), httpCode, httpClient.errorToString(httpCode).c_str());
+        }
+    }
+    else
+    {
+        Log.errorln(F("[HTTP] Unable to create client"));
+    }
+
+    httpClient.end();
+
+    return result;
+}
+
+bool CloudServiceTask::getStation(JsonDocument &stationListJson, const char *stationName) {
+    WiFiClientSecure wifiClient;
+    HTTPClient httpClient;
+    wifiClient.setInsecure();
+    httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+    String url= "https://api.laut.fm/station/";
+    url.concat(stationName);
     bool result = false;
 
     Log.traceln(F("[HTTP] begin %s"), url);

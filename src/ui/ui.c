@@ -116,48 +116,14 @@ lv_obj_t * ui_Station_Selection_Screen_Play_Button_Label;
 void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e);
 lv_obj_t * ui_Station_Selection_Screen_Cancel;
 lv_obj_t * ui_Station_Selection_Screen_Cancel_Button_Label;
-lv_obj_t * ui_Station_Selection_Screen_Panel2;
-lv_obj_t * ui_Station_Selection_Screen_Label_1;
-lv_obj_t * ui_Station_Selection_Screen_Label_2;
-lv_obj_t * ui_Station_Selection_Screen_Label_3;
-lv_obj_t * ui_Station_Selection_Screen_Label_4;
-lv_obj_t * ui_Station_Selection_Screen_Label_5;
-lv_obj_t * ui_Station_Selection_Screen_Label_6;
-lv_obj_t * ui_Station_Selection_Screen_Label_7;
-lv_obj_t * ui_Station_Selection_Screen_Label_8;
-lv_obj_t * ui_Station_Selection_Screen_Label_9;
-lv_obj_t * ui_Station_Selection_Screen_Label_10;
-lv_obj_t * ui_Station_Selection_Screen_Label_11;
-lv_obj_t * ui_Station_Selection_Screen_Label_12;
-lv_obj_t * ui_Station_Selection_Screen_Label_13;
-lv_obj_t * ui_Station_Selection_Screen_Label_14;
-lv_obj_t * ui_Station_Selection_Screen_Label_15;
-lv_obj_t * ui_Station_Selection_Screen_Label16;
-lv_obj_t * ui_Station_Selection_Screen_Label17;
-lv_obj_t * ui_Station_Selection_Screen_Label18;
-lv_obj_t * ui_Station_Selection_Screen_Label19;
-lv_obj_t * ui_Station_Selection_Screen_Label20;
+lv_obj_t * ui_Station_Selection_Screen_Roller;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Station_Selection_Screen;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button_Label;
 lv_obj_t * uic_Station_Selection_Screen_Cancel;
 lv_obj_t * uic_Station_Selection_Screen_Cancel_Button_Label;
-lv_obj_t * uic_Station_Selection_Screen_Label_1;
-lv_obj_t * uic_Station_Selection_Screen_Label_2;
-lv_obj_t * uic_Station_Selection_Screen_Label_3;
-lv_obj_t * uic_Station_Selection_Screen_Label_4;
-lv_obj_t * uic_Station_Selection_Screen_Label_5;
-lv_obj_t * uic_Station_Selection_Screen_Label_6;
-lv_obj_t * uic_Station_Selection_Screen_Label_7;
-lv_obj_t * uic_Station_Selection_Screen_Label_8;
-lv_obj_t * uic_Station_Selection_Screen_Label_9;
-lv_obj_t * uic_Station_Selection_Screen_Label_10;
-lv_obj_t * uic_Station_Selection_Screen_Label_11;
-lv_obj_t * uic_Station_Selection_Screen_Label_12;
-lv_obj_t * uic_Station_Selection_Screen_Label_13;
-lv_obj_t * uic_Station_Selection_Screen_Label_14;
-lv_obj_t * uic_Station_Selection_Screen_Label_15;
+lv_obj_t * uic_Station_Selection_Screen_Roller;
 
 
 // SCREEN: ui_Clock_Screen
@@ -168,6 +134,15 @@ lv_obj_t * ui_Clock_Screen_Clock_Label;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Clock_Screen;
 lv_obj_t * uic_Clock_Screen_Clock_Label;
+
+
+// SCREEN: ui_Tune_Screen
+void ui_Tune_Screen_screen_init(void);
+lv_obj_t * ui_Tune_Screen;
+lv_obj_t * ui_Tune_Screen_Message_Label;
+// CUSTOM VARIABLES
+lv_obj_t * uic_Tune_Screen;
+lv_obj_t * uic_Tune_Screen_Message_Label;
 
 // EVENTS
 lv_obj_t * ui____initial_actions0;
@@ -359,6 +334,7 @@ void ui_init(void)
     ui_Mode_Screen_screen_init();
     ui_Station_Selection_Screen_screen_init();
     ui_Clock_Screen_screen_init();
+    ui_Tune_Screen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Loading_Screen);
 }

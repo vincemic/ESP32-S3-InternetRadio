@@ -21,6 +21,14 @@
 #define DISPLAY_MESSAGE_TTIME 9
 #define DISPLAY_MESSAGE_STATION_LIST 10
 #define DISPLAY_MESSAGE_WIFI_CONNECTING 11
+#define DISPLAY_MESSAGE_FIND_IPADDRESS 12
+#define DISPLAY_MESSAGE_IPADDRESS 13
+#define DISPLAY_MESSAGE_FIND_TIMEZONE 14
+#define DISPLAY_MESSAGE_TIMEZONE 15
+#define DISPLAY_MESSAGE_TUNE_UP 16
+#define DISPLAY_MESSAGE_TUNE_DOWN 17
+#define DISPLAY_MESSAGE_SELECT 18
+
 
 class DisplayTask : public ThreadTask {
 
@@ -34,6 +42,7 @@ public:
     static volatile bool fireTouchRead;
     static volatile bool disableInterrupt;
     static void IRAM_ATTR touchISR();
+    lv_obj_t * getActiveScreen();
 
 private:
     bool start();
@@ -42,7 +51,6 @@ private:
     Adafruit_TSC2007 touchController;
     bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
-    lv_obj_t * channelLabels[14];
 
     void showMessageUI(const char * message);
     void showRadioUI();

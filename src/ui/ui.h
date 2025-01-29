@@ -128,48 +128,14 @@ extern lv_obj_t * ui_Station_Selection_Screen_Play_Button_Label;
 void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e);
 extern lv_obj_t * ui_Station_Selection_Screen_Cancel;
 extern lv_obj_t * ui_Station_Selection_Screen_Cancel_Button_Label;
-extern lv_obj_t * ui_Station_Selection_Screen_Panel2;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_1;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_2;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_3;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_4;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_5;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_6;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_7;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_8;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_9;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_10;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_11;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_12;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_13;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_14;
-extern lv_obj_t * ui_Station_Selection_Screen_Label_15;
-extern lv_obj_t * ui_Station_Selection_Screen_Label16;
-extern lv_obj_t * ui_Station_Selection_Screen_Label17;
-extern lv_obj_t * ui_Station_Selection_Screen_Label18;
-extern lv_obj_t * ui_Station_Selection_Screen_Label19;
-extern lv_obj_t * ui_Station_Selection_Screen_Label20;
+extern lv_obj_t * ui_Station_Selection_Screen_Roller;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Station_Selection_Screen;
 extern lv_obj_t * uic_Station_Selection_Screen_Play_Button;
 extern lv_obj_t * uic_Station_Selection_Screen_Play_Button_Label;
 extern lv_obj_t * uic_Station_Selection_Screen_Cancel;
 extern lv_obj_t * uic_Station_Selection_Screen_Cancel_Button_Label;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_1;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_2;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_3;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_4;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_5;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_6;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_7;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_8;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_9;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_10;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_11;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_12;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_13;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_14;
-extern lv_obj_t * uic_Station_Selection_Screen_Label_15;
+extern lv_obj_t * uic_Station_Selection_Screen_Roller;
 
 // SCREEN: ui_Clock_Screen
 void ui_Clock_Screen_screen_init(void);
@@ -179,6 +145,14 @@ extern lv_obj_t * ui_Clock_Screen_Clock_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Clock_Screen;
 extern lv_obj_t * uic_Clock_Screen_Clock_Label;
+
+// SCREEN: ui_Tune_Screen
+void ui_Tune_Screen_screen_init(void);
+extern lv_obj_t * ui_Tune_Screen;
+extern lv_obj_t * ui_Tune_Screen_Message_Label;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Tune_Screen;
+extern lv_obj_t * uic_Tune_Screen_Message_Label;
 
 // EVENTS
 

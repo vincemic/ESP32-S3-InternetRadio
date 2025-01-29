@@ -140,7 +140,7 @@ void ui_Main_Screen_screen_init(void)
     lv_label_set_text(ui_Main_Screen_Mode_Button_Label, "Mode");
 
     ui_Main_Screen_Message_Label = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Message_Label, 200);
+    lv_obj_set_width(ui_Main_Screen_Message_Label, 283);
     lv_obj_set_height(ui_Main_Screen_Message_Label, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Main_Screen_Message_Label, LV_ALIGN_CENTER);
     lv_label_set_long_mode(ui_Main_Screen_Message_Label, LV_LABEL_LONG_SCROLL_CIRCULAR);
@@ -150,7 +150,8 @@ void ui_Main_Screen_screen_init(void)
                        LV_OBJ_FLAG_SNAPPABLE);     /// Flags
     lv_obj_set_style_text_color(ui_Main_Screen_Message_Label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Main_Screen_Message_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Main_Screen_Message_Label, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_Main_Screen_Message_Label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Main_Screen_Message_Label, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Main_Screen_No_WIFI_Image, ui_event_Main_Screen_No_WIFI_Image, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Main_Screen_WIFI_Image, ui_event_Main_Screen_WIFI_Image, LV_EVENT_ALL, NULL);

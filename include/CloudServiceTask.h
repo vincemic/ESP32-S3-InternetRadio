@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
-#define CLOUD_SERVICE_MESSAGE_GET_STATION_LIST 1
+
 
 
 
@@ -30,11 +30,12 @@ class CloudServiceTask : public ServiceTask
         void getFile(const char *filePath);
         bool getIPAddress(String &ipAddress);
         bool getTimezone(String &ipAddress , String &timezone);
-
+        bool getStationList(JsonDocument &stationListJson);  
+        bool getStation(JsonDocument &stationJson, const char *stationName);
+    
     private:
         bool start();
-        bool getStationList(JsonDocument &stationListJson);  
-        void backgroundLoadStationList();  
+
 };
 
 extern CloudServiceTask CloudService;

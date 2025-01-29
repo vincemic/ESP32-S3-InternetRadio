@@ -3,7 +3,7 @@
 #include "DisplayTask.h"
 #include <ArduinoLog.h>
 #include "ConfigurationTask.h"
-
+#include "ui/ui.h"
 
 
 
@@ -80,6 +80,11 @@ bool SoundTask::connecttoSD(const char* filename){
 
 void SoundTask::turnUpVolume()
 {
+    if(Display.getActiveScreen() != ui_Main_Screen)
+    {
+        return;
+    }
+
     uint8_t vol = audio.getVolume();
     if(vol < audio.maxVolume())
     {
@@ -91,6 +96,11 @@ void SoundTask::turnUpVolume()
 
 void SoundTask::turnDownVolume()
 {
+    if(Display.getActiveScreen() != ui_Main_Screen)
+    {
+        return;
+    }
+
     uint8_t vol = audio.getVolume();
     if(vol > 0)
     {

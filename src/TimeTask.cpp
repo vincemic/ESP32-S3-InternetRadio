@@ -43,13 +43,13 @@ bool TimeTask::begin(String timezone)
 
 void TimeTask::tick() 
 {
-    static uint32_t lastTime = 0;
+    static uint32_t lastimeCalled = 0;
 
-    if(lastTime++ > 1500)
+    if(millis() - lastimeCalled >= 30000)
     {
         updateClock();
         
-        lastTime = 0;
+        lastimeCalled = millis();
     }
 
     ThreadMessage message;

@@ -32,6 +32,8 @@ AsyncFlow asyncFlow;
 String timezone = "";
 String ipAddress = "";
 
+SpiRamAllocator spiAllocator;
+JsonDocument stationListJson = JsonDocument(&spiAllocator);
 
 // Obtain a list of partitions for this device.
 bool logPartitions() {
@@ -88,6 +90,42 @@ bool beginTime() {
     return Time.begin(timezone);
 }
 
+bool getStations(){
+    return CloudService.getStationList(stationListJson);
+}
+
+bool showIPAddress() {
+    return Display.send(DISPLAY_MESSAGE_IPADDRESS, ipAddress.c_str());
+}
+
+bool showTimezone() {
+    return Display.send(DISPLAY_MESSAGE_TIMEZONE, timezone.c_str());
+}
+
+bool showGettingStations() {
+    return Display.send(DISPLAY_MESSAGE_STATION_LIST, "Getting stations");
+}
+
+bool loadStations()
+{
+    String string;
+    int i = 0;
+
+    for (JsonArray::iterator it = stationListJson.as<JsonArray>().begin(); it != stationListJson.as<JsonArray>().end(); ++it) 
+    {
+        if(i < 50) 
+        {
+
+            string.concat( (*it).as<const char*>());
+            string.concat("\n");
+            i++;
+        }
+    }
+
+    lv_roller_set_options(uic_Station_Selection_Screen_Roller, string.c_str(), LV_ROLLER_MODE_INFINITE);
+    return true;
+}
+
 void createFlow(){
 
     asyncFlow.begin([]() -> bool {
@@ -98,15 +136,20 @@ void createFlow(){
         return true;
     });
 
-    asyncFlow.addStep("showscreen", 5000, showMainScreen);
+    asyncFlow.addStep("showscreen", 3000, showMainScreen);
     asyncFlow.addStep("wifi", 500, Wireless.begin);
     asyncFlow.addStep("waitwifi", 1000, Wireless.isWifiConnected, 5);
     asyncFlow.addStep("devices", 40, Device.begin);
     asyncFlow.addStep("sound", 40, Sound.begin);
-    asyncFlow.addStep("ip", 5000, getIPAddress);
-    asyncFlow.addStep("timezone", 5000, getTimezone);
-    asyncFlow.addStep("time", 5000, beginTime);
     asyncFlow.addStep("cloud", 40, CloudService.begin);
+    asyncFlow.addStep("ip", 40, getIPAddress);
+    asyncFlow.addStep("showip", 40, showIPAddress);
+    asyncFlow.addStep("timezone", 40, getTimezone);
+    asyncFlow.addStep("showtimezone", 40, showTimezone);
+    asyncFlow.addStep("time", 40, beginTime);
+    asyncFlow.addStep("showstations", 40, showGettingStations);
+    asyncFlow.addStep("stations", 40, getStations);
+    asyncFlow.addStep("loadstations", 40, loadStations);
     asyncFlow.addStep("partitions", 40, logPartitions);
     asyncFlow.addStep("memory", 40, logMemory);
     asyncFlow.addStep("radio", 40, startRadio);

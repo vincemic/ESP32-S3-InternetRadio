@@ -39,7 +39,7 @@ void stationSelectionChanged(lv_event_t * e) {
 }
 
 void playChannel(lv_event_t * e) {
-
+    Display.send(DISPLAY_MESSAGE_SELECT);
 }
 
 void audio_id3data(const char *info){  //id3 metadata

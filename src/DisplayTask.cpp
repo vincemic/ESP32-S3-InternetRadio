@@ -55,28 +55,19 @@ bool DisplayTask::start()
 
     ui_init();
 
+    lv_obj_add_flag(ui_Main_Screen_Clock_Label, LV_OBJ_FLAG_HIDDEN);
+
     showMessageUI("Starting...");
 
+    // populate the wifi credentials
     lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
     lv_textarea_set_text(uic_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
 
     while(!touchController.begin(TOUCH_ADDR))
     { 
-        Wire.end();
-        yield();
-        tick();
-        Wire.begin();
-        tick();
-        delay(500);
+         delay(1000);
     }
 
-    lv_obj_t * labels[] = {uic_Station_Selection_Screen_Label_1, uic_Station_Selection_Screen_Label_2, uic_Station_Selection_Screen_Label_3, uic_Station_Selection_Screen_Label_4, uic_Station_Selection_Screen_Label_5, uic_Station_Selection_Screen_Label_6, uic_Station_Selection_Screen_Label_7, uic_Station_Selection_Screen_Label_8, uic_Station_Selection_Screen_Label_9, uic_Station_Selection_Screen_Label_10, uic_Station_Selection_Screen_Label_11, uic_Station_Selection_Screen_Label_12, uic_Station_Selection_Screen_Label_13, uic_Station_Selection_Screen_Label_14};
-
-
-    for(int i = 0; i < 14; i++)
-    {
-       channelLabels[i] = labels[i];
-    }
 
     touchStarted = true;
     Log.infoln("Touch controller started");
@@ -173,10 +164,13 @@ void DisplayTask::tick()
     static uint32_t lastTime = 0;
     ThreadMessage threadMessage;  
     static uint16_t stationListIndex = 0;
+    uint32_t selected = 0;
+    uint32_t number = 0;
+    char stationName[200];
 
     if(internalReceive(&threadMessage)) 
     {
-        Log.infoln("Display message received: %s", threadMessage.message);
+        Log.infoln("Display message %d received: %s ", threadMessage.messageType, threadMessage.message);
         switch(threadMessage.messageType)
         {
             case DISPLAY_MESSAGE_ARTIST:
@@ -213,8 +207,10 @@ void DisplayTask::tick()
 
                 showMessageUI(threadMessage.message);
 
-            break;
+                break;
             case DISPLAY_MESSAGE_TTIME:
+                // show time label is hidden
+                lv_obj_remove_flag(ui_Main_Screen_Clock_Label, LV_OBJ_FLAG_HIDDEN);
                 //Main screen header
                 lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
                 // Clock screen
@@ -223,11 +219,8 @@ void DisplayTask::tick()
             case DISPLAY_MESSAGE_ERROR:
                 showMessageUI(threadMessage.message);
                 break;
-            case DISPLAY_MESSAGE_STATION_LIST:
-                lv_label_set_text(channelLabels[stationListIndex], threadMessage.message);
-                stationListIndex++;
-                if(stationListIndex > 13) stationListIndex = 0;
-                break;
+
+
             case DISPLAY_MESSAGE_WIFI_CONNECTING:
                 // Wifi Icons
                 lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
@@ -235,7 +228,55 @@ void DisplayTask::tick()
 
                 showMessageUI(threadMessage.message);
 
-                break;    
+                break; 
+
+            case DISPLAY_MESSAGE_TUNE_UP:
+
+                if(Display.getActiveScreen() != ui_Station_Selection_Screen)
+                {
+                    break;
+                }
+
+                number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
+                selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
+
+                if(selected < number - 1) {
+                    lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
+                    Log.infoln("Tune up");
+                }
+                break;
+
+            case DISPLAY_MESSAGE_TUNE_DOWN:
+
+                if(Display.getActiveScreen() != ui_Station_Selection_Screen)
+                {
+                    break;
+                }
+
+                selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
+
+                if(selected > 0) {
+                    lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
+                    Log.infoln("Tune down");
+                }
+                break;
+            case DISPLAY_MESSAGE_SELECT:
+
+                if(Display.getActiveScreen() == ui_Station_Selection_Screen)
+                {
+                    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller,stationName,200);
+                    lv_screen_load(ui_Main_Screen);
+                }
+                
+                break;
+
+            case DISPLAY_MESSAGE_STATION_LIST:   
+            case DISPLAY_MESSAGE_FIND_IPADDRESS:
+            case DISPLAY_MESSAGE_FIND_TIMEZONE:
+            case DISPLAY_MESSAGE_IPADDRESS:
+            case DISPLAY_MESSAGE_TIMEZONE:
+                lv_label_set_text(ui_Main_Screen_Message_Label, threadMessage.message);
+                break;
         }
     }
 
@@ -251,11 +292,17 @@ void DisplayTask::tick()
         disableInterrupt = true;
         lv_indev_read(Display.indev_touchpad);
         fireTouchRead = false;
-        disableInterrupt = false;
+       
     } 
 
+    disableInterrupt = false;
     lv_timer_handler();
 
+}
+
+lv_obj_t * DisplayTask::getActiveScreen()
+{
+    return lv_screen_active();
 }
 
 DisplayTask Display;
