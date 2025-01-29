@@ -266,6 +266,7 @@ void DisplayTask::tick()
                 {
                     lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller,stationName,200);
                     lv_screen_load(ui_Main_Screen);
+                    Log.infoln("Selected station: %s", stationName);
                 }
                 
                 break;

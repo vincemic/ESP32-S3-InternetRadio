@@ -13,8 +13,9 @@
 #include <ArduinoLog.h>
 #include "TimeTask.h"
 #include "ConfigurationTask.h"
-#include <CloudServiceTask.h>
+#include "CloudServiceTask.h"
 #include "AsyncFlow.h"
+#include "OrchestratorTask.h"
 
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
@@ -126,36 +127,36 @@ bool loadStations()
     return true;
 }
 
-void createFlow(){
+bool setInitialized() {
+    initialized = true;
+    return true;
+}
 
-    asyncFlow.begin([]() -> bool {
-        Display.tick();
-        return true;
-    }, [](const char* label) -> bool {
-        Log.infoln("Failure at step %s", label);
-        return true;
+void createFlow()
+{
+
+    Orchestrator.createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
+        flowConfig->addStep("showscreen", 3000, showMainScreen)
+        ->addStep("wifi", 500, Wireless.begin)
+        ->addStep("waitwifi", 1000, Wireless.isWifiConnected, 5)
+        ->addStep("devices", 40, Device.begin)
+        ->addStep("sound", 40, Sound.begin)
+        ->addStep("cloud", 40, CloudService.begin)
+        ->addStep("ip", 40, getIPAddress)
+        ->addStep("showip", 40, showIPAddress)
+        ->addStep("timezone", 40, getTimezone)
+        ->addStep("showtimezone", 40, showTimezone)
+        ->addStep("time", 40, beginTime)
+        ->addStep("showstations", 40, showGettingStations)
+        ->addStep("stations", 40, getStations)
+        ->addStep("loadstations", 40, loadStations)
+        ->addStep("partitions", 40, logPartitions)
+        ->addStep("memory", 40, logMemory)
+        ->addStep("radio", 40, startRadio)
+        ->addStep("initialized", 40, setInitialized);
+
     });
 
-    asyncFlow.addStep("showscreen", 3000, showMainScreen);
-    asyncFlow.addStep("wifi", 500, Wireless.begin);
-    asyncFlow.addStep("waitwifi", 1000, Wireless.isWifiConnected, 5);
-    asyncFlow.addStep("devices", 40, Device.begin);
-    asyncFlow.addStep("sound", 40, Sound.begin);
-    asyncFlow.addStep("cloud", 40, CloudService.begin);
-    asyncFlow.addStep("ip", 40, getIPAddress);
-    asyncFlow.addStep("showip", 40, showIPAddress);
-    asyncFlow.addStep("timezone", 40, getTimezone);
-    asyncFlow.addStep("showtimezone", 40, showTimezone);
-    asyncFlow.addStep("time", 40, beginTime);
-    asyncFlow.addStep("showstations", 40, showGettingStations);
-    asyncFlow.addStep("stations", 40, getStations);
-    asyncFlow.addStep("loadstations", 40, loadStations);
-    asyncFlow.addStep("partitions", 40, logPartitions);
-    asyncFlow.addStep("memory", 40, logMemory);
-    asyncFlow.addStep("radio", 40, startRadio);
-
-
- 
 }
 
 
@@ -173,6 +174,7 @@ void setup()
         Log.infoln("microSD mounted successfully");
     }
 
+    Orchestrator.begin();
     Configuration.begin();
     Display.begin();
 
@@ -182,19 +184,22 @@ void setup()
 
 void loop() 
 {
+
     if(!initialized) {
-      initialized = !asyncFlow.tick();
-      return;        
+        Orchestrator.tick();
+        Display.tick();  
+
+    } 
+    else {
+        Orchestrator.tick();
+        Device.tick();
+        Sound.tick();
+        Time.tick();
+        CloudService.tick();
+        Display.tick();
     }
+    
  
-    Device.tick();
-    Sound.tick();
-    Time.tick();
-    CloudService.tick();
-
-    // Display last to update all changes
-    Display.tick();
-
     vTaskDelay(10);
 }
 
