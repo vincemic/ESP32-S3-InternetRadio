@@ -27,17 +27,7 @@ bool CloudServiceTask::begin()
 
 void CloudServiceTask::tick()
 {
-    ThreadMessage message;
-    if(internalReceive(&message))
-    {
-        switch (message.messageType)
-        {
-            default:
-
-                break;
-
-        }
-    }
+    
 }
 
 void CloudServiceTask::getFile(const char *filePath)

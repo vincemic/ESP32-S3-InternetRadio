@@ -8,6 +8,7 @@
 #include <ArduinoJson.h>
 #include "Timezones.h"
 #include "CloudServiceTask.h"
+#include "OrchestratorTask.h"
 
 TimeTask::TimeTask() 
 {
@@ -16,8 +17,7 @@ TimeTask::TimeTask()
 
 bool TimeTask::start(String timezone) 
 {
-    SpiRamAllocator allocator;
-    JsonDocument doc = JsonDocument(&allocator);
+    JsonDocument doc = JsonDocument(&spiRamAllocator);
     
     deserializeJson(doc,timezones);
 

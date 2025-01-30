@@ -270,6 +270,9 @@ void DisplayTask::tick()
                 }
                 
                 break;
+            case DISPLAY_MESSAGE_TUNING_SCREEN:
+                lv_screen_load(uic_Tune_Screen);
+            break;
 
             case DISPLAY_MESSAGE_STATION_LIST:   
             case DISPLAY_MESSAGE_FIND_IPADDRESS:

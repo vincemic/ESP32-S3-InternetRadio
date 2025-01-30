@@ -4,6 +4,12 @@
 #include <Audio.h>
 #include "ThreadTask.h"
 
+//#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
+//#define RADIO_STREAM "http://stream.srg-ssr.ch/m/rsp/mp3_128"
+//#define RADIO_STREAM "http://www.radioeins.de/frankfurt/livemp3"
+//#define RADIO_STREAM "http://vis.media-ice.musicradio.com/CapitalMP3"
+//#define RADIO_STREAM "http://rfcm.streamguys1.com/thirdrock-icy"
+#define RADIO_STREAM "http://stream.laut.fm/oldies"
 class SoundTask : public ThreadTask {
 
 public:

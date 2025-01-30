@@ -57,16 +57,16 @@ class ThreadTask
     // Public endpoints
     bool send(u16_t messageType, const char* message);
     bool send(u16_t messageType);
-    bool receive(ThreadMessage* message);
+    //bool receive(ThreadMessage* message);
 
   public:
 
-    bool internalSend(u16_t messageType, const char* message);
+   // bool internalSend(u16_t messageType, const char* message);
     bool internalReceive(ThreadMessage* message);
     
 
   private:
     QueueHandle_t rxQueue = xQueueCreate( 40, sizeof( struct TaskMessage * ) );
-    QueueHandle_t txQueue = xQueueCreate( 40, sizeof( struct TaskMessage * ) ); 
+   // QueueHandle_t txQueue = xQueueCreate( 40, sizeof( struct TaskMessage * ) ); 
 };
 

@@ -19,6 +19,7 @@ bool ThreadTask::send(u16_t messageType)
     return send(messageType, NULL);
 }
 
+/*
 bool ThreadTask::receive(ThreadMessage* message )
 {
     ThreadMessage* incomming;
@@ -33,7 +34,9 @@ bool ThreadTask::receive(ThreadMessage* message )
 
     return false;
 }
+*/
 
+/*
 bool ThreadTask::internalSend(u16_t messageType,const char* info)
 {
     // Creating a meesage that must be freed after it is received 
@@ -43,6 +46,7 @@ bool ThreadTask::internalSend(u16_t messageType,const char* info)
 
     return true;
 }
+*/
 
 bool ThreadTask::internalReceive(ThreadMessage* message )
 {
