@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include "SoundTask.h"
-#include "DisplayTask.h"
 #include <ArduinoLog.h>
 #include "ConfigurationTask.h"
-#include "ui/ui.h"
+#include "OrchestratorTask.h"
 
 
 
@@ -116,7 +115,7 @@ void SoundTask::tick()
             case SOUND_MESSAGE_CONNECT:
                 if(!connecttohost(message.message))
                 {
-                    Display.send(DISPLAY_MESSAGE_ERROR, "Connection to stream failed");
+                    Orchestrator.send(ORCHESTRATOR_MESSAGE_ERROR, "Connection to stream failed");
                 }
                 break;
             default:

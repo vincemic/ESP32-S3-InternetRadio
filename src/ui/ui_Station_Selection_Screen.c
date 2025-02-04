@@ -52,6 +52,11 @@ void ui_Station_Selection_Screen_screen_init(void)
     lv_obj_set_x(ui_Station_Selection_Screen_Roller, -1);
     lv_obj_set_y(ui_Station_Selection_Screen_Roller, -34);
     lv_obj_set_align(ui_Station_Selection_Screen_Roller, LV_ALIGN_CENTER);
+    lv_obj_set_style_text_color(ui_Station_Selection_Screen_Roller, lv_color_hex(0xFFFCFC),
+                                LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Station_Selection_Screen_Roller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Station_Selection_Screen_Roller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Station_Selection_Screen_Roller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Station_Selection_Screen_Play_Button, ui_event_Station_Selection_Screen_Play_Button,
                         LV_EVENT_ALL, NULL);

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <Arduino.h>
 #include "ThreadTask.h"
 
 class WirelessTask : public ThreadTask {

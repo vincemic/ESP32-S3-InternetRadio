@@ -6,32 +6,18 @@
 #include "DisplayTask.h" 
 #include "WirelessTask.h"
 #include "ConfigurationTask.h"
+#include "OrchestratorTask.h"
+#include "Utilities.h"
 
-int indexOf (const char* base, const char* str, int startIndex = 0) {
-    const char *p = base;
-    for (; startIndex > 0; startIndex--)
-        if (*p++ == '\0') return -1;
-    char* pos = strstr(p, str);
-    if (pos == nullptr) return -1;
-    return pos - base;
-}
 
 void keyboardReadyKey(lv_event_t * e)
 {
-
-    const char* ssid = lv_textarea_get_text(ui_Network_Screen_SSID_Text_Area);
-    const char* password = lv_textarea_get_text(ui_Network_Screen_Password_Text_Area);
-    Configuration.setWifiCredentials(ssid, password);
-    Log.infoln("ssid: %s password: %s",ssid, password);
-
-  
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_NETOWRK_SAVE_CREDENTIALS);
 }
 
 void cancelNetworkScreen(lv_event_t * e)
 {
-    lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
-    lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
-
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_NETOWRK_CANCEL);
 }
 
 void stationSelectionChanged(lv_event_t * e) {
@@ -39,7 +25,7 @@ void stationSelectionChanged(lv_event_t * e) {
 }
 
 void playChannel(lv_event_t * e) {
-    Display.send(DISPLAY_MESSAGE_SELECT);
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
 }
 
 void audio_id3data(const char *info){  //id3 metadata

@@ -56,7 +56,6 @@ extern lv_obj_t * ui_Main_Screen_Tune_Button_Label;
 void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_Mode_Button;
 extern lv_obj_t * ui_Main_Screen_Mode_Button_Label;
-extern lv_obj_t * ui_Main_Screen_Message_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Main_Screen;
 extern lv_obj_t * uic_Main_Screen_Artist;
@@ -71,7 +70,6 @@ extern lv_obj_t * uic_Main_Screen_Tune_Button;
 extern lv_obj_t * uic_Main_Screen_Tune_Button_Label;
 extern lv_obj_t * uic_Main_Screen_Mode_Button;
 extern lv_obj_t * uic_Main_Screen_Mode_Button_Label;
-extern lv_obj_t * uic_Main_Screen_Message_Label;
 
 // SCREEN: ui_Volume_Screen
 void ui_Volume_Screen_screen_init(void);
@@ -146,13 +144,13 @@ extern lv_obj_t * ui_Clock_Screen_Clock_Label;
 extern lv_obj_t * uic_Clock_Screen;
 extern lv_obj_t * uic_Clock_Screen_Clock_Label;
 
-// SCREEN: ui_Tune_Screen
-void ui_Tune_Screen_screen_init(void);
-extern lv_obj_t * ui_Tune_Screen;
-extern lv_obj_t * ui_Tune_Screen_Message_Label;
+// SCREEN: ui_Message_Screen
+void ui_Message_Screen_screen_init(void);
+extern lv_obj_t * ui_Message_Screen;
+extern lv_obj_t * ui_Message_Screen_Message_Label;
 // CUSTOM VARIABLES
-extern lv_obj_t * uic_Tune_Screen;
-extern lv_obj_t * uic_Tune_Screen_Message_Label;
+extern lv_obj_t * uic_Message_Screen;
+extern lv_obj_t * uic_Message_Screen_Message_Label;
 
 // EVENTS
 

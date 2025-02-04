@@ -1,7 +1,6 @@
 #include "DeviceTask.h"
-#include "SoundTask.h"
 #include <ArduinoLog.h>
-#include "DisplayTask.h"
+#include "OrchestratorTask.h"
 
 #define TS_MINX 300
 #define TS_MINY 300
@@ -90,7 +89,7 @@ void DeviceTask::tick()
         else{
             Log.infoln("Button Pressed");
             rotarySwitchBounce = true;
-            Display.send(DISPLAY_MESSAGE_SELECT);
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_ROTARY_PUSH);
         }
 
         int32_t new_position = readRotaryPostion();
@@ -101,15 +100,13 @@ void DeviceTask::tick()
 
             if(new_position < encoderPosition)
             {
-                Display.send(DISPLAY_MESSAGE_TUNE_UP);
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_ROTARY_RIGHT);
                 Log.infoln("Rotary turned right");
-                Sound.send(SOUND_MESSAGE_TURN_UP_VOLUME);
             }
             else
             {
-                Display.send(DISPLAY_MESSAGE_TUNE_DOWN);
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_ROTARY_LEFT);
                 Log.infoln("Rotary turned left");
-                Sound.send(SOUND_MESSAGE_TURN_DOWN_VOLUME);
             }
 
             encoderPosition = new_position;

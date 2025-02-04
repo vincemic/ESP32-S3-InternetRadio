@@ -1,7 +1,6 @@
 #include "WirelessTask.h"
 #include <Arduino.h>
 #include <WiFi.h>
-#include <DisplayTask.h>
 #include <ESPmDNS.h>
 #include <ArduinoLog.h>
 #include <HTTPClient.h>
@@ -9,6 +8,7 @@
 #include <SD.h>
 #include <ArduinoJson.h>
 #include "ConfigurationTask.h"
+#include "OrchestratorTask.h"
 
 const char hostname[] = "ESPRadio"; 
 
@@ -23,7 +23,7 @@ bool WirelessTask::start()
     WiFi.setHostname(hostname);
     String ssid = Configuration.getWifiSSID();
 
-    Display.send(DISPLAY_MESSAGE_WIFI_CONNECTING, "Connecting to WiFi");
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_WIFI_CONNECTING);
 
     // connecting to local WiFi network
     Log.infoln("connecting to WiFi network \"%s\"\n", ssid);
@@ -134,9 +134,9 @@ bool WirelessTask::isWifiConnected()
     bool result = WiFi.status() == WL_CONNECTED;
 
     if(result)
-        Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED, "WiFi connected");
+        Orchestrator.send(ORCHESTRATOR_MESSAGE_WIFI_CONNECTED);
     else    
-        Display.send(DISPLAY_MESSAGE_WIFI_DISCONNECTED, "WiFi disconnected");
+        Orchestrator.send(ORCHESTRATOR_MESSAGE_WIFI_DISCONNECTED);
 
     return  result;
 }

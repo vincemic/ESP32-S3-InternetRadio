@@ -7,7 +7,7 @@
 #include "DisplayTask.h"
 #include <ArduinoJson.h>
 #include "Timezones.h"
-#include "CloudServiceTask.h"
+#include "CloudTask.h"
 #include "OrchestratorTask.h"
 
 TimeTask::TimeTask() 
@@ -17,6 +17,7 @@ TimeTask::TimeTask()
 
 bool TimeTask::start(String timezone) 
 {
+    SpiRamAllocator spiRamAllocator;
     JsonDocument doc = JsonDocument(&spiRamAllocator);
     
     deserializeJson(doc,timezones);
@@ -118,6 +119,7 @@ void TimeTask::updateClock()
         buffer[0] = ' ';
     }
 
-    Display.send(DISPLAY_MESSAGE_TTIME, buffer);
+    Log.infoln("Updating clock: %s", buffer);
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_UPDATE_CLOCK, buffer);
 }
-TimeTask Time;
+TimeTask Time; 

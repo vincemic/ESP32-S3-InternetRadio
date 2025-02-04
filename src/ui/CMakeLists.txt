@@ -5,7 +5,7 @@ SET(SOURCES ui_Loading_Screen.c
     ui_Mode_Screen.c
     ui_Station_Selection_Screen.c
     ui_Clock_Screen.c
-    ui_Tune_Screen.c
+    ui_Message_Screen.c
     ui.c
     ui_comp_hook.c
     ui_helpers.c

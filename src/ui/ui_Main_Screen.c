@@ -13,10 +13,10 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Main_Screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Main_Screen_Artist = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Artist, 280);
+    lv_obj_set_width(ui_Main_Screen_Artist, 310);
     lv_obj_set_height(ui_Main_Screen_Artist, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Main_Screen_Artist, 16);
-    lv_obj_set_y(ui_Main_Screen_Artist, 107);
+    lv_obj_set_x(ui_Main_Screen_Artist, 5);
+    lv_obj_set_y(ui_Main_Screen_Artist, 111);
     lv_label_set_long_mode(ui_Main_Screen_Artist, LV_LABEL_LONG_SCROLL_CIRCULAR);
     lv_label_set_text(ui_Main_Screen_Artist, "Beatles");
     lv_obj_remove_flag(ui_Main_Screen_Artist,
@@ -24,12 +24,12 @@ void ui_Main_Screen_screen_init(void)
                        LV_OBJ_FLAG_SCROLLABLE);     /// Flags
     lv_obj_set_style_text_color(ui_Main_Screen_Artist, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Main_Screen_Artist, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Main_Screen_Artist, &lv_font_montserrat_38, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Main_Screen_Artist, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Main_Screen_Station = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Station, 245);
+    lv_obj_set_width(ui_Main_Screen_Station, 304);
     lv_obj_set_height(ui_Main_Screen_Station, 25);
-    lv_obj_set_x(ui_Main_Screen_Station, 16);
+    lv_obj_set_x(ui_Main_Screen_Station, 5);
     lv_obj_set_y(ui_Main_Screen_Station, 50);
     lv_label_set_long_mode(ui_Main_Screen_Station, LV_LABEL_LONG_SCROLL_CIRCULAR);
     lv_label_set_text(ui_Main_Screen_Station, "Station");
@@ -41,9 +41,9 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_style_text_font(ui_Main_Screen_Station, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Main_Screen_Commercial = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Commercial, 280);
+    lv_obj_set_width(ui_Main_Screen_Commercial, 305);
     lv_obj_set_height(ui_Main_Screen_Commercial, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Main_Screen_Commercial, 16);
+    lv_obj_set_x(ui_Main_Screen_Commercial, 5);
     lv_obj_set_y(ui_Main_Screen_Commercial, 80);
     lv_label_set_long_mode(ui_Main_Screen_Commercial, LV_LABEL_LONG_SCROLL_CIRCULAR);
     lv_label_set_text(ui_Main_Screen_Commercial, "commercial");
@@ -53,9 +53,9 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_style_text_font(ui_Main_Screen_Commercial, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Main_Screen_Title = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Title, 280);
+    lv_obj_set_width(ui_Main_Screen_Title, 310);
     lv_obj_set_height(ui_Main_Screen_Title, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Main_Screen_Title, 19);
+    lv_obj_set_x(ui_Main_Screen_Title, 5);
     lv_obj_set_y(ui_Main_Screen_Title, 151);
     lv_label_set_long_mode(ui_Main_Screen_Title, LV_LABEL_LONG_SCROLL_CIRCULAR);
     lv_label_set_text(ui_Main_Screen_Title, "All you need is love");
@@ -139,20 +139,6 @@ void ui_Main_Screen_screen_init(void)
     lv_obj_set_align(ui_Main_Screen_Mode_Button_Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Main_Screen_Mode_Button_Label, "Mode");
 
-    ui_Main_Screen_Message_Label = lv_label_create(ui_Main_Screen);
-    lv_obj_set_width(ui_Main_Screen_Message_Label, 283);
-    lv_obj_set_height(ui_Main_Screen_Message_Label, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Main_Screen_Message_Label, LV_ALIGN_CENTER);
-    lv_label_set_long_mode(ui_Main_Screen_Message_Label, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_label_set_text(ui_Main_Screen_Message_Label, "Message");
-    lv_obj_remove_flag(ui_Main_Screen_Message_Label,
-                       LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE |
-                       LV_OBJ_FLAG_SNAPPABLE);     /// Flags
-    lv_obj_set_style_text_color(ui_Main_Screen_Message_Label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Main_Screen_Message_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui_Main_Screen_Message_Label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Main_Screen_Message_Label, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
-
     lv_obj_add_event_cb(ui_Main_Screen_No_WIFI_Image, ui_event_Main_Screen_No_WIFI_Image, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Main_Screen_WIFI_Image, ui_event_Main_Screen_WIFI_Image, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Main_Screen_Tune_Button, ui_event_Main_Screen_Tune_Button, LV_EVENT_ALL, NULL);
@@ -170,6 +156,5 @@ void ui_Main_Screen_screen_init(void)
     uic_Main_Screen_Tune_Button_Label = ui_Main_Screen_Tune_Button_Label;
     uic_Main_Screen_Mode_Button = ui_Main_Screen_Mode_Button;
     uic_Main_Screen_Mode_Button_Label = ui_Main_Screen_Mode_Button_Label;
-    uic_Main_Screen_Message_Label = ui_Main_Screen_Message_Label;
 
 }

@@ -1,4 +1,4 @@
-#include "PackServiceTask.h"
+#include "PackService.h"
 #include <ArduinoLog.h>
 #include <WiFiClientSecure.h>
 #include <WiFi.h>
@@ -7,30 +7,18 @@
 #include <DisplayTask.h>
 
 
-PackServiceTask::PackServiceTask()
+PackService::PackService()
 {
     
 }
 
-bool PackServiceTask::begin()
+bool PackService::begin()
 {
     return true;
 }
-void PackServiceTask::tick()
-{
-    ThreadMessage message;
-    if(internalReceive(&message))
-    {
-        switch (message.messageType)
-        {
-            default:
-                break;
-        }
-    }
-    
-}
 
-void PackServiceTask::sendPackCommand(const __FlashStringHelper *commandUri) 
+
+void PackService::sendPackCommand(const __FlashStringHelper *commandUri) 
 {
     WiFiClient wifiClient;
     HTTPClient httpClient;
@@ -65,4 +53,4 @@ void PackServiceTask::sendPackCommand(const __FlashStringHelper *commandUri)
     httpClient.end();
 }
 
-PackServiceTask PackService;
+PackService Pack;

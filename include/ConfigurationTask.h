@@ -18,7 +18,12 @@ class ConfigurationTask : public ThreadTask {
         String getLastMode();
         void setLastVolume(uint8_t volume);
         uint8_t getLastVolume();
+        void setIPAddress(const char* ipAddress);
+        String getIPAddress();
+        void setTimeZone(const char* timeZone);
+        String getTimeZone();
     private:
         Preferences preferences;
+
 };
 extern ConfigurationTask Configuration;
