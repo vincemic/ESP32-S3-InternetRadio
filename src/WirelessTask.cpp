@@ -23,8 +23,6 @@ bool WirelessTask::start()
     WiFi.setHostname(hostname);
     String ssid = Configuration.getWifiSSID();
 
-    Orchestrator.send(ORCHESTRATOR_MESSAGE_WIFI_CONNECTING);
-
     // connecting to local WiFi network
     Log.infoln("connecting to WiFi network \"%s\"\n", ssid);
     WiFi.begin(ssid, Configuration.getWifiPassword());

@@ -15,7 +15,7 @@ void setup()
     Log.begin(LOG_LEVEL_VERBOSE, &Serial, false);
 
     spi_onboardSD->begin();
-
+    
     if (!SD.begin(SS, *spi_onboardSD)) {
         Log.errorln("error mounting microSD");
     } else {

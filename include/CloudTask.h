@@ -15,14 +15,15 @@ class CloudTask : public ThreadTask
         void getFile(const char *filePath);
         bool downloadIPAddress(String &ipAddress);
         bool downloadTimezone(String &ipAddress , String &timezone);
-        bool downloadStationsInfo2();  
+        // bool downloadStationsInfo2();  
         bool downloadStation(JsonDocument &stationJson, String &stationName);
-        bool downloadStationsInfo();  
+        bool downloadStationList();  
         static esp_err_t http_event_handler(esp_http_client_event_t *evt);
     
     private:
         bool start();
-        esp_http_client_handle_t client;
+        //bool clientReady = false;
+        //esp_http_client_handle_t client;
 
 };
 

@@ -37,30 +37,26 @@ void CloudTask::tick()
         switch (threadMessage.messageType)
         {
             case CLOUD_MESSAGE_DOWNLOAD_STATIONS_INFO:
-                Cloud.downloadStationsInfo2();
                 Log.infoln("Downloaded stations info started");
+                Cloud.downloadStationList();
+
             break;
         }
     }
 
-    if(client != NULL)
-    {
-        esp_err_t result = esp_http_client_perform(client);
-        
-        switch(result)
+    /*
+        if(clientReady)
         {
-            case ESP_OK:
-                Log.infoln("HTTP request success");
-                break;
-            case ESP_FAIL:
-                Log.errorln("HTTP request failed");
-                esp_http_client_close(client);
-                esp_http_client_cleanup(client);
-                client = NULL;
-                break;
+            Log.infoln("Performing client request");
+            esp_err_t result = esp_http_client_perform(client);
+            
+            if(result != ESP_OK)
+            {
+                Log.errorln("HTTP request failed: %d", result);
+                clientReady = false;
+            }
         }
-    }
-
+    */
 }
 
 void CloudTask::getFile(const char *filePath)
@@ -198,28 +194,30 @@ void CloudTask::createTTSFile(const __FlashStringHelper *text,  const char *file
     https.end();
 }
 
-bool CloudTask::downloadStationsInfo() {
+bool CloudTask::downloadStationList() {
     WiFiClientSecure wifiClient;
     wifiClient.setInsecure();
     HTTPClient httpClient;
     String path = String(F("https://api.laut.fm/station_names"));
     const char * filePath = "/stations.json";
 
+    const char* keys[] = {"Transfer-Encoding"};
+    httpClient.collectHeaders(keys, 1);
+
     Log.traceln(F("[HTTPS] begin..."));
     if (httpClient.begin(wifiClient, path))
     {
+        httpClient.setReuse(false);
         httpClient.setTimeout(30000);
         httpClient.setConnectTimeout(30000);
         // Set the Accept header to application/json
-        httpClient.addHeader("Accept", "application/json");
-        httpClient.addHeader("Transfer-Encoding", "Chunked");   
+        httpClient.addHeader("Accept", "application/json"); 
 
         // HTTPS
         Log.traceln(F("[HTTPS] GET..."));
         
         // start connection and send HTTP header
         int httpCode = httpClient.GET();
-        
 
         // httpCode will be negative on error
         if (httpCode > 0)
@@ -233,15 +231,26 @@ bool CloudTask::downloadStationsInfo() {
                 Log.traceln(F("[HTTPS] Saving to file: %s"), filePath);
                 File file = SD.open(filePath, FILE_WRITE, true);
 
-                if (file) {
-  //                  String content = httpClient.getString();
-   //                 file.write((const uint8_t*)content.c_str(), content.length());
-                    httpClient.writeToStream(&file);    
+                if (file) 
+                {
+                    httpClient.writeToStream(&file);
                 }
                 else
                     Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
 
                 file.close();    
+                
+                file = SD.open(filePath, FILE_READ);
+
+                if (file) 
+                {
+                    String contents = file.readString();
+                    Log.traceln("Reading file: %s", filePath);
+                    deserializeJson(Orchestrator.stationListJson, contents);
+                    Log.traceln("Done reading file: %s", filePath);
+                }
+
+                file.close();
             }
         }
         else
@@ -256,8 +265,7 @@ bool CloudTask::downloadStationsInfo() {
         Log.errorln(F("[HTTPS] Unable to create client"));
     }
 
-    httpClient.end();
-
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
     return true;
 }
 
@@ -317,12 +325,14 @@ bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationNa
     return result;
 }
 
+/*
 bool CloudTask::downloadStationsInfo2()
 {
+    static char* url = "https://api.laut.fm/station_names";
     Log.infoln("Starting download client");
 
     esp_http_client_config_t config = {
-        .url = "https://api.laut.fm/stations",
+        .url = url,
         .auth_type = HTTP_AUTH_TYPE_NONE,
         .method = HTTP_METHOD_GET,
         .timeout_ms = 180000,
@@ -337,6 +347,7 @@ bool CloudTask::downloadStationsInfo2()
     
     client = esp_http_client_init(&config);
     esp_http_client_set_header(client, "Accept", "application/json");
+    clientReady = true;
 
     return true;
 
@@ -344,14 +355,11 @@ bool CloudTask::downloadStationsInfo2()
 
 esp_err_t CloudTask::http_event_handler(esp_http_client_event_t *evt)
 {
-  static RecordProcessor processor(Orchestrator.stationListJson);
    File file;
 
   switch (evt->event_id) {
         case HTTP_EVENT_ERROR:
             Log.infoln("HTTP Event Error");
-            esp_http_client_close(evt->client);
-            esp_http_client_cleanup(evt->client);
             Cloud.client = NULL;
             break;
         case HTTP_EVENT_ON_CONNECTED:
@@ -370,34 +378,18 @@ esp_err_t CloudTask::http_event_handler(esp_http_client_event_t *evt)
                 file.write((const uint8_t*)evt->data, evt->data_len);
                 file.close();
             }
-            /*
-            if(!processor.process((const char *)evt->data, evt->data_len))
-            {
-
-                esp_http_client_close(evt->client);
-                esp_http_client_cleanup(evt->client);
-                Cloud.client = NULL;
-            }*/
-            break;
+           break;
         case HTTP_EVENT_ON_FINISH:
             Log.infoln("HTTP Event On Finish");
-            if(Cloud.client != NULL) 
-            {       
-                esp_http_client_close(evt->client);
-                esp_http_client_cleanup(evt->client);
-                Cloud.client = NULL;
-            }
+            Cloud.clientReady = false;
             break;
         case HTTP_EVENT_DISCONNECTED:
             Log.infoln("HTTP Event Disconnected");
-            if(Cloud.client != NULL) {
-                esp_http_client_close(evt->client);
-                esp_http_client_cleanup(evt->client);
-                Cloud.client = NULL;
-            }
+             Cloud.clientReady = false;
             break;
     }
+
     return ESP_OK;
 };
-
+*/
 CloudTask Cloud;

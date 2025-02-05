@@ -16,12 +16,12 @@ typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
 #define ORCHESTRATOR_MESSAGE_ROTARY_PUSH 6
 #define ORCHESTRATOR_MESSAGE_CURRENT_SCREEN 7
 #define ORCHESTRATOR_MESSAGE_ERROR 8
-#define ORCHESTRATOR_MESSAGE_WIFI_CONNECTING 9
 #define ORCHESTRATOR_MESSAGE_WIFI_CONNECTED 10
 #define ORCHESTRATOR_MESSAGE_WIFI_DISCONNECTED 11
 #define ORCHESTRATOR_MESSAGE_UPDATE_CLOCK 12
 #define ORCHESTRATOR_MESSAGE_NETOWRK_SAVE_CREDENTIALS 13
 #define ORCHESTRATOR_MESSAGE_NETOWRK_CANCEL 14
+#define ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED 15
 
 
 
@@ -39,8 +39,9 @@ private:
     QueueHandle_t flowQueue = xQueueCreate( 40, sizeof( AsyncFlow * ) );
     void startup();
 
-    static bool getStationUrl();
     static void startStationSelecttionFlow();
+
+    static bool getStationUrl();
     static bool setStationName();
     static bool downloadStationInfo();
     static bool logPartitions();
@@ -49,17 +50,21 @@ private:
     static bool downloadIPAddress();
     static bool downloadTimezone();
     static bool beginTime();
-    static bool getStation(const char * stationName);
-    static bool downloadStationsInfo();
+    static bool getStation();
+    static bool downloadStationList();
     static bool loadStationSelection();
+    
+    static bool showStationSelectionScreen();
+    static bool showStationName();
+    static bool showMessageScreen();
     static bool showIPAddress();
     static bool showTimezone();
     static bool showGettingStations();
-    static bool setInitialized();
-    static bool showMessageScreen();
+    static bool isStationListDownloaded();
+
     static bool setMessageScreenMessage(const char* message);
-    static bool showStationSelectionScreen();
-    static bool showStationName();
+    static bool setInitialized();
+
 
   
     
@@ -71,6 +76,7 @@ private:
     bool newIPAdderss = false;
     bool initialized = false;
     SpiRamAllocator spiRamAllocator;
+    bool stationListDownloaded = false;
 };
 
 extern OrchestratorTask Orchestrator;

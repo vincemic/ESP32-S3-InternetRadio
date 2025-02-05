@@ -202,7 +202,7 @@ void DisplayTask::tick()
                 break;
 
 
-            case DISPLAY_MESSAGE_SCREEN_MAIN:
+            case DISPLAY_MESSAGE_SCREEN_RADIO:
             case DISPLAY_MESSAGE_SCREEN_CLOCK:
             case DISPLAY_MESSAGE_SCREEN_STATION_SELECTION:
             case DISPLAY_MESSAGE_SCREEN_NETWORK:
@@ -244,7 +244,7 @@ void DisplayTask::showScreen(uint16_t screenId)
 {
     switch(screenId)
     {
-        case DISPLAY_MESSAGE_SCREEN_MAIN:
+        case DISPLAY_MESSAGE_SCREEN_RADIO:
                 lv_screen_load(ui_Main_Screen);
         break;
         case DISPLAY_MESSAGE_SCREEN_CLOCK:  

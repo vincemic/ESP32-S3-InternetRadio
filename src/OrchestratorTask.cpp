@@ -42,9 +42,6 @@ void OrchestratorTask::tick()
                 Display.send(DISPLAY_MESSAGE_WIFI_CONNECTED);
                 Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, "Connected to WiFi");
                 break;  
-            case ORCHESTRATOR_MESSAGE_WIFI_CONNECTING:
-                Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, "Connecting to WiFi");
-                break;
             case ORCHESTRATOR_MESSAGE_ROTARY_LEFT:
                if(Display.getActiveScreen() == ui_Station_Selection_Screen)
                 {
@@ -90,7 +87,9 @@ void OrchestratorTask::tick()
             case ORCHESTRATOR_MESSAGE_STATION_SELECTED:
                 startStationSelecttionFlow();
                 break;
-            
+            case ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED:
+                stationListDownloaded = true;
+                break;
             default:
                 break;
         }
@@ -126,23 +125,38 @@ void OrchestratorTask::tick()
 void OrchestratorTask::startup()
 {
       createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
+        // Wait three seconds before showing the message screen
         flowConfig->addStep("showscreen", 3000, showMessageScreen)
-        ->addStep("wifi", 500, Wireless.begin)
-        ->addStep("waitwifi", 1000, Wireless.isWifiConnected, 5)
-        ->addStep("devices", 40, Device.begin)
-        ->addStep("sound", 40, Sound.begin)
-        ->addStep("cloud", 40, Cloud.begin)
-        ->addStep("ip", 40, downloadIPAddress)
-        ->addStep("showip", 40, showIPAddress)
-        ->addStep("timezone", 500, downloadTimezone)
-        ->addStep("showtimezone", 40, showTimezone)
-        ->addStep("time", 40, beginTime)
-        ->addStep("showstations", 500, showGettingStations)
-        //->addStep("getstations", 40, downloadStationsInfo)
+        // Wait 500ms before starting the wifi connection
+        ->addStep("wifi beign", 500, Wireless.begin)
+        // Wait 1000ms for the wifi to connect - rety 5 times
+        ->addStep("wait for wifi connect", 1000, Wireless.isWifiConnected, 5)
+        // Wait 500ms before starting devices
+        ->addStep("starting devices", 40, Device.begin)
+        // Wait 500ms before starting the sound
+        ->addStep("string sound", 40, Sound.begin)
+        // Wait 500ms before starting the cloud services
+        ->addStep("string cloud services", 40, Cloud.begin)
+        // Wait 500ms before starting downloading the ip address for internet
+        ->addStep("download ip address", 40, downloadIPAddress)
+        // Wait 500ms before showing the ip address
+        ->addStep("show ip address on message screen", 40, showIPAddress)
+        // Wait 500ms before downloading the timezone
+        ->addStep("download timezone", 500, downloadTimezone)
+        // Wait 500ms before showing the timezone
+        ->addStep("show timezone", 40, showTimezone)
+        // Wait 2000ms before starting the time service
+        ->addStep("starting time service", 2000, beginTime)
+        // Wait 40ms before downloading the stations info
+        ->addStep("show getting stations", 40, showGettingStations)
+        ->addStep("get station list", 40, downloadStationList)
+        // Wait 1000ms for the station list to be downloaded, repeat 40 times if nessary
+        ->addStep("wait for station list", 1000, isStationListDownloaded, 40)
         //->addStep("loadstations", 40, loadStationSelection)
         ->addStep("partitions", 40, logPartitions)
         ->addStep("memory", 40, logMemory)
-        ->addStep("radio", 40, startRadio)
+        // Wait 5000ms before showing radio screen
+        ->addStep("start radio", 5000, startRadio)
         ->addStep("initialized", 40, setInitialized);
 
     });
@@ -180,6 +194,11 @@ void OrchestratorTask::startStationSelecttionFlow()
         
     });
     
+}
+
+bool OrchestratorTask::isStationListDownloaded()
+{
+    return Orchestrator.stationListDownloaded;
 }
 
 bool OrchestratorTask::getStationUrl()
@@ -257,7 +276,7 @@ bool OrchestratorTask::showStationSelectionScreen() {
 }
 
 bool OrchestratorTask::startRadio() {
-    return Display.send(DISPLAY_MESSAGE_SCREEN_MAIN) &&
+    return Display.send(DISPLAY_MESSAGE_SCREEN_RADIO) &&
     Sound.send(SOUND_MESSAGE_CONNECT, RADIO_STREAM);
 }
 
@@ -295,9 +314,8 @@ bool OrchestratorTask::beginTime() {
     return Time.begin(Orchestrator.timezone);
 }
 
-bool OrchestratorTask::downloadStationsInfo(){
+bool OrchestratorTask::downloadStationList(){
     return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATIONS_INFO);
-    //return Cloud.downloadStationsInfo(Orchestrator.stationListJson);
 }
 
 bool OrchestratorTask::showIPAddress() {

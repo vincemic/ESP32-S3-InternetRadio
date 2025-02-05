@@ -32,10 +32,12 @@ bool AsyncFlow::tick() {
 
     AsyncFlowStep* step = steps[currentStep];
 
+    // delay running this step as defined
     if(step->lastMillis == 0) {
         step->lastMillis = millis() + step->delay;
     }
 
+    // break for now until the delay is over
     if(millis() < step->lastMillis) {
         return true;
     }
@@ -54,7 +56,8 @@ bool AsyncFlow::tick() {
         step->lastMillis = 0;
         step->repeat--;
 
-        // repeat the step 
+        // repeat the step if was not successful
+        // keep repeating until the repeat count is 0
         return true;
     } 
 

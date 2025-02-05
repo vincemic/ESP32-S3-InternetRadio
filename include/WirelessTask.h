@@ -8,7 +8,7 @@ class WirelessTask : public ThreadTask {
         WirelessTask();
         static bool begin();
         void tick();
-        void sendPackCommand(const __FlashStringHelper *commandUri);
+        //void sendPackCommand(const __FlashStringHelper *commandUri);
         bool get(const char *url, const char *jsonLabel, char * buffer,uint16_t bufferLength);
         static bool isWifiConnected();
     private:
