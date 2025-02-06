@@ -26,12 +26,15 @@ extern "C" {
 #include "ui_events.h"
 
 void slide_Animation(lv_obj_t * TargetObject, int delay);
+void slideup_Animation(lv_obj_t * TargetObject, int delay);
+void slidedown_Animation(lv_obj_t * TargetObject, int delay);
 
 // SCREEN: ui_Loading_Screen
 void ui_Loading_Screen_screen_init(void);
 extern lv_obj_t * ui_Loading_Screen;
 extern lv_obj_t * ui_Loading_Screen_Logo_Image;
 extern lv_obj_t * ui_Loading_Screen__Loading_Label;
+extern lv_obj_t * ui_Loading_Screen_Panel1;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Loading_Screen;
 extern lv_obj_t * uic_Loading_Screen_Logo_Image;
@@ -50,12 +53,19 @@ void ui_event_Main_Screen_WIFI_Image(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_WIFI_Image;
 extern lv_obj_t * ui_Main_Screen_Line_Image;
 extern lv_obj_t * ui_Main_Screen_Clock_Label;
-void ui_event_Main_Screen_Tune_Button(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_Tune_Button;
-extern lv_obj_t * ui_Main_Screen_Tune_Button_Label;
+extern lv_obj_t * ui_Main_Screen_Panel2;
 void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
 extern lv_obj_t * ui_Main_Screen_Mode_Button;
 extern lv_obj_t * ui_Main_Screen_Mode_Button_Label;
+void ui_event_Main_Screen_Tune_Button(lv_event_t * e);
+extern lv_obj_t * ui_Main_Screen_Tune_Button;
+extern lv_obj_t * ui_Main_Screen_Tune_Button_Label;
+void ui_event_Main_Screen_Button1(lv_event_t * e);
+extern lv_obj_t * ui_Main_Screen_Button1;
+extern lv_obj_t * ui_Main_Screen_Image2;
+void ui_event_Main_Screen_Button2(lv_event_t * e);
+extern lv_obj_t * ui_Main_Screen_Button2;
+extern lv_obj_t * ui_Main_Screen_Image1;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Main_Screen;
 extern lv_obj_t * uic_Main_Screen_Artist;
@@ -66,10 +76,10 @@ extern lv_obj_t * uic_Main_Screen_No_WIFI_Image;
 extern lv_obj_t * uic_Main_Screen_WIFI_Image;
 extern lv_obj_t * uic_Main_Screen_Line_Image;
 extern lv_obj_t * uic_Main_Screen_Clock_Label;
-extern lv_obj_t * uic_Main_Screen_Tune_Button;
-extern lv_obj_t * uic_Main_Screen_Tune_Button_Label;
 extern lv_obj_t * uic_Main_Screen_Mode_Button;
 extern lv_obj_t * uic_Main_Screen_Mode_Button_Label;
+extern lv_obj_t * uic_Main_Screen_Tune_Button;
+extern lv_obj_t * uic_Main_Screen_Tune_Button_Label;
 
 // SCREEN: ui_Volume_Screen
 void ui_Volume_Screen_screen_init(void);
@@ -161,6 +171,8 @@ LV_IMG_DECLARE(ui_img_bitdog_flattened_png);    // assets/Bitdog_flattened.png
 LV_IMG_DECLARE(ui_img_474145878);    // assets/no-wifi-tiny-blue.png
 LV_IMG_DECLARE(ui_img_239856029);    // assets/wifi-tiny.png
 LV_IMG_DECLARE(ui_img_line_png);    // assets/line.png
+LV_IMG_DECLARE(ui_img_up_png);    // assets/up.png
+LV_IMG_DECLARE(ui_img_down_png);    // assets/down.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Tech);

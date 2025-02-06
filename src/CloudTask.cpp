@@ -36,27 +36,14 @@ void CloudTask::tick()
         
         switch (threadMessage.messageType)
         {
-            case CLOUD_MESSAGE_DOWNLOAD_STATIONS_INFO:
+            case CLOUD_MESSAGE_DOWNLOAD_STATION_LIST:
                 Log.infoln("Downloaded stations info started");
-                Cloud.downloadStationList();
-
+                xTaskCreatePinnedToCore(downloadStationList, "downloadStationList", 8192, NULL,  2 | portPRIVILEGE_BIT, NULL, 1);
+                
             break;
         }
     }
 
-    /*
-        if(clientReady)
-        {
-            Log.infoln("Performing client request");
-            esp_err_t result = esp_http_client_perform(client);
-            
-            if(result != ESP_OK)
-            {
-                Log.errorln("HTTP request failed: %d", result);
-                clientReady = false;
-            }
-        }
-    */
 }
 
 void CloudTask::getFile(const char *filePath)
@@ -194,7 +181,8 @@ void CloudTask::createTTSFile(const __FlashStringHelper *text,  const char *file
     https.end();
 }
 
-bool CloudTask::downloadStationList() {
+void CloudTask::downloadStationList(void * parameter) {
+
     WiFiClientSecure wifiClient;
     wifiClient.setInsecure();
     HTTPClient httpClient;
@@ -266,7 +254,8 @@ bool CloudTask::downloadStationList() {
     }
 
     Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
-    return true;
+
+    vTaskDelete(NULL);
 }
 
 bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationName) {
@@ -325,71 +314,4 @@ bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationNa
     return result;
 }
 
-/*
-bool CloudTask::downloadStationsInfo2()
-{
-    static char* url = "https://api.laut.fm/station_names";
-    Log.infoln("Starting download client");
-
-    esp_http_client_config_t config = {
-        .url = url,
-        .auth_type = HTTP_AUTH_TYPE_NONE,
-        .method = HTTP_METHOD_GET,
-        .timeout_ms = 180000,
-        .event_handler = Cloud.http_event_handler,
-        .transport_type = HTTP_TRANSPORT_OVER_SSL,
-        .buffer_size = 1024 * 8,
-        .buffer_size_tx = 1024,
-        .is_async = true,
-        .crt_bundle_attach = esp_crt_bundle_attach,
-        .keep_alive_enable = true,
-    };
-    
-    client = esp_http_client_init(&config);
-    esp_http_client_set_header(client, "Accept", "application/json");
-    clientReady = true;
-
-    return true;
-
-}
-
-esp_err_t CloudTask::http_event_handler(esp_http_client_event_t *evt)
-{
-   File file;
-
-  switch (evt->event_id) {
-        case HTTP_EVENT_ERROR:
-            Log.infoln("HTTP Event Error");
-            Cloud.client = NULL;
-            break;
-        case HTTP_EVENT_ON_CONNECTED:
-            Log.infoln("HTTP Event On Connected");
-            break;
-        case HTTP_EVENT_HEADER_SENT:
-           Log.infoln("HTTP Event Header Sent");
-            break;
-        case HTTP_EVENT_ON_HEADER:
-            Log.infoln("HTTP Event Header: %s: %s\n", evt->header_key, evt->header_value);
-            break;
-        case HTTP_EVENT_ON_DATA:
-            file = SD.open("/stations.json", FILE_APPEND);
-            if(file)
-            {
-                file.write((const uint8_t*)evt->data, evt->data_len);
-                file.close();
-            }
-           break;
-        case HTTP_EVENT_ON_FINISH:
-            Log.infoln("HTTP Event On Finish");
-            Cloud.clientReady = false;
-            break;
-        case HTTP_EVENT_DISCONNECTED:
-            Log.infoln("HTTP Event Disconnected");
-             Cloud.clientReady = false;
-            break;
-    }
-
-    return ESP_OK;
-};
-*/
 CloudTask Cloud;

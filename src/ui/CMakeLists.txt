@@ -13,6 +13,8 @@ SET(SOURCES ui_Loading_Screen.c
     ui_img_474145878.c
     ui_img_239856029.c
     ui_img_line_png.c
+    ui_img_up_png.c
+    ui_img_down_png.c
     fonts/ui_font_Tech.c
     fonts/ui_font_tech72.c)
 

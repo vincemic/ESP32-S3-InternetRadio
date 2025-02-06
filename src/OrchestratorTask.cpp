@@ -110,13 +110,14 @@ void OrchestratorTask::tick()
     }
     
     if(!initialized) {
+        Cloud.tick();
         Display.tick();  
     } 
     else {
         Device.tick();
         Sound.tick();
         Time.tick();
-        Cloud.tick();
+
         Display.tick();
     }
  
@@ -150,8 +151,8 @@ void OrchestratorTask::startup()
         // Wait 40ms before downloading the stations info
         ->addStep("show getting stations", 40, showGettingStations)
         ->addStep("get station list", 40, downloadStationList)
-        // Wait 1000ms for the station list to be downloaded, repeat 40 times if nessary
-        ->addStep("wait for station list", 1000, isStationListDownloaded, 40)
+        // Wait 1000ms for the station list to be downloaded, repeat 100 times if nessary
+        ->addStep("wait for station list", 1000, isStationListDownloaded, 100)
         //->addStep("loadstations", 40, loadStationSelection)
         ->addStep("partitions", 40, logPartitions)
         ->addStep("memory", 40, logMemory)
@@ -315,7 +316,7 @@ bool OrchestratorTask::beginTime() {
 }
 
 bool OrchestratorTask::downloadStationList(){
-    return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATIONS_INFO);
+    return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATION_LIST);
 }
 
 bool OrchestratorTask::showIPAddress() {

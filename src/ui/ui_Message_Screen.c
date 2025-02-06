@@ -13,7 +13,7 @@ void ui_Message_Screen_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Message_Screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Message_Screen_Message_Label = lv_label_create(ui_Message_Screen);
-    lv_obj_set_width(ui_Message_Screen_Message_Label, 300);
+    lv_obj_set_width(ui_Message_Screen_Message_Label, 292);
     lv_obj_set_height(ui_Message_Screen_Message_Label, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Message_Screen_Message_Label, LV_ALIGN_CENTER);
     lv_label_set_long_mode(ui_Message_Screen_Message_Label, LV_LABEL_LONG_SCROLL_CIRCULAR);
@@ -21,7 +21,7 @@ void ui_Message_Screen_screen_init(void)
     lv_obj_set_style_text_color(ui_Message_Screen_Message_Label, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Message_Screen_Message_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_Message_Screen_Message_Label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Message_Screen_Message_Label, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Message_Screen_Message_Label, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     uic_Message_Screen = ui_Message_Screen;
     uic_Message_Screen_Message_Label = ui_Message_Screen_Message_Label;

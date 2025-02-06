@@ -33,6 +33,7 @@ void setup()
 void loop() 
 {
     Orchestrator.tick();
+    yield();
     vTaskDelay(10);
 }
 
