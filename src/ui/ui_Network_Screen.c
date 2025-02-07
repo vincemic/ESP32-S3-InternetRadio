@@ -47,6 +47,14 @@ void ui_Network_Screen_screen_init(void)
     lv_obj_set_align(ui_Network_Screen_Cancel_Button, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_Network_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_remove_flag(ui_Network_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Network_Screen_Cancel_Button, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Network_Screen_Cancel_Button, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Network_Screen_Cancel_Button, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Network_Screen_Cancel_Button, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Network_Screen_Cancel_Button, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui_Network_Screen_Cancel_Button, LV_BORDER_SIDE_FULL, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_Network_Screen_Cancel_Button, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_Network_Screen_Cancel_Button, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Network_Screen_Cancel_Button_Label = lv_label_create(ui_Network_Screen_Cancel_Button);
     lv_obj_set_width(ui_Network_Screen_Cancel_Button_Label, LV_SIZE_CONTENT);   /// 1

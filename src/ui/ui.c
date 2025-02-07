@@ -37,19 +37,19 @@ void ui_event_Main_Screen_WIFI_Image(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_WIFI_Image;
 lv_obj_t * ui_Main_Screen_Line_Image;
 lv_obj_t * ui_Main_Screen_Clock_Label;
-lv_obj_t * ui_Main_Screen_Panel2;
+lv_obj_t * ui_Main_Screen_Panel_Tray;
 void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_Mode_Button;
 lv_obj_t * ui_Main_Screen_Mode_Button_Label;
 void ui_event_Main_Screen_Tune_Button(lv_event_t * e);
 lv_obj_t * ui_Main_Screen_Tune_Button;
 lv_obj_t * ui_Main_Screen_Tune_Button_Label;
-void ui_event_Main_Screen_Button1(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Button1;
-lv_obj_t * ui_Main_Screen_Image2;
-void ui_event_Main_Screen_Button2(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Button2;
-lv_obj_t * ui_Main_Screen_Image1;
+void ui_event_Main_Screen_Button_Tray_Up(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Button_Tray_Up;
+lv_obj_t * ui_Main_Screen_Button_Tray_Up_Image;
+void ui_event_Main_Screen_Button_Tray_Down(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Button_Tray_Down;
+lv_obj_t * ui_Main_Screen_Button_Tray_Down_Image;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Main_Screen;
 lv_obj_t * uic_Main_Screen_Artist;
@@ -60,10 +60,15 @@ lv_obj_t * uic_Main_Screen_No_WIFI_Image;
 lv_obj_t * uic_Main_Screen_WIFI_Image;
 lv_obj_t * uic_Main_Screen_Line_Image;
 lv_obj_t * uic_Main_Screen_Clock_Label;
+lv_obj_t * uic_Main_Screen_Panel_Tray;
 lv_obj_t * uic_Main_Screen_Mode_Button;
 lv_obj_t * uic_Main_Screen_Mode_Button_Label;
 lv_obj_t * uic_Main_Screen_Tune_Button;
 lv_obj_t * uic_Main_Screen_Tune_Button_Label;
+lv_obj_t * uic_Main_Screen_Button_Tray_Up;
+lv_obj_t * uic_Main_Screen_Button_Tray_Up_Image;
+lv_obj_t * uic_Main_Screen_Button_Tray_Down;
+lv_obj_t * uic_Main_Screen_Button_Tray_Down_Image;
 
 
 // SCREEN: ui_Volume_Screen
@@ -139,9 +144,31 @@ void ui_Clock_Screen_screen_init(void);
 void ui_event_Clock_Screen(lv_event_t * e);
 lv_obj_t * ui_Clock_Screen;
 lv_obj_t * ui_Clock_Screen_Clock_Label;
+lv_obj_t * ui_Main_Screen_Panel_Tray2;
+void ui_event_Main_Screen_Mode_Button2(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Mode_Button2;
+lv_obj_t * ui_Main_Screen_Mode_Button_Label2;
+void ui_event_Main_Screen_Tune_Button2(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Tune_Button2;
+lv_obj_t * ui_Main_Screen_Tune_Button_Label2;
+void ui_event_Main_Screen_Button_Tray_Up2(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Button_Tray_Up2;
+lv_obj_t * ui_Main_Screen_Button_Tray_Up_Image2;
+void ui_event_Main_Screen_Button_Tray_Down2(lv_event_t * e);
+lv_obj_t * ui_Main_Screen_Button_Tray_Down2;
+lv_obj_t * ui_Main_Screen_Button_Tray_Down_Image2;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Clock_Screen;
 lv_obj_t * uic_Clock_Screen_Clock_Label;
+lv_obj_t * uic_Main_Screen_Panel_Tray;
+lv_obj_t * uic_Main_Screen_Mode_Button;
+lv_obj_t * uic_Main_Screen_Mode_Button_Label;
+lv_obj_t * uic_Main_Screen_Tune_Button;
+lv_obj_t * uic_Main_Screen_Tune_Button_Label;
+lv_obj_t * uic_Main_Screen_Button_Tray_Up;
+lv_obj_t * uic_Main_Screen_Button_Tray_Up_Image;
+lv_obj_t * uic_Main_Screen_Button_Tray_Down;
+lv_obj_t * uic_Main_Screen_Button_Tray_Down_Image;
 
 
 // SCREEN: ui_Message_Screen
@@ -258,6 +285,8 @@ void ui_event_Main_Screen_Mode_Button(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Mode_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Mode_Screen_screen_init);
+        slidedown_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
@@ -268,28 +297,30 @@ void ui_event_Main_Screen_Tune_Button(lv_event_t * e)
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Station_Selection_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0,
                           &ui_Station_Selection_Screen_screen_init);
+        slidedown_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
-void ui_event_Main_Screen_Button1(lv_event_t * e)
+void ui_event_Main_Screen_Button_Tray_Up(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_PRESSED) {
-        slideup_Animation(ui_Main_Screen_Panel2, 0);
-        _ui_flag_modify(ui_Main_Screen_Button1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        _ui_flag_modify(ui_Main_Screen_Button2, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        slideup_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
-void ui_event_Main_Screen_Button2(lv_event_t * e)
+void ui_event_Main_Screen_Button_Tray_Down(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_PRESSED) {
-        slidedown_Animation(ui_Main_Screen_Panel2, 0);
-        _ui_flag_modify(ui_Main_Screen_Button2, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        _ui_flag_modify(ui_Main_Screen_Button1, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        slidedown_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
@@ -392,6 +423,47 @@ void ui_event_Clock_Screen(lv_event_t * e)
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_RIGHT) {
         lv_indev_wait_release(lv_indev_active());
         _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Main_Screen_screen_init);
+    }
+}
+
+void ui_event_Main_Screen_Mode_Button2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Mode_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Mode_Screen_screen_init);
+    }
+}
+
+void ui_event_Main_Screen_Tune_Button2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Station_Selection_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0,
+                          &ui_Station_Selection_Screen_screen_init);
+    }
+}
+
+void ui_event_Main_Screen_Button_Tray_Up2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_PRESSED) {
+        slideup_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+    }
+}
+
+void ui_event_Main_Screen_Button_Tray_Down2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_PRESSED) {
+        slidedown_Animation(ui_Main_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
