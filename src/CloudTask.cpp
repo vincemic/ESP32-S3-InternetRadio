@@ -9,6 +9,7 @@
 #include <OrchestratorTask.h>
 #include <esp_crt_bundle.h>
 #include <WiFiClient.h>
+#include "Utilities.h"
 
 
 
@@ -38,7 +39,7 @@ void CloudTask::tick()
         {
             case CLOUD_MESSAGE_DOWNLOAD_STATION_LIST:
                 Log.infoln("Downloaded stations info started");
-                xTaskCreatePinnedToCore(downloadStationList, "downloadStationList", 8192, NULL,  2 | portPRIVILEGE_BIT, NULL, 1);
+                    downloadStationNames();
                 
             break;
         }
@@ -181,7 +182,7 @@ void CloudTask::createTTSFile(const __FlashStringHelper *text,  const char *file
     https.end();
 }
 
-void CloudTask::downloadStationList(void * parameter) {
+void CloudTask::downloadStationNames() {
 
     WiFiClientSecure wifiClient;
     wifiClient.setInsecure();
@@ -232,10 +233,62 @@ void CloudTask::downloadStationList(void * parameter) {
 
                 if (file) 
                 {
-                    String contents = file.readString();
-                    Log.traceln("Reading file: %s", filePath);
-                    deserializeJson(Orchestrator.stationListJson, contents);
-                    Log.traceln("Done reading file: %s", filePath);
+                    Log.traceln("Reading file: %s size: %d", filePath, file.size());
+
+                    // Because we are removing json formatting, the data in the buffer
+                    // will be smaller than the file size
+                    size_t bufferSize = file.size();
+                    char * buffer = (char *) ps_malloc(bufferSize);
+                    size_t index = 0;
+                    char * currentValue;
+                    size_t currentLength = 0;
+                    size_t itemCounter = 0;
+                    size_t setCounter = 0;
+
+                    DeserializationError error = deserializeJson(Orchestrator.stationListJson, file);
+
+                    if(error.code() == DeserializationError::Ok)
+                    {
+                        JsonArray jsonArray = Orchestrator.stationListJson.as<JsonArray>();
+                        for(JsonVariant value : jsonArray)
+                        {
+                            currentValue = (char *) value.as<const char*>();
+                            currentLength = strlen(currentValue);
+
+                            memcpy(buffer + index, currentValue, currentLength);
+                            buffer[index + currentLength] = '\n';
+                            index += currentLength + 1;
+                            itemCounter++;
+
+                            // count to every 50th item
+                            // terminate the string with null instead of newline
+                            if(itemCounter % 50 == 0)
+                            {
+                                buffer[index -1] = '\0';
+                                setCounter++;
+                            }
+                        }
+
+                        if(itemCounter % 50 != 0) {
+                            setCounter++;
+                            // termiate the remaining set of items    
+                            buffer[index -1] = '\0';
+                        }
+
+                        Log.traceln("Read %d items, %d sets", itemCounter, setCounter);
+
+                        for(size_t i = 1; i <= setCounter; ++i)
+                        {
+                            Log.traceln("Set: %d index: %d", i, indexOfString(buffer, i, bufferSize));
+
+                            Log.traceln("Set %d: %s", i, buffer + indexOfString(buffer, i, bufferSize));
+                        }
+                    }
+                    else
+                    {
+                        Log.errorln(F("[HTTPS] error parsing JSON code: %d"), error.code());
+                    }
+
                 }
 
                 file.close();
@@ -246,7 +299,6 @@ void CloudTask::downloadStationList(void * parameter) {
             Log.errorln(F("[HTTPS] GET... failed, error: %s"), httpClient.errorToString(httpCode).c_str());
         }
 
-        Log.errorln(F("[HTTPS] Saved file: %s"), filePath);
     }
     else
     {
@@ -255,7 +307,6 @@ void CloudTask::downloadStationList(void * parameter) {
 
     Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
 
-    vTaskDelete(NULL);
 }
 
 bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationName) {

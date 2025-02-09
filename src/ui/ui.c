@@ -104,7 +104,6 @@ lv_obj_t * uic_Network_Screen_Cancel_Button_Label;
 // SCREEN: ui_Mode_Screen
 void ui_Mode_Screen_screen_init(void);
 lv_obj_t * ui_Mode_Screen;
-void ui_event_Mode_Screen_Mode_Roller(lv_event_t * e);
 lv_obj_t * ui_Mode_Screen_Mode_Roller;
 void ui_event_Mode_Screen_Cancel_Button(lv_event_t * e);
 lv_obj_t * ui_Mode_Screen_Cancel_Button;
@@ -126,49 +125,49 @@ lv_obj_t * ui_Station_Selection_Screen;
 void ui_event_Station_Selection_Screen_Play_Button(lv_event_t * e);
 lv_obj_t * ui_Station_Selection_Screen_Play_Button;
 lv_obj_t * ui_Station_Selection_Screen_Play_Button_Label;
-void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e);
-lv_obj_t * ui_Station_Selection_Screen_Cancel;
+void ui_event_Station_Selection_Screen_Cancel_Button(lv_event_t * e);
+lv_obj_t * ui_Station_Selection_Screen_Cancel_Button;
 lv_obj_t * ui_Station_Selection_Screen_Cancel_Button_Label;
+void ui_event_Station_Selection_Screen_Roller(lv_event_t * e);
 lv_obj_t * ui_Station_Selection_Screen_Roller;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Station_Selection_Screen;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button;
 lv_obj_t * uic_Station_Selection_Screen_Play_Button_Label;
-lv_obj_t * uic_Station_Selection_Screen_Cancel;
+lv_obj_t * uic_Station_Selection_Screen_Cancel_Button;
 lv_obj_t * uic_Station_Selection_Screen_Cancel_Button_Label;
 lv_obj_t * uic_Station_Selection_Screen_Roller;
 
 
 // SCREEN: ui_Clock_Screen
 void ui_Clock_Screen_screen_init(void);
-void ui_event_Clock_Screen(lv_event_t * e);
 lv_obj_t * ui_Clock_Screen;
 lv_obj_t * ui_Clock_Screen_Clock_Label;
-lv_obj_t * ui_Main_Screen_Panel_Tray2;
-void ui_event_Main_Screen_Mode_Button2(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Mode_Button2;
-lv_obj_t * ui_Main_Screen_Mode_Button_Label2;
-void ui_event_Main_Screen_Tune_Button2(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Tune_Button2;
-lv_obj_t * ui_Main_Screen_Tune_Button_Label2;
-void ui_event_Main_Screen_Button_Tray_Up2(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Button_Tray_Up2;
-lv_obj_t * ui_Main_Screen_Button_Tray_Up_Image2;
-void ui_event_Main_Screen_Button_Tray_Down2(lv_event_t * e);
-lv_obj_t * ui_Main_Screen_Button_Tray_Down2;
-lv_obj_t * ui_Main_Screen_Button_Tray_Down_Image2;
+lv_obj_t * ui_Clock_Screen_Panel_Tray;
+void ui_event_Clock_Screen_Mode_Button(lv_event_t * e);
+lv_obj_t * ui_Clock_Screen_Mode_Button;
+lv_obj_t * ui_Clock_Screen_Mode_Button_Label;
+void ui_event_Clock_Screen_Tune_Settings_Button(lv_event_t * e);
+lv_obj_t * ui_Clock_Screen_Tune_Settings_Button;
+lv_obj_t * ui_Clock_Screen_Settings_Button_Label;
+void ui_event_Clock_Screen_Button_Tray_Up(lv_event_t * e);
+lv_obj_t * ui_Clock_Screen_Button_Tray_Up;
+lv_obj_t * ui_Clock_Screen_Button_Tray_Up_Image;
+void ui_event_Clock_Screen_Button_Tray_Down(lv_event_t * e);
+lv_obj_t * ui_Clock_Screen_Button_Tray_Down;
+lv_obj_t * ui_Clock_Screen_Button_Tray_Down_Image;
 // CUSTOM VARIABLES
 lv_obj_t * uic_Clock_Screen;
 lv_obj_t * uic_Clock_Screen_Clock_Label;
-lv_obj_t * uic_Main_Screen_Panel_Tray;
-lv_obj_t * uic_Main_Screen_Mode_Button;
-lv_obj_t * uic_Main_Screen_Mode_Button_Label;
-lv_obj_t * uic_Main_Screen_Tune_Button;
-lv_obj_t * uic_Main_Screen_Tune_Button_Label;
-lv_obj_t * uic_Main_Screen_Button_Tray_Up;
-lv_obj_t * uic_Main_Screen_Button_Tray_Up_Image;
-lv_obj_t * uic_Main_Screen_Button_Tray_Down;
-lv_obj_t * uic_Main_Screen_Button_Tray_Down_Image;
+lv_obj_t * uic_Clock_Screen_Panel_Tray;
+lv_obj_t * uic_Clock_Screen_Mode_Button;
+lv_obj_t * uic_Clock_Screen_Mode_Button_Label2;
+lv_obj_t * uic_Clock_Screen_Tune_Settings_Button;
+lv_obj_t * uic_Clock_Screen_Settings_Button_Label;
+lv_obj_t * uic_Clock_Screen_Button_Tray_Up;
+lv_obj_t * uic_Clock_Screen_Button_Tray_Up_Image;
+lv_obj_t * uic_Clock_Screen_Button_Tray_Down;
+lv_obj_t * uic_Clock_Screen_Button_Tray_Down_Image;
 
 
 // SCREEN: ui_Message_Screen
@@ -223,7 +222,7 @@ void slideup_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_time(&PropertyAnimation_0, 600);
     lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
     lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_y);
-    lv_anim_set_values(&PropertyAnimation_0, 0, -70);
+    lv_anim_set_values(&PropertyAnimation_0, 139, 69);
     lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_in_out);
     lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
@@ -232,7 +231,6 @@ void slideup_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_y);
     lv_anim_start(&PropertyAnimation_0);
 
 }
@@ -246,7 +244,7 @@ void slidedown_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_time(&PropertyAnimation_0, 600);
     lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
     lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_y);
-    lv_anim_set_values(&PropertyAnimation_0, 0, 70);
+    lv_anim_set_values(&PropertyAnimation_0, 69, 139);
     lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_in_out);
     lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
@@ -255,7 +253,6 @@ void slidedown_Animation(lv_obj_t * TargetObject, int delay)
     lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_y);
     lv_anim_start(&PropertyAnimation_0);
 
 }
@@ -371,15 +368,6 @@ void ui_event_Network_Screen_Cancel_Button(lv_event_t * e)
     }
 }
 
-void ui_event_Mode_Screen_Mode_Roller(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        _ui_screen_change(&ui_Clock_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Clock_Screen_screen_init);
-    }
-}
-
 void ui_event_Mode_Screen_Cancel_Button(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -394,7 +382,7 @@ void ui_event_Mode_Screen_Select_Button(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Clock_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Clock_Screen_screen_init);
+        modeSelected(e);
     }
 }
 
@@ -403,11 +391,11 @@ void ui_event_Station_Selection_Screen_Play_Button(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        playChannel(e);
+        playStation(e);
     }
 }
 
-void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e)
+void ui_event_Station_Selection_Screen_Cancel_Button(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
@@ -416,54 +404,55 @@ void ui_event_Station_Selection_Screen_Cancel(lv_event_t * e)
     }
 }
 
-void ui_event_Clock_Screen(lv_event_t * e)
+void ui_event_Station_Selection_Screen_Roller(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_RIGHT) {
-        lv_indev_wait_release(lv_indev_active());
-        _ui_screen_change(&ui_Main_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Main_Screen_screen_init);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        stationSelectionChanged(e);
     }
 }
 
-void ui_event_Main_Screen_Mode_Button2(lv_event_t * e)
+void ui_event_Clock_Screen_Mode_Button(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_Mode_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Mode_Screen_screen_init);
+        slidedown_Animation(ui_Clock_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
-void ui_event_Main_Screen_Tune_Button2(lv_event_t * e)
+void ui_event_Clock_Screen_Tune_Settings_Button(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Station_Selection_Screen, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0,
-                          &ui_Station_Selection_Screen_screen_init);
+        slidedown_Animation(ui_Clock_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
-void ui_event_Main_Screen_Button_Tray_Up2(lv_event_t * e)
+void ui_event_Clock_Screen_Button_Tray_Up(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_PRESSED) {
-        slideup_Animation(ui_Main_Screen_Panel_Tray, 0);
-        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        slideup_Animation(ui_Clock_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 
-void ui_event_Main_Screen_Button_Tray_Down2(lv_event_t * e)
+void ui_event_Clock_Screen_Button_Tray_Down(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_PRESSED) {
-        slidedown_Animation(ui_Main_Screen_Panel_Tray, 0);
-        _ui_flag_modify(ui_Main_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
-        _ui_flag_modify(ui_Main_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
+        slidedown_Animation(ui_Clock_Screen_Panel_Tray, 0);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Down, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_ADD);
+        _ui_flag_modify(ui_Clock_Screen_Button_Tray_Up, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_REMOVE);
     }
 }
 

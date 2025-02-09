@@ -15,11 +15,11 @@ class CloudTask : public ThreadTask
         bool downloadIPAddress(String &ipAddress);
         bool downloadTimezone(String &ipAddress , String &timezone);
         bool downloadStation(JsonDocument &stationJson, String &stationName);
-        static void downloadStationList(void *parameter);  
         static esp_err_t http_event_handler(esp_http_client_event_t *evt);
     
     private:
         bool start();
+        void downloadStationNames();  
 
 };
 

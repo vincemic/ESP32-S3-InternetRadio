@@ -42,3 +42,11 @@ def playChannel(event_struct):
 def stationSelectionChanged(event_struct):
     return
 
+
+def modeSelected(event_struct):
+    return
+
+
+def stationChanged(event_struct):
+    return
+

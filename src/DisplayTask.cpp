@@ -141,7 +141,6 @@ void DisplayTask::tick()
 
     if(internalReceive(&threadMessage)) 
     {
-        Log.infoln("Display message %d received: %s ", threadMessage.messageType, threadMessage.message);
         switch(threadMessage.messageType)
         {
             case DISPLAY_MESSAGE_ARTIST:
@@ -176,10 +175,8 @@ void DisplayTask::tick()
 
                 if(selected < number - 1) {
                     lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
-                    Log.infoln("Tune up %d", selected);
                 } else {
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,0, LV_ANIM_OFF);
-                    Log.infoln("Tune up %d", 0);
                 }
                 break;
 
@@ -190,15 +187,17 @@ void DisplayTask::tick()
 
                 if(selected > 0) {
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
-                    Log.infoln("Tune down %d", selected);
                 } else {
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,number -1, LV_ANIM_OFF);
-                    Log.infoln("Tune down %d", number -1);
                 }
                 break;
             case DISPLAY_MESSAGE_UPDATE_CLOCK:
                 lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
                 lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
+                break;
+
+            case DISPLAY_MESSAGE_UPDATE_STATIONS:
+
                 break;
 
 

@@ -89,6 +89,7 @@ void OrchestratorTask::tick()
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED:
                 stationListDownloaded = true;
+                Display.send(DISPLAY_MESSAGE_UPDATE_STATIONS);
                 break;
             default:
                 break;

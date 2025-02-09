@@ -25,6 +25,7 @@ typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
 
 
 
+
 class OrchestratorTask : public ThreadTask
 {
 public:
@@ -77,6 +78,8 @@ private:
     bool initialized = false;
     SpiRamAllocator spiRamAllocator;
     bool stationListDownloaded = false;
+    uint16_t currentStation = 0;
+
 };
 
 extern OrchestratorTask Orchestrator;

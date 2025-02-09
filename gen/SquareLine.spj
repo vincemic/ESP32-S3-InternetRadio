@@ -5962,82 +5962,6 @@
                 "strtype": "ROLLER/Style_selected",
                 "strval": "lv.PART.SELECTED, Text, Rectangle",
                 "InheritedType": 11
-              },
-              {
-                "disabled": false,
-                "nid": 1000891,
-                "strtype": "_event/EventHandler",
-                "strval": "VALUE_CHANGED",
-                "childs": [
-                  {
-                    "nid": 1000892,
-                    "strtype": "_event/name",
-                    "strval": "Event7",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000893,
-                    "strtype": "_event/condition_C",
-                    "strval": "",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000894,
-                    "strtype": "_event/condition_P",
-                    "strval": "",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000895,
-                    "strtype": "_event/action",
-                    "strval": "CHANGE SCREEN",
-                    "childs": [
-                      {
-                        "nid": 1000896,
-                        "strtype": "CHANGE SCREEN/Name",
-                        "strval": "CHANGE SCREEN",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": 1000897,
-                        "strtype": "CHANGE SCREEN/Call",
-                        "strval": "ChangeScreen( <{Screen_to}>, lv.SCR_LOAD_ANIM.<{Fade_mode}>, <{Speed}>, <{Delay}>)",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": 1000898,
-                        "strtype": "CHANGE SCREEN/CallC",
-                        "strval": "_ui_screen_change( &<{Screen_to}>, LV_SCR_LOAD_ANIM_<{Fade_mode}>, <{Speed}>, <{Delay}>, &<{Screen_to}>_screen_init);",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": 1000899,
-                        "strtype": "CHANGE SCREEN/Screen_to",
-                        "strval": "GUID86430313-828445S962426",
-                        "InheritedType": 9
-                      },
-                      {
-                        "nid": 1000900,
-                        "strtype": "CHANGE SCREEN/Fade_mode",
-                        "strval": "FADE_ON",
-                        "InheritedType": 3
-                      },
-                      {
-                        "nid": 1000901,
-                        "strtype": "CHANGE SCREEN/Speed",
-                        "integer": 500,
-                        "InheritedType": 6
-                      },
-                      {
-                        "nid": 1000902,
-                        "strtype": "CHANGE SCREEN/Delay",
-                        "InheritedType": 6
-                      }
-                    ],
-                    "InheritedType": 10
-                  }
-                ],
-                "InheritedType": 4
               }
             ],
             "saved_objtypeKey": "ROLLER"
@@ -6751,52 +6675,69 @@
                     "InheritedType": 10
                   },
                   {
-                    "nid": 1000975,
+                    "nid": 1001280,
                     "strtype": "_event/action",
-                    "strval": "CHANGE SCREEN",
+                    "strval": "CALL FUNCTION",
                     "childs": [
                       {
-                        "nid": 1000976,
-                        "strtype": "CHANGE SCREEN/Name",
-                        "strval": "CHANGE SCREEN",
+                        "nid": 1001281,
+                        "strtype": "CALL FUNCTION/Name",
+                        "strval": "CALL FUNCTION",
                         "InheritedType": 10
                       },
                       {
-                        "nid": 1000977,
-                        "strtype": "CHANGE SCREEN/Call",
-                        "strval": "ChangeScreen( <{Screen_to}>, lv.SCR_LOAD_ANIM.<{Fade_mode}>, <{Speed}>, <{Delay}>)",
+                        "nid": 1001282,
+                        "strtype": "CALL FUNCTION/Call",
+                        "strval": "<{Function_name}>( event_struct )",
                         "InheritedType": 10
                       },
                       {
-                        "nid": 1000978,
-                        "strtype": "CHANGE SCREEN/CallC",
-                        "strval": "_ui_screen_change( &<{Screen_to}>, LV_SCR_LOAD_ANIM_<{Fade_mode}>, <{Speed}>, <{Delay}>, &<{Screen_to}>_screen_init);",
+                        "nid": 1001283,
+                        "strtype": "CALL FUNCTION/CallC",
+                        "strval": "<{Function_name}>( e );",
                         "InheritedType": 10
                       },
                       {
-                        "nid": 1000979,
-                        "strtype": "CHANGE SCREEN/Screen_to",
-                        "strval": "GUID86430313-828445S962426",
-                        "InheritedType": 9
+                        "nid": 1001284,
+                        "strtype": "CALL FUNCTION/Function_name",
+                        "strval": "modeSelected",
+                        "InheritedType": 10
                       },
                       {
-                        "nid": 1000980,
-                        "strtype": "CHANGE SCREEN/Fade_mode",
-                        "strval": "FADE_ON",
-                        "InheritedType": 3
-                      },
-                      {
-                        "nid": 1000981,
-                        "strtype": "CHANGE SCREEN/Speed",
-                        "integer": 500,
-                        "InheritedType": 6
-                      },
-                      {
-                        "nid": 1000982,
-                        "strtype": "CHANGE SCREEN/Delay",
-                        "InheritedType": 6
+                        "nid": 1001285,
+                        "strtype": "CALL FUNCTION/Dont_export_function",
+                        "strval": "True",
+                        "InheritedType": 2
                       }
                     ],
+                    "InheritedType": 10
+                  }
+                ],
+                "InheritedType": 4
+              },
+              {
+                "disabled": false,
+                "nid": 1001276,
+                "flags": 1048576,
+                "strtype": "_event/EventHandler",
+                "strval": "CLICKED",
+                "childs": [
+                  {
+                    "nid": 1001277,
+                    "strtype": "_event/name",
+                    "strval": "Event7",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001278,
+                    "strtype": "_event/condition_C",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001279,
+                    "strtype": "_event/condition_P",
+                    "strval": "",
                     "InheritedType": 10
                   }
                 ],
@@ -7456,12 +7397,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Station Selection Screen Cancel",
+                "strval": "Station Selection Screen Cancel Button",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Station_Selection_Screen_Cancel",
+                    "strval": "Station_Selection_Screen_Cancel_Button",
                     "InheritedType": 10
                   }
                 ],
@@ -7716,8 +7657,8 @@
             "saved_objtypeKey": "BUTTON"
           },
           {
-            "guid": "GUID60270616-795967S833428",
-            "deepid": 2108149129,
+            "guid": "GUID58574826-29090S5414439",
+            "deepid": 1256065048,
             "dont_export": false,
             "locked": false,
             "properties": [
@@ -7786,7 +7727,6 @@
               },
               {
                 "nid": 90,
-                "flags": 1048576,
                 "strtype": "OBJECT/Flags",
                 "InheritedType": 1
               },
@@ -7804,7 +7744,7 @@
               {
                 "nid": 1020,
                 "strtype": "ROLLER/Options",
-                "strval": "Option 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\nOption 1\\nOption 2\\nOption 3\\n\\n",
+                "strval": "Radio\\nClock\\nGame\\nProton",
                 "InheritedType": 10
               },
               {
@@ -7816,6 +7756,7 @@
               {
                 "nid": 1040,
                 "strtype": "ROLLER/Selected",
+                "integer": 2,
                 "InheritedType": 6
               },
               {
@@ -7826,6 +7767,17 @@
                     "strtype": "_style/StyleState",
                     "strval": "DEFAULT",
                     "childs": [
+                      {
+                        "nid": 10410,
+                        "strtype": "_style/Text_Color",
+                        "intarray": [
+                          255,
+                          255,
+                          255,
+                          255
+                        ],
+                        "InheritedType": 7
+                      },
                       {
                         "nid": 10520,
                         "strtype": "_style/Bg_Color",
@@ -7853,9 +7805,75 @@
                 "strtype": "ROLLER/Style_selected",
                 "strval": "lv.PART.SELECTED, Text, Rectangle",
                 "InheritedType": 11
+              },
+              {
+                "disabled": false,
+                "nid": 1001286,
+                "strtype": "_event/EventHandler",
+                "strval": "VALUE_CHANGED",
+                "childs": [
+                  {
+                    "nid": 1001287,
+                    "strtype": "_event/name",
+                    "strval": "Event11",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001288,
+                    "strtype": "_event/condition_C",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001289,
+                    "strtype": "_event/condition_P",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001290,
+                    "strtype": "_event/action",
+                    "strval": "CALL FUNCTION",
+                    "childs": [
+                      {
+                        "nid": 1001291,
+                        "strtype": "CALL FUNCTION/Name",
+                        "strval": "CALL FUNCTION",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001292,
+                        "strtype": "CALL FUNCTION/Call",
+                        "strval": "<{Function_name}>( event_struct )",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001293,
+                        "strtype": "CALL FUNCTION/CallC",
+                        "strval": "<{Function_name}>( e );",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001294,
+                        "strtype": "CALL FUNCTION/Function_name",
+                        "strval": "stationSelectionChanged",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001295,
+                        "strtype": "CALL FUNCTION/Dont_export_function",
+                        "strval": "True",
+                        "InheritedType": 2
+                      }
+                    ],
+                    "InheritedType": 10
+                  }
+                ],
+                "InheritedType": 4
               }
             ],
-            "saved_objtypeKey": "ROLLER"
+            "saved_objtypeKey": "ROLLER",
+            "tree_closed": true
           }
         ],
         "isPage": true,
@@ -8165,15 +8183,15 @@
             "saved_objtypeKey": "LABEL"
           },
           {
-            "guid": "GUID70190288-29040S15071437",
+            "guid": "GUID19381487-29060S12701438",
             "deepid": -267609440,
             "children": [
               {
-                "guid": "GUID56952449-29033S15068437",
+                "guid": "GUID29996780-29053S12701438",
                 "deepid": -1524714817,
                 "children": [
                   {
-                    "guid": "GUID23908846-29032S15068437",
+                    "guid": "GUID72508016-29052S12701438",
                     "deepid": -872616369,
                     "dont_export": false,
                     "locked": false,
@@ -8181,12 +8199,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Mode Button Label2",
+                        "strval": "Clock Screen Mode Button Label",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Mode_Button_Label",
+                            "strval": "Clock_Screen_Mode_Button_Label2",
                             "InheritedType": 10
                           }
                         ],
@@ -8290,7 +8308,22 @@
                       },
                       {
                         "part": "lv.PART.MAIN",
-                        "childs": [],
+                        "childs": [
+                          {
+                            "nid": 10000,
+                            "strtype": "_style/StyleState",
+                            "strval": "DEFAULT",
+                            "childs": [
+                              {
+                                "nid": 10450,
+                                "strtype": "_style/Text_Font",
+                                "strval": "montserrat_14",
+                                "InheritedType": 3
+                              }
+                            ],
+                            "InheritedType": 1
+                          }
+                        ],
                         "nid": 1040,
                         "strtype": "LABEL/Style_main",
                         "strval": "lv.PART.MAIN, Text, Rectangle, Pad, Transform",
@@ -8307,12 +8340,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Mode Button2",
+                    "strval": "Clock Screen Mode Button",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Mode_Button",
+                        "strval": "Clock_Screen_Mode_Button",
                         "InheritedType": 10
                       }
                     ],
@@ -8537,6 +8570,99 @@
                           }
                         ],
                         "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001244,
+                        "strtype": "_event/action",
+                        "strval": "PLAY ANIMATION",
+                        "childs": [
+                          {
+                            "nid": 1001245,
+                            "strtype": "PLAY ANIMATION/Name",
+                            "strval": "PLAY ANIMATION",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001246,
+                            "strtype": "PLAY ANIMATION/FunctionName",
+                            "strval": "slidedown_Animation",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001247,
+                            "strtype": "PLAY ANIMATION/Animation",
+                            "strval": "slidedown",
+                            "InheritedType": 8
+                          },
+                          {
+                            "nid": 1001248,
+                            "strtype": "PLAY ANIMATION/Target",
+                            "strval": "GUID19381487-29060S12701438",
+                            "InheritedType": 9
+                          },
+                          {
+                            "nid": 1001249,
+                            "strtype": "PLAY ANIMATION/Delay",
+                            "InheritedType": 6
+                          },
+                          {
+                            "nid": 1001250,
+                            "strtype": "PLAY ANIMATION/Call",
+                            "strval": "<{FunctionName}>(<{Target}>, <{Delay}>)",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001251,
+                            "strtype": "PLAY ANIMATION/CallC",
+                            "strval": "<{FunctionName}>(<{Target}>, <{Delay}>);",
+                            "InheritedType": 10
+                          }
+                        ],
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001252,
+                        "strtype": "_event/action",
+                        "strval": "MODIFY FLAG",
+                        "childs": [
+                          {
+                            "nid": 1001253,
+                            "strtype": "MODIFY FLAG/Name",
+                            "strval": "MODIFY FLAG",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001254,
+                            "strtype": "MODIFY FLAG/Call",
+                            "strval": "ModifyFlag( <{Object}>, lv.obj.FLAG.<{Flag}>, \"<{Action}>\")",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001255,
+                            "strtype": "MODIFY FLAG/CallC",
+                            "strval": "_ui_flag_modify( <{Object}>, LV_OBJ_FLAG_<{Flag}>, _UI_MODIFY_FLAG_<{Action}>);",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001256,
+                            "strtype": "MODIFY FLAG/Object",
+                            "strval": "GUID35247206-29057S12701438",
+                            "InheritedType": 9
+                          },
+                          {
+                            "nid": 1001257,
+                            "strtype": "MODIFY FLAG/Flag",
+                            "strval": "HIDDEN",
+                            "InheritedType": 3
+                          },
+                          {
+                            "nid": 1001258,
+                            "strtype": "MODIFY FLAG/Action",
+                            "strval": "REMOVE",
+                            "InheritedType": 3
+                          }
+                        ],
+                        "InheritedType": 10
                       }
                     ],
                     "InheritedType": 4
@@ -8545,11 +8671,11 @@
                 "saved_objtypeKey": "BUTTON"
               },
               {
-                "guid": "GUID50106005-29035S15071437",
+                "guid": "GUID61195216-29055S12701438",
                 "deepid": -1524714817,
                 "children": [
                   {
-                    "guid": "GUID12117785-29034S15071437",
+                    "guid": "GUID70240339-29054S12701438",
                     "deepid": -872616369,
                     "dont_export": false,
                     "locked": false,
@@ -8557,12 +8683,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Tune Button Label2",
+                        "strval": "Clock Screen Settings Button Label",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Tune_Button_Label",
+                            "strval": "Clock_Screen_Settings_Button_Label",
                             "InheritedType": 10
                           }
                         ],
@@ -8666,7 +8792,22 @@
                       },
                       {
                         "part": "lv.PART.MAIN",
-                        "childs": [],
+                        "childs": [
+                          {
+                            "nid": 10000,
+                            "strtype": "_style/StyleState",
+                            "strval": "DEFAULT",
+                            "childs": [
+                              {
+                                "nid": 10450,
+                                "strtype": "_style/Text_Font",
+                                "strval": "montserrat_14",
+                                "InheritedType": 3
+                              }
+                            ],
+                            "InheritedType": 1
+                          }
+                        ],
                         "nid": 1040,
                         "strtype": "LABEL/Style_main",
                         "strval": "lv.PART.MAIN, Text, Rectangle, Pad, Transform",
@@ -8683,13 +8824,13 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Tune Button2",
+                    "strval": "Clock Screen Tune Settings Button",
                     "childs": [
                       {
                         "nid": 15,
                         "flags": 1048576,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Tune_Button",
+                        "strval": "Clock_Screen_Tune_Settings_Button",
                         "InheritedType": 10
                       }
                     ],
@@ -8867,50 +9008,94 @@
                         "InheritedType": 10
                       },
                       {
-                        "nid": 1000963,
+                        "nid": 1001216,
                         "strtype": "_event/action",
-                        "strval": "CHANGE SCREEN",
+                        "strval": "PLAY ANIMATION",
                         "childs": [
                           {
-                            "nid": 1000964,
-                            "strtype": "CHANGE SCREEN/Name",
-                            "strval": "CHANGE SCREEN",
+                            "nid": 1001217,
+                            "strtype": "PLAY ANIMATION/Name",
+                            "strval": "PLAY ANIMATION",
                             "InheritedType": 10
                           },
                           {
-                            "nid": 1000965,
-                            "strtype": "CHANGE SCREEN/Call",
-                            "strval": "ChangeScreen( <{Screen_to}>, lv.SCR_LOAD_ANIM.<{Fade_mode}>, <{Speed}>, <{Delay}>)",
+                            "nid": 1001218,
+                            "strtype": "PLAY ANIMATION/FunctionName",
+                            "strval": "slidedown_Animation",
                             "InheritedType": 10
                           },
                           {
-                            "nid": 1000966,
-                            "strtype": "CHANGE SCREEN/CallC",
-                            "strval": "_ui_screen_change( &<{Screen_to}>, LV_SCR_LOAD_ANIM_<{Fade_mode}>, <{Speed}>, <{Delay}>, &<{Screen_to}>_screen_init);",
-                            "InheritedType": 10
+                            "nid": 1001219,
+                            "strtype": "PLAY ANIMATION/Animation",
+                            "strval": "slidedown",
+                            "InheritedType": 8
                           },
                           {
-                            "nid": 1000967,
-                            "strtype": "CHANGE SCREEN/Screen_to",
-                            "strval": "GUID15292086-828391S44425",
+                            "nid": 1001220,
+                            "strtype": "PLAY ANIMATION/Target",
+                            "strval": "GUID19381487-29060S12701438",
                             "InheritedType": 9
                           },
                           {
-                            "nid": 1000968,
-                            "strtype": "CHANGE SCREEN/Fade_mode",
-                            "strval": "FADE_ON",
+                            "nid": 1001221,
+                            "strtype": "PLAY ANIMATION/Delay",
+                            "InheritedType": 6
+                          },
+                          {
+                            "nid": 1001222,
+                            "strtype": "PLAY ANIMATION/Call",
+                            "strval": "<{FunctionName}>(<{Target}>, <{Delay}>)",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001223,
+                            "strtype": "PLAY ANIMATION/CallC",
+                            "strval": "<{FunctionName}>(<{Target}>, <{Delay}>);",
+                            "InheritedType": 10
+                          }
+                        ],
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 1001259,
+                        "strtype": "_event/action",
+                        "strval": "MODIFY FLAG",
+                        "childs": [
+                          {
+                            "nid": 1001260,
+                            "strtype": "MODIFY FLAG/Name",
+                            "strval": "MODIFY FLAG",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001261,
+                            "strtype": "MODIFY FLAG/Call",
+                            "strval": "ModifyFlag( <{Object}>, lv.obj.FLAG.<{Flag}>, \"<{Action}>\")",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001262,
+                            "strtype": "MODIFY FLAG/CallC",
+                            "strval": "_ui_flag_modify( <{Object}>, LV_OBJ_FLAG_<{Flag}>, _UI_MODIFY_FLAG_<{Action}>);",
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 1001263,
+                            "strtype": "MODIFY FLAG/Object",
+                            "strval": "GUID35247206-29057S12701438",
+                            "InheritedType": 9
+                          },
+                          {
+                            "nid": 1001264,
+                            "strtype": "MODIFY FLAG/Flag",
+                            "strval": "HIDDEN",
                             "InheritedType": 3
                           },
                           {
-                            "nid": 1000969,
-                            "strtype": "CHANGE SCREEN/Speed",
-                            "integer": 500,
-                            "InheritedType": 6
-                          },
-                          {
-                            "nid": 1000970,
-                            "strtype": "CHANGE SCREEN/Delay",
-                            "InheritedType": 6
+                            "nid": 1001265,
+                            "strtype": "MODIFY FLAG/Action",
+                            "strval": "REMOVE",
+                            "InheritedType": 3
                           }
                         ],
                         "InheritedType": 10
@@ -8922,11 +9107,11 @@
                 "saved_objtypeKey": "BUTTON"
               },
               {
-                "guid": "GUID4511102-29037S15071437",
+                "guid": "GUID35247206-29057S12701438",
                 "deepid": 192711397,
                 "children": [
                   {
-                    "guid": "GUID463944-29036S15071437",
+                    "guid": "GUID20533610-29056S12701438",
                     "deepid": 1039364484,
                     "dont_export": false,
                     "locked": false,
@@ -8934,12 +9119,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Button Tray Up Image2",
+                        "strval": "Clock Screen Button Tray Up Image",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Button_Tray_Up_Image",
+                            "strval": "Clock_Screen_Button_Tray_Up_Image",
                             "InheritedType": 10
                           }
                         ],
@@ -9090,12 +9275,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Button Tray Up2",
+                    "strval": "Clock Screen Button Tray Up",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Button_Tray_Up",
+                        "strval": "Clock_Screen_Button_Tray_Up",
                         "InheritedType": 10
                       }
                     ],
@@ -9130,7 +9315,7 @@
                     "strtype": "OBJECT/Position",
                     "intarray": [
                       0,
-                      -32
+                      -30
                     ],
                     "InheritedType": 7
                   },
@@ -9139,7 +9324,7 @@
                     "flags": 17,
                     "strtype": "OBJECT/Size",
                     "intarray": [
-                      60,
+                      84,
                       30
                     ],
                     "InheritedType": 7
@@ -9286,7 +9471,7 @@
                           {
                             "nid": 1001113,
                             "strtype": "PLAY ANIMATION/Target",
-                            "strval": "GUID55879061-28998S274436",
+                            "strval": "GUID19381487-29060S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9335,7 +9520,7 @@
                           {
                             "nid": 1001138,
                             "strtype": "MODIFY FLAG/Object",
-                            "strval": "GUID16674566-29011S153436",
+                            "strval": "GUID35247206-29057S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9379,7 +9564,7 @@
                           {
                             "nid": 1001198,
                             "strtype": "MODIFY FLAG/Object",
-                            "strval": "GUID49668578-29013S450436",
+                            "strval": "GUID58767065-29059S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9404,11 +9589,11 @@
                 "saved_objtypeKey": "BUTTON"
               },
               {
-                "guid": "GUID53805485-29039S15071437",
+                "guid": "GUID58767065-29059S12701438",
                 "deepid": -1318984859,
                 "children": [
                   {
-                    "guid": "GUID3926122-29038S15071437",
+                    "guid": "GUID71893530-29058S12701438",
                     "deepid": 1540154146,
                     "dont_export": false,
                     "locked": false,
@@ -9416,12 +9601,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Button Tray Down Image2",
+                        "strval": "Clock Screen Button Tray Down Image",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Button_Tray_Down_Image",
+                            "strval": "Clock_Screen_Button_Tray_Down_Image",
                             "InheritedType": 10
                           }
                         ],
@@ -9566,12 +9751,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Button Tray Down2",
+                    "strval": "Clock Screen Button Tray Down",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Button_Tray_Down",
+                        "strval": "Clock_Screen_Button_Tray_Down",
                         "InheritedType": 10
                       }
                     ],
@@ -9749,7 +9934,7 @@
                           {
                             "nid": 1001149,
                             "strtype": "PLAY ANIMATION/Target",
-                            "strval": "GUID55879061-28998S274436",
+                            "strval": "GUID19381487-29060S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9798,7 +9983,7 @@
                           {
                             "nid": 1001157,
                             "strtype": "MODIFY FLAG/Object",
-                            "strval": "GUID49668578-29013S450436",
+                            "strval": "GUID58767065-29059S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9842,7 +10027,7 @@
                           {
                             "nid": 1001164,
                             "strtype": "MODIFY FLAG/Object",
-                            "strval": "GUID16674566-29011S153436",
+                            "strval": "GUID35247206-29057S12701438",
                             "InheritedType": 9
                           },
                           {
@@ -9873,12 +10058,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Panel Tray2",
+                "strval": "Clock Screen Panel Tray",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Panel_Tray",
+                    "strval": "Clock_Screen_Panel_Tray",
                     "InheritedType": 10
                   }
                 ],
@@ -9913,7 +10098,7 @@
                 "strtype": "OBJECT/Position",
                 "intarray": [
                   0,
-                  141
+                  139
                 ],
                 "InheritedType": 7
               },
@@ -10023,8 +10208,7 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL",
-            "tree_closed": true
+            "saved_objtypeKey": "PANEL"
           }
         ],
         "isPage": true,
@@ -10152,131 +10336,6 @@
             "strtype": "SCREEN/Style_scrollbar",
             "strval": "lv.PART.SCROLLBAR, Rectangle, Pad",
             "InheritedType": 11
-          },
-          {
-            "disabled": false,
-            "nid": 1000923,
-            "strtype": "_event/EventHandler",
-            "strval": "GESTURE_RIGHT(GESTURE)",
-            "childs": [
-              {
-                "nid": 1000924,
-                "strtype": "_event/name",
-                "strval": "Event11",
-                "InheritedType": 10
-              },
-              {
-                "nid": 1000925,
-                "strtype": "_event/condition_C",
-                "strval": "",
-                "InheritedType": 10
-              },
-              {
-                "nid": 1000926,
-                "strtype": "_event/condition_P",
-                "strval": "",
-                "InheritedType": 10
-              },
-              {
-                "nid": 1000927,
-                "strtype": "_event/action",
-                "strval": "CHANGE SCREEN",
-                "childs": [
-                  {
-                    "nid": 1000928,
-                    "strtype": "CHANGE SCREEN/Name",
-                    "strval": "CHANGE SCREEN",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000929,
-                    "strtype": "CHANGE SCREEN/Call",
-                    "strval": "ChangeScreen( <{Screen_to}>, lv.SCR_LOAD_ANIM.<{Fade_mode}>, <{Speed}>, <{Delay}>)",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000930,
-                    "strtype": "CHANGE SCREEN/CallC",
-                    "strval": "_ui_screen_change( &<{Screen_to}>, LV_SCR_LOAD_ANIM_<{Fade_mode}>, <{Speed}>, <{Delay}>, &<{Screen_to}>_screen_init);",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000931,
-                    "strtype": "CHANGE SCREEN/Screen_to",
-                    "strval": "GUID8994617-601277S183414",
-                    "InheritedType": 9
-                  },
-                  {
-                    "nid": 1000932,
-                    "strtype": "CHANGE SCREEN/Fade_mode",
-                    "strval": "FADE_ON",
-                    "InheritedType": 3
-                  },
-                  {
-                    "nid": 1000933,
-                    "strtype": "CHANGE SCREEN/Speed",
-                    "integer": 500,
-                    "InheritedType": 6
-                  },
-                  {
-                    "nid": 1000934,
-                    "strtype": "CHANGE SCREEN/Delay",
-                    "InheritedType": 6
-                  }
-                ],
-                "InheritedType": 10
-              },
-              {
-                "nid": 1000935,
-                "strtype": "_event/action",
-                "strval": "CHANGE SCREEN",
-                "childs": [
-                  {
-                    "nid": 1000936,
-                    "strtype": "CHANGE SCREEN/Name",
-                    "strval": "CHANGE SCREEN",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000937,
-                    "strtype": "CHANGE SCREEN/Call",
-                    "strval": "ChangeScreen( <{Screen_to}>, lv.SCR_LOAD_ANIM.<{Fade_mode}>, <{Speed}>, <{Delay}>)",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000938,
-                    "strtype": "CHANGE SCREEN/CallC",
-                    "strval": "_ui_screen_change( &<{Screen_to}>, LV_SCR_LOAD_ANIM_<{Fade_mode}>, <{Speed}>, <{Delay}>, &<{Screen_to}>_screen_init);",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1000939,
-                    "strtype": "CHANGE SCREEN/Screen_to",
-                    "strval": "-",
-                    "InheritedType": 9
-                  },
-                  {
-                    "nid": 1000940,
-                    "strtype": "CHANGE SCREEN/Fade_mode",
-                    "strval": "FADE_ON",
-                    "InheritedType": 3
-                  },
-                  {
-                    "nid": 1000941,
-                    "strtype": "CHANGE SCREEN/Speed",
-                    "integer": 500,
-                    "InheritedType": 6
-                  },
-                  {
-                    "nid": 1000942,
-                    "strtype": "CHANGE SCREEN/Delay",
-                    "InheritedType": 6
-                  }
-                ],
-                "InheritedType": 10
-              }
-            ],
-            "InheritedType": 4
           }
         ],
         "saved_objtypeKey": "SCREEN"
@@ -10787,18 +10846,18 @@
           "Path": 3,
           "KeyFrames": [
             {
-              "Value": 0,
+              "Value": 139,
               "Time": 0.0,
               "InheritedType": 1
             },
             {
-              "Value": -70,
+              "Value": 69,
               "Time": 600.0,
               "InheritedType": 1
             }
           ],
           "TimeReference": 0,
-          "ValueReference": 1,
+          "ValueReference": 0,
           "EarlyApply": false,
           "ImageSet": "",
           "PlaybackTime": 0,
@@ -10832,18 +10891,19 @@
             {
               "nid": 1001076,
               "strtype": "PROPERTYANIMATION/StartValue",
+              "integer": 139,
               "InheritedType": 6
             },
             {
               "nid": 1001077,
               "strtype": "PROPERTYANIMATION/EndValue",
-              "integer": -70,
+              "integer": 69,
               "InheritedType": 6
             },
             {
               "nid": 1001078,
               "strtype": "PROPERTYANIMATION/AbsoluteReference",
-              "strval": "False",
+              "strval": "True",
               "InheritedType": 2
             },
             {
@@ -10866,7 +10926,7 @@
             {
               "nid": 1001082,
               "strtype": "PROPERTYANIMATION/FullAnimationDuration",
-              "integer": 1000,
+              "integer": 600,
               "InheritedType": 6
             },
             {
@@ -10987,18 +11047,18 @@
           "Path": 3,
           "KeyFrames": [
             {
-              "Value": 0,
+              "Value": 69,
               "Time": 0.0,
               "InheritedType": 1
             },
             {
-              "Value": 70,
+              "Value": 139,
               "Time": 600.0,
               "InheritedType": 1
             }
           ],
           "TimeReference": 0,
-          "ValueReference": 1,
+          "ValueReference": 0,
           "EarlyApply": false,
           "ImageSet": "",
           "PlaybackTime": 0,
@@ -11032,18 +11092,19 @@
             {
               "nid": 1001177,
               "strtype": "PROPERTYANIMATION/StartValue",
+              "integer": 69,
               "InheritedType": 6
             },
             {
               "nid": 1001178,
               "strtype": "PROPERTYANIMATION/EndValue",
-              "integer": 70,
+              "integer": 139,
               "InheritedType": 6
             },
             {
               "nid": 1001179,
               "strtype": "PROPERTYANIMATION/AbsoluteReference",
-              "strval": "False",
+              "strval": "True",
               "InheritedType": 2
             },
             {
@@ -11209,7 +11270,7 @@
     "uiExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio\\src\\ui",
     "projectExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 56,
+    "backup_cnt": 62,
     "autosave_cnt": 0,
     "lvgl_version": "9.1.0",
     "callfuncsexport": "C_FILE",
@@ -11225,7 +11286,7 @@
     "drive_fatfs_path": "",
     "naming": "Screen_Name",
     "naming_force_lowercase": false,
-    "nidcnt": 1001266,
+    "nidcnt": 1001296,
     "BitDepth": 16,
     "Name": "SquareLine"
   }

@@ -74,7 +74,6 @@ void ui_Mode_Screen_screen_init(void)
     lv_obj_set_style_border_opa(ui_Mode_Screen_Select_Button_Label, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_Mode_Screen_Select_Button_Label, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Mode_Screen_Mode_Roller, ui_event_Mode_Screen_Mode_Roller, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Mode_Screen_Cancel_Button, ui_event_Mode_Screen_Cancel_Button, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Mode_Screen_Select_Button, ui_event_Mode_Screen_Select_Button, LV_EVENT_ALL, NULL);
     uic_Mode_Screen = ui_Mode_Screen;

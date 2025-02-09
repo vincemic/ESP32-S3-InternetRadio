@@ -9,6 +9,10 @@
 #include "OrchestratorTask.h"
 #include "Utilities.h"
 
+void modeSelected(lv_event_t * e)
+{
+
+}
 
 void keyboardReadyKey(lv_event_t * e)
 {
@@ -24,7 +28,7 @@ void stationSelectionChanged(lv_event_t * e) {
 
 }
 
-void playChannel(lv_event_t * e) {
+void playStation(lv_event_t * e) {
     Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
 }
 

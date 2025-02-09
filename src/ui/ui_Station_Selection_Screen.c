@@ -38,49 +38,54 @@ void ui_Station_Selection_Screen_screen_init(void)
     lv_obj_set_align(ui_Station_Selection_Screen_Play_Button_Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Station_Selection_Screen_Play_Button_Label, "Play");
 
-    ui_Station_Selection_Screen_Cancel = lv_button_create(ui_Station_Selection_Screen);
-    lv_obj_set_width(ui_Station_Selection_Screen_Cancel, 135);
-    lv_obj_set_height(ui_Station_Selection_Screen_Cancel, 50);
-    lv_obj_set_x(ui_Station_Selection_Screen_Cancel, -74);
-    lv_obj_set_y(ui_Station_Selection_Screen_Cancel, 82);
-    lv_obj_set_align(ui_Station_Selection_Screen_Cancel, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Station_Selection_Screen_Cancel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_remove_flag(ui_Station_Selection_Screen_Cancel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Station_Selection_Screen_Cancel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Station_Selection_Screen_Cancel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui_Station_Selection_Screen_Cancel, lv_color_hex(0xFFFFFF),
+    ui_Station_Selection_Screen_Cancel_Button = lv_button_create(ui_Station_Selection_Screen);
+    lv_obj_set_width(ui_Station_Selection_Screen_Cancel_Button, 135);
+    lv_obj_set_height(ui_Station_Selection_Screen_Cancel_Button, 50);
+    lv_obj_set_x(ui_Station_Selection_Screen_Cancel_Button, -74);
+    lv_obj_set_y(ui_Station_Selection_Screen_Cancel_Button, 82);
+    lv_obj_set_align(ui_Station_Selection_Screen_Cancel_Button, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Station_Selection_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_Station_Selection_Screen_Cancel_Button, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Station_Selection_Screen_Cancel_Button, lv_color_hex(0xFFFFFF),
+                              LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Station_Selection_Screen_Cancel_Button, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Station_Selection_Screen_Cancel_Button, lv_color_hex(0xFFFFFF),
                                   LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui_Station_Selection_Screen_Cancel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_Station_Selection_Screen_Cancel, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_color(ui_Station_Selection_Screen_Cancel, lv_color_hex(0x000000),
+    lv_obj_set_style_border_opa(ui_Station_Selection_Screen_Cancel_Button, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Station_Selection_Screen_Cancel_Button, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_Station_Selection_Screen_Cancel_Button, lv_color_hex(0x000000),
                                   LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_opa(ui_Station_Selection_Screen_Cancel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_Station_Selection_Screen_Cancel_Button, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Station_Selection_Screen_Cancel_Button_Label = lv_label_create(ui_Station_Selection_Screen_Cancel);
+    ui_Station_Selection_Screen_Cancel_Button_Label = lv_label_create(ui_Station_Selection_Screen_Cancel_Button);
     lv_obj_set_width(ui_Station_Selection_Screen_Cancel_Button_Label, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Station_Selection_Screen_Cancel_Button_Label, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Station_Selection_Screen_Cancel_Button_Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Station_Selection_Screen_Cancel_Button_Label, "Cancel");
 
     ui_Station_Selection_Screen_Roller = lv_roller_create(ui_Station_Selection_Screen);
-    lv_roller_set_options(ui_Station_Selection_Screen_Roller,
-                          "Option 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\nOption 1\nOption 2\nOption 3\n\n",
-                          LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_options(ui_Station_Selection_Screen_Roller, "Radio\nClock\nGame\nProton", LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_selected(ui_Station_Selection_Screen_Roller, 2, LV_ANIM_OFF);
     lv_obj_set_width(ui_Station_Selection_Screen_Roller, 300);
     lv_obj_set_height(ui_Station_Selection_Screen_Roller, 162);
     lv_obj_set_x(ui_Station_Selection_Screen_Roller, -1);
     lv_obj_set_y(ui_Station_Selection_Screen_Roller, -34);
     lv_obj_set_align(ui_Station_Selection_Screen_Roller, LV_ALIGN_CENTER);
+    lv_obj_set_style_text_color(ui_Station_Selection_Screen_Roller, lv_color_hex(0xFFFFFF),
+                                LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Station_Selection_Screen_Roller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_Station_Selection_Screen_Roller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Station_Selection_Screen_Roller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Station_Selection_Screen_Play_Button, ui_event_Station_Selection_Screen_Play_Button,
                         LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Station_Selection_Screen_Cancel, ui_event_Station_Selection_Screen_Cancel, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Station_Selection_Screen_Cancel_Button, ui_event_Station_Selection_Screen_Cancel_Button,
+                        LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Station_Selection_Screen_Roller, ui_event_Station_Selection_Screen_Roller, LV_EVENT_ALL, NULL);
     uic_Station_Selection_Screen = ui_Station_Selection_Screen;
     uic_Station_Selection_Screen_Play_Button = ui_Station_Selection_Screen_Play_Button;
     uic_Station_Selection_Screen_Play_Button_Label = ui_Station_Selection_Screen_Play_Button_Label;
-    uic_Station_Selection_Screen_Cancel = ui_Station_Selection_Screen_Cancel;
+    uic_Station_Selection_Screen_Cancel_Button = ui_Station_Selection_Screen_Cancel_Button;
     uic_Station_Selection_Screen_Cancel_Button_Label = ui_Station_Selection_Screen_Cancel_Button_Label;
     uic_Station_Selection_Screen_Roller = ui_Station_Selection_Screen_Roller;
 
