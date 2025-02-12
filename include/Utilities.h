@@ -20,6 +20,4 @@ struct SpiRamAllocator : public ArduinoJson::Allocator {
 
 size_t indexOf(const char* base, const char* str, size_t startIndex = 0);
 
-size_t indexOfString(const char* buffer, size_t instanceNumber, size_t bufferSize);
-
 

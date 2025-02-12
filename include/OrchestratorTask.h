@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include "AsyncFlow.h"
 #include "ThreadTask.h"
-#include "RecordProcessor.h"
 #include "Utilities.h"
+
 
 
 typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
@@ -61,6 +61,7 @@ private:
     static bool downloadStationNames();
  
     static bool showStationSelectionScreen();
+    static bool showMessageScreen(const char* text);
     static bool showMessageScreen();
     static bool showIPAddress();
     static bool showTimezone();
@@ -77,6 +78,8 @@ private:
     
 
     void createAsyncFlow(asyncflow_configure_cb configureCB);
+    void getStationSetIndexes();
+
     String timezone;
     String ipAddress;
     String stationName;

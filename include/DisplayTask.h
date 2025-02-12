@@ -56,7 +56,7 @@ private:
     bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
     size_t currentStationIndex = 0;
-    void showScreen(uint16_t screenId);
+    void showScreen(uint16_t screenId, const char * message = NULL);
     void updateStationListDisplay();
     const char * createStaionListPage(size_t stationIndex);
 

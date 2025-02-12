@@ -7,6 +7,8 @@
 #include "DeviceTask.h"
 #include "WirelessTask.h"
 #include "TimeTask.h"
+#include "FastArrayParser.h"
+
 
 
 
@@ -193,7 +195,9 @@ void OrchestratorTask::startStationSelecttionFlow()
     Log.infoln("Station selected %s", stationName.c_str());
 
     Orchestrator.createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
-        flowConfig->addStep("download station info", 40, downloadStationInfo)
+        flowConfig
+        ->addStep("show message screen", 40, showMessageScreen, "Getting station info")
+        ->addStep("download station info", 40, downloadStationInfo)
         ->addStep("start radio", 40, startRadio);
         
     });
@@ -260,9 +264,14 @@ bool OrchestratorTask::logMemory() {
     return true;
 }
 
+bool OrchestratorTask::showMessageScreen(const char* text) {
+    return Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE, text);
+}
+
 bool OrchestratorTask::showMessageScreen() {
     return Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE);
 }
+
 
 bool OrchestratorTask::setMessageScreenMessage(const char* message) {
     return Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, message);
@@ -337,6 +346,7 @@ bool OrchestratorTask::setInitialized() {
 
 bool OrchestratorTask::createPagedStationNameList()
 {
+
     File file = SD.open(STATION_LIST_FILE, FILE_READ);
     
     if (file) 
@@ -345,94 +355,79 @@ bool OrchestratorTask::createPagedStationNameList()
 
         // Because we are removing json formatting, the data in the buffer
         // will be smaller than the file size
-        size_t bufferSize = file.size();
+        // add one to the size to account for the null terminator
+        size_t bufferSize = file.size() + 1;
 
         // Allocate a buffer to hold the station names
         // Each station name is separated by a newline character
+        Orchestrator.stationSetStringsSize = bufferSize;
         Orchestrator.stationNamesString = (char *) ps_malloc(bufferSize);
-
-        size_t index = 0;
-        size_t startIndex = 0;
-        char * stationName;
-        size_t currentLength = 0;
-        size_t stationCounter = 0;
         Orchestrator.stationSetCount = 0;
-        SpiRamAllocator spiRamAllocator;
-        JsonDocument stationListJson(&spiRamAllocator);;
 
-        // Deserialize the json file that was downloaded previosly
-        DeserializationError error = deserializeJson(stationListJson, file);
+        Log.traceln("Reading file: %s size: %d into memory buffer", STATION_LIST_FILE, file.size());
+        size_t bytesRead = file.readBytes(Orchestrator.stationNamesString, bufferSize);
+        file.close();
 
-        if(error.code() == DeserializationError::Ok)
+        Log.traceln("Read %d bytes into memory", bytesRead);
+        Log.traceln("Deserializing json from memory buffer");
+        FastArrayParser fastArrayParser(Orchestrator.stationNamesString, bytesRead);
+
+        if(fastArrayParser.process())
         {
-            JsonArray jsonArray = stationListJson.as<JsonArray>();
-
-            // iterate over the array of station names
-            for(JsonVariant value : jsonArray)
-            {
-                // Get thestation name from the array
-                stationName = (char *) value.as<const char*>();
-
-                // find its size
-                currentLength = strlen(stationName);
-                
-                // Take the string value from the json array and copy it to the char * buffer
-                memcpy(Orchestrator.stationNamesString + index, stationName, currentLength);
-                
-                // Add a newline character to the end of the station name in the char * buffer
-                Orchestrator.stationNamesString[index + currentLength] = '\n';
-
-                // move the buffer index to the end of the station name + new line character
-                index += currentLength + 1;
-
-                // add to the station counter
-                stationCounter++;
-
-                // if we have enough stations to make a set
-                if(stationCounter % STATION_SET_SIZE == 0)
-                {
-                    // Capture the start index of the set
-                    Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = startIndex;
-
-                    // Capture the start index of the next set
-                    startIndex = index;
-
-                    // increment the station set count
-                    Orchestrator.stationSetCount++;
-                }
-            }
-            
-            // There left over stations for an incomplete set
-            if(stationCounter % STATION_SET_SIZE != 0) {
-
-                // Capture the start index of the last incomplete set
-                Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = startIndex;
-                // increment the station set count
-                Orchestrator.stationSetCount++; 
-
-            }
-            
-            // terminate the large buffer string    
-            if(index > 0) {
-                Orchestrator.stationNamesString[index -1] = '\0';
-                Orchestrator.stationSetStringsSize = index;
-
-                // The last set index is would the start of the next set, if there was one. Now its just a terminator
-                Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = index;  
-            }
-
-            Log.traceln("Read %d stations, %d station sets", stationCounter, Orchestrator.stationSetCount);
-
+            Orchestrator.getStationSetIndexes();
+            Log.traceln("Read %d station sets", Orchestrator.stationSetCount);
         }
         else
         {
-            Log.errorln(F("[HTTPS] error parsing JSON code: %d"), error.code());
+            Log.errorln(F("Error parsing JSON code"));
         }
 
-        file.close();
     }
    
     return true;
+}
+
+void OrchestratorTask::getStationSetIndexes() {
+    size_t index = 0;
+    size_t startIndex = 0;
+    size_t stationCount = 0;
+    Orchestrator.stationSetCount =  0;
+    
+    while(index < stationSetStringsSize)
+    {
+        // Are we at the end of the string
+        if(stationNamesString[index] == '\0')
+        {
+            break;
+        }   
+
+        // Is this a newline character
+        if(stationNamesString[index] == '\n')
+        {
+            // This is the end of a station name
+            stationCount++;
+
+            // Have we reached the end of a station set
+            if(stationCount % STATION_SET_SIZE == 0)
+            {
+                // Save the index of the start of the station set
+                stationSetIndexes[stationSetCount] = startIndex;
+                stationSetCount++;
+                // The start of the next station set is the next character
+                startIndex = index + 1;
+            }
+        }
+
+        index++;
+    }
+  
+    // If we have a partial station set, save the index of the start of the station set
+    if(stationCount % STATION_SET_SIZE != 0)
+    {
+        stationSetIndexes[stationSetCount] = startIndex;
+        stationSetCount++;
+    }
+      
 }
 
 OrchestratorTask Orchestrator;

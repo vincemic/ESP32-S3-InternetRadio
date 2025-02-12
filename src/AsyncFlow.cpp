@@ -3,7 +3,7 @@
 #include <ArduinoLog.h>
 
 
-bool AsyncFlow::begin(asyncflow_cb betweenStepCB, asyncflow_failure_cb failureCB) {
+bool AsyncFlow::begin(asyncflow_between_cb betweenStepCB, asyncflow_failure_cb failureCB) {
     this->betweenStepCallback = betweenStepCB;
     this->failureCallback = failureCB;
     return true;
@@ -16,6 +16,17 @@ void AsyncFlow::addStep(const char* label, uint32_t delayMills, asyncflow_cb cb,
     step->callback = cb;
     step->label = label;
     step->repeat = repeat;
+
+    steps.push_back(step);
+}
+
+void AsyncFlow::addStep(const char *label, uint32_t delayMills, asyncflow_text_cb callback, const char *text)
+{
+    AsyncFlowStep* step = new AsyncFlowStep();
+    step->delay = delayMills;
+    step->callbacktext = callback;
+    step->label = label;
+    step->text = text;
 
     steps.push_back(step);
 }
@@ -44,7 +55,12 @@ bool AsyncFlow::tick() {
 
     Log.infoln("Running step %s", step->label);
 
-    bool stepResult = step->callback();
+    bool stepResult = false;
+    
+    if(step->callback != NULL)
+        stepResult = step->callback();
+    else if(step->callbacktext != NULL)
+        stepResult = step->callbacktext(step->text);
 
     if(!stepResult && step->repeat < 1) {
         Log.infoln("Step failed: %s", step->label);

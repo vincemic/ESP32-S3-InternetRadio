@@ -208,7 +208,7 @@ void DisplayTask::tick()
             case DISPLAY_MESSAGE_SCREEN_MODE:
             case DISPLAY_MESSAGE_SCREEN_LOADING:
             case DISPLAY_MESSAGE_SCREEN_MESSAGE:
-                showScreen(threadMessage.messageType);
+                showScreen(threadMessage.messageType, threadMessage.message);
                 break;
         }
     }
@@ -245,7 +245,7 @@ String DisplayTask::getSelectedStation()
     return String(stationName);
 }
 
-void DisplayTask::showScreen(uint16_t screenId)
+void DisplayTask::showScreen(uint16_t screenId, const char * message)
 {
     switch(screenId)
     {
@@ -269,7 +269,10 @@ void DisplayTask::showScreen(uint16_t screenId)
         break;
         case DISPLAY_MESSAGE_SCREEN_MESSAGE:    
                 lv_screen_load(uic_Message_Screen);
-                lv_label_set_text(uic_Message_Screen_Message_Label, "");
+                if(message != NULL)
+                    lv_label_set_text(uic_Message_Screen_Message_Label, message);
+                else
+                    lv_label_set_text(uic_Message_Screen_Message_Label, "");
         break;
     }
 

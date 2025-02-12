@@ -189,8 +189,7 @@ void CloudTask::downloadStationNames() {
     HTTPClient httpClient;
     String path = String(F("https://api.laut.fm/station_names"));
     const char * filePath = STATION_LIST_FILE;
-    Orchestrator.stationSetStringsSize = 0;
-    Orchestrator.stationSetCount = 0;
+
 
 
     const char* keys[] = {"Transfer-Encoding"};
