@@ -50,3 +50,7 @@ def modeSelected(event_struct):
 def stationChanged(event_struct):
     return
 
+
+def playStation(event_struct):
+    return
+

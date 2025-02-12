@@ -25,7 +25,7 @@
     "uiExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio\\src\\ui",
     "projectExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 63,
+    "backup_cnt": 64,
     "autosave_cnt": 0,
     "lvgl_version": "9.1.0",
     "callfuncsexport": "C_FILE",

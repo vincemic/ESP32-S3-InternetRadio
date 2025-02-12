@@ -22,8 +22,13 @@ typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
 #define ORCHESTRATOR_MESSAGE_NETOWRK_SAVE_CREDENTIALS 13
 #define ORCHESTRATOR_MESSAGE_NETOWRK_CANCEL 14
 #define ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED 15
+#define ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY 16
 
 
+#define MAX_STATION_SETS 500
+#define STATION_SET_SIZE 50
+
+#define STATION_LIST_FILE "/station_list.json"
 
 
 class OrchestratorTask : public ThreadTask
@@ -32,8 +37,12 @@ public:
     OrchestratorTask();
     static bool begin();
     void tick();
-    JsonDocument stationListJson = JsonDocument(&spiRamAllocator);;
+
     JsonDocument stationJson = JsonDocument(&spiRamAllocator);
+    size_t stationSetIndexes[MAX_STATION_SETS];
+    size_t stationSetCount = 0;
+    char * stationNamesString = NULL;
+    size_t stationSetStringsSize = 0;
 
 private:
     bool start();
@@ -42,8 +51,6 @@ private:
 
     static void startStationSelecttionFlow();
 
-    static bool getStationUrl();
-    static bool setStationName();
     static bool downloadStationInfo();
     static bool logPartitions();
     static bool logMemory();
@@ -51,20 +58,19 @@ private:
     static bool downloadIPAddress();
     static bool downloadTimezone();
     static bool beginTime();
-    static bool getStation();
-    static bool downloadStationList();
-    static bool loadStationSelection();
-    
+    static bool downloadStationNames();
+ 
     static bool showStationSelectionScreen();
-    static bool showStationName();
     static bool showMessageScreen();
     static bool showIPAddress();
     static bool showTimezone();
     static bool showGettingStations();
-    static bool isStationListDownloaded();
+    static bool areStationNamesDownloaded();
+    static bool updateStationSelectionScreen();
 
     static bool setMessageScreenMessage(const char* message);
     static bool setInitialized();
+    static bool createPagedStationNameList();
 
 
   

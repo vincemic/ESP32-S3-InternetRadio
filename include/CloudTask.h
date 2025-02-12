@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 #include <esp_http_client.h>
 
-#define CLOUD_MESSAGE_DOWNLOAD_STATION_LIST 1
+#define CLOUD_MESSAGE_DOWNLOAD_STATION_NAMES 1
 class CloudTask : public ThreadTask
 {
     public:

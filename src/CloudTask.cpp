@@ -37,8 +37,8 @@ void CloudTask::tick()
         
         switch (threadMessage.messageType)
         {
-            case CLOUD_MESSAGE_DOWNLOAD_STATION_LIST:
-                Log.infoln("Downloaded stations info started");
+            case CLOUD_MESSAGE_DOWNLOAD_STATION_NAMES:
+                Log.infoln("Download station names started");
                     downloadStationNames();
                 
             break;
@@ -188,7 +188,10 @@ void CloudTask::downloadStationNames() {
     wifiClient.setInsecure();
     HTTPClient httpClient;
     String path = String(F("https://api.laut.fm/station_names"));
-    const char * filePath = "/stations.json";
+    const char * filePath = STATION_LIST_FILE;
+    Orchestrator.stationSetStringsSize = 0;
+    Orchestrator.stationSetCount = 0;
+
 
     const char* keys[] = {"Transfer-Encoding"};
     httpClient.collectHeaders(keys, 1);
@@ -223,75 +226,12 @@ void CloudTask::downloadStationNames() {
                 if (file) 
                 {
                     httpClient.writeToStream(&file);
+                    file.close(); 
+
                 }
                 else
                     Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
 
-                file.close();    
-                
-                file = SD.open(filePath, FILE_READ);
-
-                if (file) 
-                {
-                    Log.traceln("Reading file: %s size: %d", filePath, file.size());
-
-                    // Because we are removing json formatting, the data in the buffer
-                    // will be smaller than the file size
-                    size_t bufferSize = file.size();
-                    char * buffer = (char *) ps_malloc(bufferSize);
-                    size_t index = 0;
-                    char * currentValue;
-                    size_t currentLength = 0;
-                    size_t itemCounter = 0;
-                    size_t setCounter = 0;
-
-                    DeserializationError error = deserializeJson(Orchestrator.stationListJson, file);
-
-                    if(error.code() == DeserializationError::Ok)
-                    {
-                        JsonArray jsonArray = Orchestrator.stationListJson.as<JsonArray>();
-                        for(JsonVariant value : jsonArray)
-                        {
-                            currentValue = (char *) value.as<const char*>();
-                            currentLength = strlen(currentValue);
-
-                            memcpy(buffer + index, currentValue, currentLength);
-                            buffer[index + currentLength] = '\n';
-                            index += currentLength + 1;
-                            itemCounter++;
-
-                            // count to every 50th item
-                            // terminate the string with null instead of newline
-                            if(itemCounter % 50 == 0)
-                            {
-                                buffer[index -1] = '\0';
-                                setCounter++;
-                            }
-                        }
-
-                        if(itemCounter % 50 != 0) {
-                            setCounter++;
-                            // termiate the remaining set of items    
-                            buffer[index -1] = '\0';
-                        }
-
-                        Log.traceln("Read %d items, %d sets", itemCounter, setCounter);
-
-                        for(size_t i = 1; i <= setCounter; ++i)
-                        {
-                            Log.traceln("Set: %d index: %d", i, indexOfString(buffer, i, bufferSize));
-
-                            Log.traceln("Set %d: %s", i, buffer + indexOfString(buffer, i, bufferSize));
-                        }
-                    }
-                    else
-                    {
-                        Log.errorln(F("[HTTPS] error parsing JSON code: %d"), error.code());
-                    }
-
-                }
-
-                file.close();
             }
         }
         else
@@ -306,16 +246,16 @@ void CloudTask::downloadStationNames() {
     }
 
     Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
-
 }
 
-bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationName) {
+bool CloudTask::downloadStation(JsonDocument &stationJson, String &stationName) {
     char url[400];
     WiFiClientSecure wifiClient;
     HTTPClient httpClient;
     wifiClient.setInsecure();
     httpClient.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     sprintf(url, "https://api.laut.fm/station/%s", stationName.c_str());
+    const char * filePath = "/station.json";
     
     bool result = false;
 
@@ -339,28 +279,52 @@ bool CloudTask::downloadStation(JsonDocument &stationListJson, String &stationNa
             // getSize may not work with chunked encoding
             Log.traceln(F("[HTTP] GET... code: %d content size %d"), httpCode, httpClient.getSize());
 
-            // Parse JSON object
-            DeserializationError error = deserializeJson(stationListJson, httpClient.getString());
+            Log.traceln(F("[HTTPS] Saving to file: %s"), filePath);
+            File file = SD.open(filePath, FILE_WRITE, true);
 
-            if(error.code() == DeserializationError::Ok)
+            if (file) 
             {
-                result = true;
+                httpClient.writeToStream(&file);
+ 
+            }
+            else {
+                Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
+                return false;
+            }
+
+            file.close();
+            file = SD.open(filePath, FILE_READ);
+            
+            if(file) {
+                DeserializationError error = deserializeJson(stationJson, file);
+
+                if(error.code() == DeserializationError::Ok)
+                {
+                    result = true;
+                }
+                else
+                {
+                    Log.errorln(F("[HTTP] GET... failed, error parsing JSON code: %d"), error.code());
+                }
 
             } else {
-                Log.errorln(F("[HTTP] GET... failed, error parsing JSON code: %d"), error.code());
+                Log.errorln(F("[HTTP] GET... failed, error opening file"));
             }
+          
         }
         else
         {
              Log.errorln(F("[HTTP] GET... failed, code:%d-%s"), httpCode, httpClient.errorToString(httpCode).c_str());
         }
+        
+        httpClient.end();
     }
     else
     {
         Log.errorln(F("[HTTP] Unable to create client"));
     }
 
-    httpClient.end();
+
 
     return result;
 }

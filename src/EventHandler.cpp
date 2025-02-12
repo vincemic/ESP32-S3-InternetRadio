@@ -25,11 +25,11 @@ void cancelNetworkScreen(lv_event_t * e)
 }
 
 void stationSelectionChanged(lv_event_t * e) {
-
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
 }
 
 void playStation(lv_event_t * e) {
-    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
+    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY);
 }
 
 void audio_id3data(const char *info){  //id3 metadata

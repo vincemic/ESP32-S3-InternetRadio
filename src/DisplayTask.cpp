@@ -2,6 +2,7 @@
 #include "SoundTask.h"
 #include <ArduinoLog.h>
 #include "ConfigurationTask.h"
+#include <OrchestratorTask.h>
 
 //#define RADIO_STREAM "http://legacy.scahw.com.au/2classicrock_32"
 //#define RADIO_STREAM "http://stream.srg-ssr.ch/m/rsp/mp3_128"
@@ -173,11 +174,10 @@ void DisplayTask::tick()
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
 
-                if(selected < number - 1) {
+                if(selected < number - 1) 
                     lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
-                } else {
-                    lv_roller_set_selected(uic_Station_Selection_Screen_Roller,0, LV_ANIM_OFF);
-                }
+
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
                 break;
 
             case DISPLAY_MESSAGE_TUNE_DOWN:
@@ -185,11 +185,10 @@ void DisplayTask::tick()
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
 
-                if(selected > 0) {
+                if(selected > 0) 
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
-                } else {
-                    lv_roller_set_selected(uic_Station_Selection_Screen_Roller,number -1, LV_ANIM_OFF);
-                }
+
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
                 break;
             case DISPLAY_MESSAGE_UPDATE_CLOCK:
                 lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
@@ -197,7 +196,8 @@ void DisplayTask::tick()
                 break;
 
             case DISPLAY_MESSAGE_UPDATE_STATIONS:
-
+                Log.infoln("Updating stations selection UI");
+                updateStationListDisplay();
                 break;
 
 
@@ -209,8 +209,7 @@ void DisplayTask::tick()
             case DISPLAY_MESSAGE_SCREEN_LOADING:
             case DISPLAY_MESSAGE_SCREEN_MESSAGE:
                 showScreen(threadMessage.messageType);
-
-            break;
+                break;
         }
     }
 
@@ -237,6 +236,13 @@ void DisplayTask::tick()
 lv_obj_t * DisplayTask::getActiveScreen()
 {
     return lv_screen_active();
+}
+
+String DisplayTask::getSelectedStation()
+{
+    char stationName[100];
+    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName,100);
+    return String(stationName);
 }
 
 void DisplayTask::showScreen(uint16_t screenId)
@@ -269,5 +275,89 @@ void DisplayTask::showScreen(uint16_t screenId)
 
 }
 
+void DisplayTask::updateStationListDisplay()
+{
+
+    /*
+    // try and keep selection in the second (middle) set of 3 stations sets
+   uint32_t selectedIndex =  lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
+
+    // is the selected index in the third set of stations, then load a new page of station sets
+    if(selectedIndex > STATION_SET_SIZE * 2)
+    {
+        lv_roller_set_selected(uic_Station_Selection_Screen_Roller, selectedIndex - 1, LV_ANIM_OFF);
+
+    } else if(selectedIndex < STATION_SET_SIZE) { // is the selected index in the first set of stations, then load a new page of station sets
+
+        lv_roller_set_selected(uic_Station_Selection_Screen_Roller, selectedIndex + 1, LV_ANIM_OFF);
+    }
+    */
+
+    lv_roller_set_options(uic_Station_Selection_Screen_Roller, createStaionListPage(160), LV_ROLLER_MODE_NORMAL); 
+
+
+}
+
+const char * DisplayTask::createStaionListPage(size_t stationIndex)
+{
+    size_t pageStartIndex = 0;
+    size_t pageEndIndex = 0;
+
+    // No data
+    if(Orchestrator.stationSetCount == 0)
+    {
+        Log.errorln("No station data");
+        return "";
+    }
+
+
+    // get the station set index that contains the station index
+    size_t stationSetIndex = floor(stationIndex / STATION_SET_SIZE);
+
+    // check for bad stationIndex value which yielded a
+    // bad stationSetIndex value
+    if(stationSetIndex >= Orchestrator.stationSetCount) {
+        Log.errorln("Bad Station index: %d, station set index: %d", stationIndex, stationSetIndex);
+        return "";
+
+    }
+       
+     
+    if(stationSetIndex == 0)
+    {
+        // if the station index is in the first set of stations
+        // then load the first three stations sets
+        pageStartIndex = 0;
+        pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 3] - 1;
+
+    }
+    else 
+    {
+        // if the station index is in the last set of stations
+        // then load the last three stations sets
+        if(stationSetIndex == Orchestrator.stationSetCount - 1)
+        {
+            Log.infoln("Station index is in the last set of stations");
+            pageStartIndex = Orchestrator.stationSetIndexes[stationSetIndex - 2];
+            pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 1] - 1;
+        }
+        else
+        {
+            Log.infoln("Station index is in the middle set of stations");
+            // if the station index is in the middle set of stations
+            // then load the middle three stations sets
+            pageStartIndex = Orchestrator.stationSetIndexes[stationSetIndex - 1];
+            pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 2] - 1;
+        }
+    }
+    char value = Orchestrator.stationNamesString[pageEndIndex];
+    Orchestrator.stationNamesString[pageEndIndex] = '\0';
+    Log.infoln("Station index: %d, station set index: %d, page start index: %d, page end index: %d", stationIndex, stationSetIndex, pageStartIndex, pageEndIndex);
+    Log.infoln("Station set count: %d", Orchestrator.stationSetCount);
+    Log.infoln("Station set value:\n %s", Orchestrator.stationNamesString + pageStartIndex);
+   // Orchestrator.stationNamesString[pageEndIndex] = value;
+
+    return Orchestrator.stationNamesString + pageStartIndex;
+}
 
 DisplayTask Display;

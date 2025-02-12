@@ -65,7 +65,7 @@ void OrchestratorTask::tick()
             case ORCHESTRATOR_MESSAGE_ROTARY_PUSH:
                 if(Display.getActiveScreen() == ui_Station_Selection_Screen)
                 {
-                    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
+                    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY);
                 }
                 break;
             case ORCHESTRATOR_MESSAGE_UPDATE_CLOCK:
@@ -85,11 +85,13 @@ void OrchestratorTask::tick()
                 lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_SELECTED:
-                startStationSelecttionFlow();
+
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED:
                 stationListDownloaded = true;
-                Display.send(DISPLAY_MESSAGE_UPDATE_STATIONS);
+                break;
+            case ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY:
+                startStationSelecttionFlow();
                 break;
             default:
                 break;
@@ -124,6 +126,7 @@ void OrchestratorTask::tick()
  
 }
 
+
 void OrchestratorTask::startup()
 {
       createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
@@ -151,10 +154,11 @@ void OrchestratorTask::startup()
         ->addStep("starting time service", 2000, beginTime)
         // Wait 40ms before downloading the stations info
         ->addStep("show getting stations", 40, showGettingStations)
-        ->addStep("get station list", 40, downloadStationList)
+        ->addStep("download station names", 40, downloadStationNames)
         // Wait 1000ms for the station list to be downloaded, repeat 100 times if nessary
-        ->addStep("wait for station list", 1000, isStationListDownloaded, 100)
-        //->addStep("loadstations", 40, loadStationSelection)
+        ->addStep("wait for station list", 1000, areStationNamesDownloaded, 100)
+        ->addStep("creating paged station list", 40, createPagedStationNameList)
+        ->addStep("update station selection screen", 40, updateStationSelectionScreen)
         ->addStep("partitions", 40, logPartitions)
         ->addStep("memory", 40, logMemory)
         // Wait 5000ms before showing radio screen
@@ -185,52 +189,43 @@ bool OrchestratorTask::start()
 
 void OrchestratorTask::startStationSelecttionFlow()
 {
-    Orchestrator.stationName = Orchestrator.stationListJson.as<JsonArray>()[lv_roller_get_selected(uic_Station_Selection_Screen_Roller)].as<String>();
+    String stationName = Display.getSelectedStation();
+    Log.infoln("Station selected %s", stationName.c_str());
 
     Orchestrator.createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
-        flowConfig->addStep("setstationname", 40, setStationName)
-        ->addStep("showstationname", 40, showStationName)
-        ->addStep("downloadStationInfo", 40, downloadStationInfo)
-        ->addStep("getstatiionurl", 40, getStationUrl)
-        ->addStep("showstation", 40, startRadio);
+        flowConfig->addStep("download station info", 40, downloadStationInfo)
+        ->addStep("start radio", 40, startRadio);
         
     });
     
 }
 
-bool OrchestratorTask::isStationListDownloaded()
+bool OrchestratorTask::areStationNamesDownloaded()
 {
     return Orchestrator.stationListDownloaded;
 }
 
-bool OrchestratorTask::getStationUrl()
+bool OrchestratorTask::updateStationSelectionScreen()
 {
+    Display.send(DISPLAY_MESSAGE_UPDATE_STATIONS);
     return true;
 }
 
-bool OrchestratorTask::setStationName()
-{
-    uint32_t index = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
-    JsonArray jsonArray = Orchestrator.stationListJson.as<JsonArray>();
-    Orchestrator.stationName = jsonArray[index].as<String>();
-    Log.infoln("Selected station: %s for index: %d", Orchestrator.stationName.c_str(), index);
-
-
-    return true;
-}
 
 bool OrchestratorTask::downloadStationInfo()
 {
-    Log.infoln("Downloading station info for %s", Orchestrator.stationName.c_str());
-    return Cloud.downloadStation(Orchestrator.stationListJson,Orchestrator.stationName);
+    String stationName = Display.getSelectedStation();
+    Log.infoln("Downloading station info for %s", stationName.c_str());
+    
+    if(Cloud.downloadStation(Orchestrator.stationJson,stationName)) {
+        const char * streamUrl = Orchestrator.stationJson["stream_url"].as<const char *>();
+        Configuration.setLastStation(streamUrl);
+        return true;
+    }
+        
+    return false;
 }
 
-bool OrchestratorTask::showStationName()
-{
-    return setMessageScreenMessage(Orchestrator.stationName.c_str()) &&
-    showMessageScreen();
-
-}
 
 bool OrchestratorTask::logPartitions() {
     const esp_partition_t *partition;
@@ -278,8 +273,10 @@ bool OrchestratorTask::showStationSelectionScreen() {
 }
 
 bool OrchestratorTask::startRadio() {
+    String streamUrl = Configuration.getLastStation();
+
     return Display.send(DISPLAY_MESSAGE_SCREEN_RADIO) &&
-    Sound.send(SOUND_MESSAGE_CONNECT, RADIO_STREAM);
+    Sound.send(SOUND_MESSAGE_CONNECT, streamUrl.c_str());
 }
 
 bool OrchestratorTask::downloadIPAddress() {
@@ -316,8 +313,8 @@ bool OrchestratorTask::beginTime() {
     return Time.begin(Orchestrator.timezone);
 }
 
-bool OrchestratorTask::downloadStationList(){
-    return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATION_LIST);
+bool OrchestratorTask::downloadStationNames(){
+    return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATION_NAMES);
 }
 
 bool OrchestratorTask::showIPAddress() {
@@ -332,31 +329,109 @@ bool OrchestratorTask::showGettingStations() {
     return Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, "Getting stations");
 }
 
-bool OrchestratorTask::loadStationSelection()
-{
-    String string;
-    int i = 0;
-
-    for (JsonArray::iterator it =Orchestrator.stationListJson.as<JsonArray>().begin(); it != Orchestrator.stationListJson.as<JsonArray>().end(); ++it) 
-    {
-        if(i < 700) 
-        {
-            if(i > 0)
-                string.concat("\n");
-    
-            string.concat( (*it).as<const char*>());
-
-            i++;
-        }
-    }
-
-    lv_roller_set_options(uic_Station_Selection_Screen_Roller, string.c_str(), LV_ROLLER_MODE_INFINITE);
-
-    return true;
-}
 
 bool OrchestratorTask::setInitialized() {
     Orchestrator.initialized = true;
+    return true;
+}
+
+bool OrchestratorTask::createPagedStationNameList()
+{
+    File file = SD.open(STATION_LIST_FILE, FILE_READ);
+    
+    if (file) 
+    {
+        Log.traceln("Reading file: %s size: %d", STATION_LIST_FILE, file.size());
+
+        // Because we are removing json formatting, the data in the buffer
+        // will be smaller than the file size
+        size_t bufferSize = file.size();
+
+        // Allocate a buffer to hold the station names
+        // Each station name is separated by a newline character
+        Orchestrator.stationNamesString = (char *) ps_malloc(bufferSize);
+
+        size_t index = 0;
+        size_t startIndex = 0;
+        char * stationName;
+        size_t currentLength = 0;
+        size_t stationCounter = 0;
+        Orchestrator.stationSetCount = 0;
+        SpiRamAllocator spiRamAllocator;
+        JsonDocument stationListJson(&spiRamAllocator);;
+
+        // Deserialize the json file that was downloaded previosly
+        DeserializationError error = deserializeJson(stationListJson, file);
+
+        if(error.code() == DeserializationError::Ok)
+        {
+            JsonArray jsonArray = stationListJson.as<JsonArray>();
+
+            // iterate over the array of station names
+            for(JsonVariant value : jsonArray)
+            {
+                // Get thestation name from the array
+                stationName = (char *) value.as<const char*>();
+
+                // find its size
+                currentLength = strlen(stationName);
+                
+                // Take the string value from the json array and copy it to the char * buffer
+                memcpy(Orchestrator.stationNamesString + index, stationName, currentLength);
+                
+                // Add a newline character to the end of the station name in the char * buffer
+                Orchestrator.stationNamesString[index + currentLength] = '\n';
+
+                // move the buffer index to the end of the station name + new line character
+                index += currentLength + 1;
+
+                // add to the station counter
+                stationCounter++;
+
+                // if we have enough stations to make a set
+                if(stationCounter % STATION_SET_SIZE == 0)
+                {
+                    // Capture the start index of the set
+                    Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = startIndex;
+
+                    // Capture the start index of the next set
+                    startIndex = index;
+
+                    // increment the station set count
+                    Orchestrator.stationSetCount++;
+                }
+            }
+            
+            // There left over stations for an incomplete set
+            if(stationCounter % STATION_SET_SIZE != 0) {
+
+                // Capture the start index of the last incomplete set
+                Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = startIndex;
+                // increment the station set count
+                Orchestrator.stationSetCount++; 
+
+            }
+            
+            // terminate the large buffer string    
+            if(index > 0) {
+                Orchestrator.stationNamesString[index -1] = '\0';
+                Orchestrator.stationSetStringsSize = index;
+
+                // The last set index is would the start of the next set, if there was one. Now its just a terminator
+                Orchestrator.stationSetIndexes[Orchestrator.stationSetCount] = index;  
+            }
+
+            Log.traceln("Read %d stations, %d station sets", stationCounter, Orchestrator.stationSetCount);
+
+        }
+        else
+        {
+            Log.errorln(F("[HTTPS] error parsing JSON code: %d"), error.code());
+        }
+
+        file.close();
+    }
+   
     return true;
 }
 

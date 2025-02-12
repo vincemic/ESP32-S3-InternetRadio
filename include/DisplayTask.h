@@ -33,8 +33,6 @@
 #define DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE 28
 #define DISPLAY_MESSAGE_UPDATE_STATIONS 29
 
-#define DISPLAY_MAX_STATION_UI_LIST 50
-
 class DisplayTask : public ThreadTask {
 
 public:
@@ -48,6 +46,7 @@ public:
     static volatile bool disableInterrupt;
     static void IRAM_ATTR touchISR();
     lv_obj_t * getActiveScreen();
+    String getSelectedStation();
 
 private:
     bool start();
@@ -56,7 +55,10 @@ private:
     Adafruit_TSC2007 touchController;
     bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
+    size_t currentStationIndex = 0;
     void showScreen(uint16_t screenId);
+    void updateStationListDisplay();
+    const char * createStaionListPage(size_t stationIndex);
 
 };
 

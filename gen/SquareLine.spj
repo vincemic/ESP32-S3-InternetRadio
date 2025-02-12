@@ -7241,7 +7241,7 @@
                       {
                         "nid": 1000991,
                         "strtype": "CALL FUNCTION/Function_name",
-                        "strval": "playChannel",
+                        "strval": "playStation",
                         "InheritedType": 10
                       },
                       {
@@ -7669,6 +7669,7 @@
                 "childs": [
                   {
                     "nid": 15,
+                    "flags": 1048576,
                     "strtype": "_codename/Codename",
                     "strval": "Station_Selection_Screen_Roller",
                     "InheritedType": 10
@@ -11270,7 +11271,7 @@
     "uiExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio\\src\\ui",
     "projectExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 62,
+    "backup_cnt": 63,
     "autosave_cnt": 0,
     "lvgl_version": "9.1.0",
     "callfuncsexport": "C_FILE",
