@@ -64,7 +64,7 @@ void ui_Station_Selection_Screen_screen_init(void)
     lv_label_set_text(ui_Station_Selection_Screen_Cancel_Button_Label, "Cancel");
 
     ui_Station_Selection_Screen_Roller = lv_roller_create(ui_Station_Selection_Screen);
-    lv_roller_set_options(ui_Station_Selection_Screen_Roller, "Radio\nClock\nGame\nProton", LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_options(ui_Station_Selection_Screen_Roller, "", LV_ROLLER_MODE_INFINITE);
     lv_roller_set_selected(ui_Station_Selection_Screen_Roller, 2, LV_ANIM_OFF);
     lv_obj_set_width(ui_Station_Selection_Screen_Roller, 300);
     lv_obj_set_height(ui_Station_Selection_Screen_Roller, 162);

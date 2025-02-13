@@ -169,7 +169,7 @@ void DisplayTask::tick()
             case DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE:
                 lv_label_set_text(uic_Message_Screen_Message_Label, threadMessage.message);
                 break;    
-            case DISPLAY_MESSAGE_TUNE_UP:
+            case DISPLAY_MESSAGE_SCROLL_STATION_DOWN:
 
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
@@ -177,10 +177,10 @@ void DisplayTask::tick()
                 if(selected < number - 1) 
                     lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
 
-                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
+                updateStationListDisplay();
                 break;
 
-            case DISPLAY_MESSAGE_TUNE_DOWN:
+            case DISPLAY_MESSAGE_SCROLL_STATION_UP:
 
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
@@ -188,7 +188,7 @@ void DisplayTask::tick()
                 if(selected > 0) 
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
 
-                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
+                updateStationListDisplay();
                 break;
             case DISPLAY_MESSAGE_UPDATE_CLOCK:
                 lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
@@ -255,7 +255,7 @@ void DisplayTask::showScreen(uint16_t screenId, const char * message)
         case DISPLAY_MESSAGE_SCREEN_CLOCK:  
                 lv_screen_load(uic_Clock_Screen);
         break;
-        case DISPLAY_MESSAGE_SCREEN_STATION_SELECTION:          
+        case DISPLAY_MESSAGE_SCREEN_STATION_SELECTION:   
                 lv_screen_load(ui_Station_Selection_Screen);
         break;
         case DISPLAY_MESSAGE_SCREEN_NETWORK:
@@ -280,28 +280,37 @@ void DisplayTask::showScreen(uint16_t screenId, const char * message)
 
 void DisplayTask::updateStationListDisplay()
 {
-
-    /*
-    // try and keep selection in the second (middle) set of 3 stations sets
-   uint32_t selectedIndex =  lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
-
-    // is the selected index in the third set of stations, then load a new page of station sets
-    if(selectedIndex > STATION_SET_SIZE * 2)
+    // Station page is composed of three station sets. bottom, middle, top
+    // if the current selected station is in the bottom or top set of stations
+    // then load a new page of stations so that the selected station is in the middle of station page
+    if(stationListInitialized == false)
     {
-        lv_roller_set_selected(uic_Station_Selection_Screen_Roller, selectedIndex - 1, LV_ANIM_OFF);
-
-    } else if(selectedIndex < STATION_SET_SIZE) { // is the selected index in the first set of stations, then load a new page of station sets
-
-        lv_roller_set_selected(uic_Station_Selection_Screen_Roller, selectedIndex + 1, LV_ANIM_OFF);
+        Log.infoln("Initializing station list page");
+        createStationListPage(0);
+        stationListInitialized = true;
     }
-    */
+    else 
+    {
+        // change the page of stations if the current selection is in the first or last set of stations
 
-    lv_roller_set_options(uic_Station_Selection_Screen_Roller, createStaionListPage(160), LV_ROLLER_MODE_NORMAL); 
+        // try and keep selection in the second (middle) set of 3 stations sets
+        // the selected index is realitive to the current page of stations
+        uint32_t selectedIndex =  lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
 
+        // is the selected index in the third set of stations or first set, then load a new page of station sets
+        if(selectedIndex > STATION_SET_SIZE * 2  || ( selectedIndex < STATION_SET_SIZE && stationIndexOffet != 0))
+        {
+            // using the real index of the selected station
+            createStationListPage(stationIndexOffet + selectedIndex);
+
+        } 
+   
+
+    }
 
 }
 
-const char * DisplayTask::createStaionListPage(size_t stationIndex)
+void DisplayTask::createStationListPage(size_t stationIndex)
 {
     size_t pageStartIndex = 0;
     size_t pageEndIndex = 0;
@@ -310,7 +319,7 @@ const char * DisplayTask::createStaionListPage(size_t stationIndex)
     if(Orchestrator.stationSetCount == 0)
     {
         Log.errorln("No station data");
-        return "";
+        return;
     }
 
 
@@ -321,7 +330,6 @@ const char * DisplayTask::createStaionListPage(size_t stationIndex)
     // bad stationSetIndex value
     if(stationSetIndex >= Orchestrator.stationSetCount) {
         Log.errorln("Bad Station index: %d, station set index: %d", stationIndex, stationSetIndex);
-        return "";
 
     }
        
@@ -353,14 +361,26 @@ const char * DisplayTask::createStaionListPage(size_t stationIndex)
             pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 2] - 1;
         }
     }
-    char value = Orchestrator.stationNamesString[pageEndIndex];
-    Orchestrator.stationNamesString[pageEndIndex] = '\0';
+
+
     Log.infoln("Station index: %d, station set index: %d, page start index: %d, page end index: %d", stationIndex, stationSetIndex, pageStartIndex, pageEndIndex);
     Log.infoln("Station set count: %d", Orchestrator.stationSetCount);
-    Log.infoln("Station set value:\n %s", Orchestrator.stationNamesString + pageStartIndex);
-   // Orchestrator.stationNamesString[pageEndIndex] = value;
 
-    return Orchestrator.stationNamesString + pageStartIndex;
+
+    size_t pageSize = pageEndIndex - pageStartIndex;
+    char * page = (char *) ps_malloc(pageSize);
+
+    memcpy(page, Orchestrator.stationNamesString + pageStartIndex, pageSize);
+    page[pageSize - 1] = '\0';
+
+    Log.infoln("Station set value:\n %s", page);
+
+    lv_roller_set_options(uic_Station_Selection_Screen_Roller, page, LV_ROLLER_MODE_NORMAL);
+
+    free(page);
+
+    stationIndexOffet = pageStartIndex;
+
 }
 
 DisplayTask Display;

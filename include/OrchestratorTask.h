@@ -8,7 +8,7 @@
 
 typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
 
-#define ORCHESTRATOR_MESSAGE_STATION_SELECTED 1
+
 #define ORCHESTRATOR_MESSAGE_SCREEM_CHANGED 2
 #define ORCHESTRATOR_START 3
 #define ORCHESTRATOR_MESSAGE_ROTARY_LEFT 4
@@ -44,12 +44,13 @@ public:
     char * stationNamesString = NULL;
     size_t stationSetStringsSize = 0;
 
+
 private:
     bool start();
     QueueHandle_t flowQueue = xQueueCreate( 40, sizeof( AsyncFlow * ) );
     void startup();
 
-    static void startStationSelecttionFlow();
+    static void startStationSelectedFlow();
 
     static bool downloadStationInfo();
     static bool logPartitions();

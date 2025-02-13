@@ -25,7 +25,7 @@ void cancelNetworkScreen(lv_event_t * e)
 }
 
 void stationSelectionChanged(lv_event_t * e) {
-    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_SELECTED);
+    Display.send(DISPLAY_MESSAGE_UPDATE_STATIONS);
 }
 
 void playStation(lv_event_t * e) {

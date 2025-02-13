@@ -17,8 +17,8 @@
 #define DISPLAY_MESSAGE_WIFI_DISCONNECTED 5
 #define DISPLAY_MESSAGE_COMMERCIAL 6
 #define DISPLAY_MESSAGE_ERROR 7
-#define DISPLAY_MESSAGE_TUNE_UP 8
-#define DISPLAY_MESSAGE_TUNE_DOWN 9
+#define DISPLAY_MESSAGE_SCROLL_STATION_UP 8
+#define DISPLAY_MESSAGE_SCROLL_STATION_DOWN 9
 #define DISPLAY_MESSAGE_UPDATE_CLOCK 11
 
 
@@ -38,27 +38,37 @@ class DisplayTask : public ThreadTask {
 public:
     DisplayTask();
     static bool begin();
-    lv_indev_t * indev_touchpad;
+
     void tick();
-    static void readTouchCB(lv_indev_t *device, lv_indev_data_t *data);
+
     volatile bool touchStarted = false;
     static volatile bool fireTouchRead;
     static volatile bool disableInterrupt;
-    static void IRAM_ATTR touchISR();
+
     lv_obj_t * getActiveScreen();
     String getSelectedStation();
 
 private:
-    bool start();
-    SemaphoreHandle_t mutex;
+    static void IRAM_ATTR touchISR();
+    static void readTouchCB(lv_indev_t *device, lv_indev_data_t *data);
+    
+    lv_indev_t * indev_touchpad;
     uint32_t draw_buf[DRAW_BUF_SIZE / 4];
     Adafruit_TSC2007 touchController;
-    bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
     lv_display_t * display;
-    size_t currentStationIndex = 0;
+    size_t stationIndexOffet = 0;
+    bool stationListInitialized = false;
+
+    
+    bool start();
+    bool readTouch(uint16_t* x,uint16_t* y,uint16_t* z1,uint16_t* z2);  
+
+
     void showScreen(uint16_t screenId, const char * message = NULL);
     void updateStationListDisplay();
-    const char * createStaionListPage(size_t stationIndex);
+    void createStationListPage(size_t stationIndex);
+
+
 
 };
 

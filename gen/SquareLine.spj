@@ -7745,7 +7745,7 @@
               {
                 "nid": 1020,
                 "strtype": "ROLLER/Options",
-                "strval": "Radio\\nClock\\nGame\\nProton",
+                "strval": "",
                 "InheritedType": 10
               },
               {

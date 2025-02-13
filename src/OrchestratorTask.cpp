@@ -47,7 +47,7 @@ void OrchestratorTask::tick()
             case ORCHESTRATOR_MESSAGE_ROTARY_LEFT:
                if(Display.getActiveScreen() == ui_Station_Selection_Screen)
                 {
-                     Display.send(DISPLAY_MESSAGE_TUNE_DOWN);
+                     Display.send(DISPLAY_MESSAGE_SCROLL_STATION_DOWN);
                 } 
                 else if(Display.getActiveScreen() == ui_Main_Screen )
                 {
@@ -57,7 +57,7 @@ void OrchestratorTask::tick()
             case ORCHESTRATOR_MESSAGE_ROTARY_RIGHT:
                 if(Display.getActiveScreen() == ui_Station_Selection_Screen)
                 {
-                     Display.send(DISPLAY_MESSAGE_TUNE_UP);
+                     Display.send(DISPLAY_MESSAGE_SCROLL_STATION_UP);
                 } 
                 else if(Display.getActiveScreen() == ui_Main_Screen )
                 {
@@ -86,14 +86,11 @@ void OrchestratorTask::tick()
                 lv_textarea_set_text(ui_Network_Screen_SSID_Text_Area, Configuration.getWifiSSID().c_str());
                 lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
                 break;
-            case ORCHESTRATOR_MESSAGE_STATION_SELECTED:
-
-                break;
             case ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED:
                 stationListDownloaded = true;
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY:
-                startStationSelecttionFlow();
+                startStationSelectedFlow();
                 break;
             default:
                 break;
@@ -189,7 +186,7 @@ bool OrchestratorTask::start()
     return false;
 }
 
-void OrchestratorTask::startStationSelecttionFlow()
+void OrchestratorTask::startStationSelectedFlow()
 {
     String stationName = Display.getSelectedStation();
     Log.infoln("Station selected %s", stationName.c_str());
