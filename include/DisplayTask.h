@@ -56,7 +56,7 @@ private:
     uint32_t draw_buf[DRAW_BUF_SIZE / 4];
     Adafruit_TSC2007 touchController;
     lv_display_t * display;
-    size_t stationIndexOffet = 0;
+    size_t stationPageIndexOffet = 0;
     bool stationListInitialized = false;
 
     

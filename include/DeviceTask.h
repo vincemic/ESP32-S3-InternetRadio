@@ -26,7 +26,7 @@ public:
     uint32_t readRotaryPostion();
     Adafruit_seesaw rotary_seesaw;
     int32_t encoderPosition = 0;
-    bool rotarySwitchBounce = false;
+    bool rotarySwitchBounce = true;
     uint8_t isrCounter = 0;
 };
 

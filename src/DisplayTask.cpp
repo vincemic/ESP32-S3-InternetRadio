@@ -296,15 +296,7 @@ void DisplayTask::updateStationListDisplay()
         // try and keep selection in the second (middle) set of 3 stations sets
         // the selected index is realitive to the current page of stations
         uint32_t selectedIndex =  lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
-
-        // is the selected index in the third set of stations or first set, then load a new page of station sets
-        if(selectedIndex > STATION_SET_SIZE * 2  || ( selectedIndex < STATION_SET_SIZE && stationIndexOffet != 0))
-        {
-            // using the real index of the selected station
-            createStationListPage(stationIndexOffet + selectedIndex);
-
-        } 
-   
+        createStationListPage(selectedIndex);
 
     }
 
@@ -312,34 +304,48 @@ void DisplayTask::updateStationListDisplay()
 
 void DisplayTask::createStationListPage(size_t stationIndex)
 {
-    size_t pageStartIndex = 0;
-    size_t pageEndIndex = 0;
-
-    // No data
-    if(Orchestrator.stationSetCount == 0)
+    // if the relative station index is in the middle station set of the page
+    if(stationIndex > STATION_SET_SIZE && stationIndex < (2 * STATION_SET_SIZE) )
     {
-        Log.errorln("No station data");
         return;
     }
 
 
+    // Calculate the station index using the relative start of the current page
+    stationIndex = stationIndex + stationPageIndexOffet;
+
+    // No need to update the page if the station index at the start of the station list
+    if(stationIndex < STATION_SET_SIZE && stationListInitialized)
+    {
+        return;
+    }
+
+    // string index for the first station in the page
+    size_t pageStartIndex = 0;
+    // string index for the last character of the last station name in the page
+    size_t pageEndIndex = 0;
     // get the station set index that contains the station index
     size_t stationSetIndex = floor(stationIndex / STATION_SET_SIZE);
+    // get the relative station index in the station set
+    size_t relativeStationIndex = stationIndex - (stationSetIndex * STATION_SET_SIZE);
 
-    // check for bad stationIndex value which yielded a
-    // bad stationSetIndex value
-    if(stationSetIndex >= Orchestrator.stationSetCount) {
-        Log.errorln("Bad Station index: %d, station set index: %d", stationIndex, stationSetIndex);
-
-    }
        
-     
     if(stationSetIndex == 0)
     {
         // if the station index is in the first set of stations
         // then load the first three stations sets
         pageStartIndex = 0;
+
+        //get the start of the fourth station set and substract one to get the end of the third station set
         pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 3] - 1;
+
+        stationPageIndexOffet = 0;
+
+            // ---> stationSetIndex <--- the new selected station is offset here
+            // ---> stationSetIndex +1
+            // ---> stationSetIndex +2
+            // ---> stationSetIndex +3 start - one charater = end of 0
+            // leaves the orginal selected station in the first station set 
 
     }
     else 
@@ -349,16 +355,40 @@ void DisplayTask::createStationListPage(size_t stationIndex)
         if(stationSetIndex == Orchestrator.stationSetCount - 1)
         {
             Log.infoln("Station index is in the last set of stations");
+
+            stationPageIndexOffet = (stationSetIndex - 2) * STATION_SET_SIZE;
+
             pageStartIndex = Orchestrator.stationSetIndexes[stationSetIndex - 2];
+            
+            // one charater before the start of the next station index is the end of the previous station set
             pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 1] - 1;
+
+            // ---> stationSetIndex -2 start 
+            // ---> stationSetIndex -1
+            // ---> stationSetIndex <--- the new selected station is offset here
+            // ---> stationSetIndex +1 start - one charater = end of 0
+            // leaves the orginal selected station in the last station set 0 at the end of the page
+
+            relativeStationIndex = relativeStationIndex + (STATION_SET_SIZE * 2);
         }
         else
         {
             Log.infoln("Station index is in the middle set of stations");
+            
+            stationPageIndexOffet = (stationSetIndex - 1) * STATION_SET_SIZE;
             // if the station index is in the middle set of stations
-            // then load the middle three stations sets
+            // then load the three stations sets that contain the selected station index in the middle station set.
             pageStartIndex = Orchestrator.stationSetIndexes[stationSetIndex - 1];
             pageEndIndex = Orchestrator.stationSetIndexes[stationSetIndex + 2] - 1;
+
+            // ---> stationSetIndex -1 start
+            // ---> stationSetIndex <--- the new selected station is offset here
+            // ---> stationSetIndex +1    
+            // ---> stationSetIndex +2 start - one charater = end of 1
+            // leeaves the orginal selected station in the middle of the page in the 0 station set
+
+            relativeStationIndex = relativeStationIndex + (STATION_SET_SIZE);
+
         }
     }
 
@@ -370,16 +400,17 @@ void DisplayTask::createStationListPage(size_t stationIndex)
     size_t pageSize = pageEndIndex - pageStartIndex;
     char * page = (char *) ps_malloc(pageSize);
 
+    // copy the station name page into the buffer
     memcpy(page, Orchestrator.stationNamesString + pageStartIndex, pageSize);
+    // terminate the string oF station names
     page[pageSize - 1] = '\0';
 
-    Log.infoln("Station set value:\n %s", page);
+    Log.infoln("Station set value:\n%s", page);
 
     lv_roller_set_options(uic_Station_Selection_Screen_Roller, page, LV_ROLLER_MODE_NORMAL);
+    lv_roller_set_selected(uic_Station_Selection_Screen_Roller, relativeStationIndex, LV_ANIM_OFF);
 
     free(page);
-
-    stationIndexOffet = pageStartIndex;
 
 }
 
