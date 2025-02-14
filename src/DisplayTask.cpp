@@ -144,6 +144,12 @@ void DisplayTask::tick()
     {
         switch(threadMessage.messageType)
         {
+            case DISPLAY_MESSAGE_CLEAR_MAIN_SCREEN:
+                lv_label_set_text(ui_Main_Screen_Artist, "");
+                lv_label_set_text(ui_Main_Screen_Title, "");
+                lv_label_set_text(ui_Main_Screen_Station, "");
+                lv_label_set_text(ui_Main_Screen_Commercial, "");
+                break;
             case DISPLAY_MESSAGE_ARTIST:
                 lv_label_set_text(ui_Main_Screen_Artist, threadMessage.message);
                 break;
@@ -174,8 +180,12 @@ void DisplayTask::tick()
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
 
-                if(selected < number - 1) 
+                if(selected < number - 1) {
                     lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
+                    char stationName[200];
+                    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
+                    Log.infoln("Selected station: %d - %s",selected,stationName );
+                }
 
                 updateStationListDisplay();
                 break;
@@ -185,8 +195,12 @@ void DisplayTask::tick()
                 number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
                 selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
 
-                if(selected > 0) 
+                if(selected > 0) {
                     lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
+                    char stationName[200];
+                    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
+                    Log.infoln("Selected station: %d - %s",selected, stationName );
+                }
 
                 updateStationListDisplay();
                 break;

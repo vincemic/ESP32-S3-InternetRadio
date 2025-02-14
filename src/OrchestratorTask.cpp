@@ -130,7 +130,8 @@ void OrchestratorTask::startup()
 {
       createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
         // Wait three seconds before showing the message screen
-        flowConfig->addStep("showscreen", 3000, showMessageScreen)
+        flowConfig
+        ->addStep("showscreen", 3000, showMessageScreen)
         // Wait 500ms before starting the wifi connection
         ->addStep("wifi beign", 500, Wireless.begin)
         // Wait 1000ms for the wifi to connect - rety 5 times
@@ -193,6 +194,7 @@ void OrchestratorTask::startStationSelectedFlow()
 
     Orchestrator.createAsyncFlow([](AsyncFlowConfiguration* flowConfig) {
         flowConfig
+        ->addStep("clear main screen", 40, clearRadioScreen)
         ->addStep("show message screen", 40, showMessageScreen, "Getting station info")
         ->addStep("download station info", 40, downloadStationInfo)
         ->addStep("start radio", 40, startRadio);
@@ -209,9 +211,15 @@ bool OrchestratorTask::areStationNamesDownloaded()
 bool OrchestratorTask::updateStationSelectionScreen()
 {
     Display.send(DISPLAY_MESSAGE_UPDATE_STATIONS);
+
     return true;
 }
 
+bool OrchestratorTask::clearRadioScreen()
+{
+    Display.send(DISPLAY_MESSAGE_CLEAR_MAIN_SCREEN);
+    return true;
+}
 
 bool OrchestratorTask::downloadStationInfo()
 {

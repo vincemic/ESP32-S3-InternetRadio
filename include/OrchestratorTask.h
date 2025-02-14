@@ -69,6 +69,7 @@ private:
     static bool showGettingStations();
     static bool areStationNamesDownloaded();
     static bool updateStationSelectionScreen();
+    static bool clearRadioScreen();
 
     static bool setMessageScreenMessage(const char* message);
     static bool setInitialized();
