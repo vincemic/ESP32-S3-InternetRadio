@@ -61,12 +61,13 @@ bool DisplayTask::start()
     lv_textarea_set_text(uic_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
 
     // blank labels to start
-    lv_label_set_text(ui_Main_Screen_Artist, "");
-    lv_label_set_text(ui_Main_Screen_Title, "");
-    lv_label_set_text(ui_Main_Screen_Station, "");
-    lv_label_set_text(ui_Main_Screen_Commercial, "");
+    lv_label_set_text(uic_Radio_Screen_Artist, "");
+    lv_label_set_text(uic_Radio_Screen_Title, "");
+    lv_label_set_text(uic_Radio_Screen_Station, "");
+    lv_label_set_text(uic_Radio_Screen_Commercial, "");
     lv_label_set_text(uic_Message_Screen_Message_Label, "");
-    lv_label_set_text(ui_Main_Screen_Clock_Label, "");
+    lv_label_set_text(uic_Radio_Screen_Clock_Label, "");
+
    
     while(!touchController.begin(TOUCH_ADDR))
     { 
@@ -145,68 +146,60 @@ void DisplayTask::tick()
         switch(threadMessage.messageType)
         {
             case DISPLAY_MESSAGE_CLEAR_MAIN_SCREEN:
-                lv_label_set_text(ui_Main_Screen_Artist, "");
-                lv_label_set_text(ui_Main_Screen_Title, "");
-                lv_label_set_text(ui_Main_Screen_Station, "");
-                lv_label_set_text(ui_Main_Screen_Commercial, "");
+                lv_label_set_text(uic_Radio_Screen_Artist, "");
+                lv_label_set_text(uic_Radio_Screen_Title, "");
+                lv_label_set_text(uic_Radio_Screen_Station, "");
+                lv_label_set_text(uic_Radio_Screen_Commercial, "");
                 break;
             case DISPLAY_MESSAGE_ARTIST:
-                lv_label_set_text(ui_Main_Screen_Artist, threadMessage.message);
+                lv_label_set_text(uic_Radio_Screen_Artist, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_TITLE:
-                lv_label_set_text(ui_Main_Screen_Title, threadMessage.message);
+                lv_label_set_text(uic_Radio_Screen_Title, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_STATION:
-                lv_label_set_text(ui_Main_Screen_Station, threadMessage.message);
+                lv_label_set_text(uic_Radio_Screen_Station, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_COMMERCIAL:
-                lv_label_set_text(ui_Main_Screen_Commercial, threadMessage.message);
+                lv_label_set_text(uic_Radio_Screen_Commercial, threadMessage.message);
                 break;
             case DISPLAY_MESSAGE_WIFI_CONNECTED:
-                lv_obj_remove_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_add_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(uic_Radio_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(uic_Radio_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 break;
             case DISPLAY_MESSAGE_WIFI_DISCONNECTED: 
-                lv_obj_remove_flag(ui_Main_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
-                lv_obj_add_flag(ui_Main_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_remove_flag(uic_Radio_Screen_No_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
+                lv_obj_add_flag(uic_Radio_Screen_WIFI_Image, LV_OBJ_FLAG_HIDDEN);
                 break;
             case DISPLAY_MESSAGE_ERROR:
                 break;
             case DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE:
                 lv_label_set_text(uic_Message_Screen_Message_Label, threadMessage.message);
                 break;    
-            case DISPLAY_MESSAGE_SCROLL_STATION_DOWN:
-
-                number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
-                selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
-
-                if(selected < number - 1) {
-                    lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
-                    char stationName[200];
-                    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
-                    Log.infoln("Selected station: %d - %s",selected,stationName );
+            case DISPLAY_MESSAGE_SCROLL_DOWN:
+                if(lv_screen_active() == uic_Station_Selection_Screen)
+                {
+                    scrollStationDown();
                 }
-
-                updateStationListDisplay();
+                else if(lv_screen_active() == uic_Mode_Screen)
+                {
+                    scrollModeDown();
+                }
                 break;
 
-            case DISPLAY_MESSAGE_SCROLL_STATION_UP:
-
-                number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
-                selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
-
-                if(selected > 0) {
-                    lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
-                    char stationName[200];
-                    lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
-                    Log.infoln("Selected station: %d - %s",selected, stationName );
+            case DISPLAY_MESSAGE_SCROLL_UP:
+                if (lv_screen_active() == uic_Station_Selection_Screen)
+                {
+                    scrollStationUp();
                 }
-
-                updateStationListDisplay();
+                else if (lv_screen_active() == uic_Mode_Screen)
+                {
+                    scrollModeUp();
+                }
                 break;
             case DISPLAY_MESSAGE_UPDATE_CLOCK:
                 lv_label_set_text(uic_Clock_Screen_Clock_Label, threadMessage.message);
-                lv_label_set_text(ui_Main_Screen_Clock_Label, threadMessage.message);
+                lv_label_set_text(uic_Radio_Screen_Clock_Label, threadMessage.message);
                 break;
 
             case DISPLAY_MESSAGE_UPDATE_STATIONS:
@@ -264,7 +257,7 @@ void DisplayTask::showScreen(uint16_t screenId, const char * message)
     switch(screenId)
     {
         case DISPLAY_MESSAGE_SCREEN_RADIO:
-                lv_screen_load(ui_Main_Screen);
+                lv_screen_load(uic_Radio_Screen);
         break;
         case DISPLAY_MESSAGE_SCREEN_CLOCK:  
                 lv_screen_load(uic_Clock_Screen);
@@ -425,6 +418,63 @@ void DisplayTask::createStationListPage(size_t stationIndex)
     lv_roller_set_selected(uic_Station_Selection_Screen_Roller, relativeStationIndex, LV_ANIM_OFF);
 
     free(page);
+
+}
+
+void DisplayTask::scrollStationUp()
+{
+    uint32_t number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
+    uint32_t selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
+
+    if(selected > 0) {
+        lv_roller_set_selected(uic_Station_Selection_Screen_Roller,--selected, LV_ANIM_OFF);
+        char stationName[200];
+        lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
+        Log.infoln("Selected station: %d - %s",selected, stationName );
+    }
+
+    updateStationListDisplay();
+}
+
+void DisplayTask::scrollStationDown()
+{
+    uint32_t number = lv_roller_get_option_count(uic_Station_Selection_Screen_Roller);
+    uint32_t selected = lv_roller_get_selected(uic_Station_Selection_Screen_Roller);
+
+    if(selected < number - 1) {
+        lv_roller_set_selected (uic_Station_Selection_Screen_Roller,++selected, LV_ANIM_OFF);
+        char stationName[200];
+        lv_roller_get_selected_str(uic_Station_Selection_Screen_Roller, stationName, 200);
+        Log.infoln("Selected station: %d - %s",selected,stationName );
+    }
+
+    updateStationListDisplay();
+}
+
+void DisplayTask::scrollModeUp()
+{
+    uint32_t number = lv_roller_get_option_count(ui_Mode_Screen_Mode_Roller);
+    uint32_t selected = lv_roller_get_selected(ui_Mode_Screen_Mode_Roller);
+
+    if(selected > 0) {
+        lv_roller_set_selected(ui_Mode_Screen_Mode_Roller,--selected, LV_ANIM_OFF);
+        char mode[200];
+        lv_roller_get_selected_str(ui_Mode_Screen_Mode_Roller, mode, 200);
+        Log.infoln("Selected mode: %d - %s",selected, mode );
+    }
+}
+
+void DisplayTask::scrollModeDown()
+{
+    uint32_t number = lv_roller_get_option_count(ui_Mode_Screen_Mode_Roller);
+    uint32_t selected = lv_roller_get_selected(ui_Mode_Screen_Mode_Roller);
+
+    if(selected < number - 1) {
+        lv_roller_set_selected (ui_Mode_Screen_Mode_Roller,++selected, LV_ANIM_OFF);
+        char mode[200];
+        lv_roller_get_selected_str(ui_Mode_Screen_Mode_Roller, mode, 200);
+        Log.infoln("Selected mode: %d - %s",selected,mode );
+    }
 
 }
 

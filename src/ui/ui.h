@@ -40,51 +40,51 @@ extern lv_obj_t * uic_Loading_Screen;
 extern lv_obj_t * uic_Loading_Screen_Logo_Image;
 extern lv_obj_t * uic_Loading_Screen__Loading_Label;
 
-// SCREEN: ui_Main_Screen
-void ui_Main_Screen_screen_init(void);
-extern lv_obj_t * ui_Main_Screen;
-extern lv_obj_t * ui_Main_Screen_Artist;
-extern lv_obj_t * ui_Main_Screen_Station;
-extern lv_obj_t * ui_Main_Screen_Commercial;
-extern lv_obj_t * ui_Main_Screen_Title;
-void ui_event_Main_Screen_No_WIFI_Image(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_No_WIFI_Image;
-void ui_event_Main_Screen_WIFI_Image(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_WIFI_Image;
-extern lv_obj_t * ui_Main_Screen_Line_Image;
-extern lv_obj_t * ui_Main_Screen_Clock_Label;
-extern lv_obj_t * ui_Main_Screen_Panel_Tray;
-void ui_event_Main_Screen_Mode_Button(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_Mode_Button;
-extern lv_obj_t * ui_Main_Screen_Mode_Button_Label;
-void ui_event_Main_Screen_Tune_Button(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_Tune_Button;
-extern lv_obj_t * ui_Main_Screen_Tune_Button_Label;
-void ui_event_Main_Screen_Button_Tray_Up(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_Button_Tray_Up;
-extern lv_obj_t * ui_Main_Screen_Button_Tray_Up_Image;
-void ui_event_Main_Screen_Button_Tray_Down(lv_event_t * e);
-extern lv_obj_t * ui_Main_Screen_Button_Tray_Down;
-extern lv_obj_t * ui_Main_Screen_Button_Tray_Down_Image;
+// SCREEN: ui_Radio_Screen
+void ui_Radio_Screen_screen_init(void);
+extern lv_obj_t * ui_Radio_Screen;
+extern lv_obj_t * ui_Radio_Screen_Artist;
+extern lv_obj_t * ui_Radio_Screen_Station;
+extern lv_obj_t * ui_Radio_Screen_Commercial;
+extern lv_obj_t * ui_Radio_Screen_Title;
+void ui_event_Radio_Screen_No_WIFI_Image(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_No_WIFI_Image;
+void ui_event_Radio_Screen_WIFI_Image(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_WIFI_Image;
+extern lv_obj_t * ui_Radio_Screen_Line_Image;
+extern lv_obj_t * ui_Radio_Screen_Clock_Label;
+extern lv_obj_t * ui_Radio_Screen_Panel_Tray;
+void ui_event_Radio_Screen_Mode_Button(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_Mode_Button;
+extern lv_obj_t * ui_Radio_Screen_Mode_Button_Label;
+void ui_event_Radio_Screen_Tune_Button(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_Tune_Button;
+extern lv_obj_t * ui_Radio_Screen_Tune_Button_Label;
+void ui_event_Radio_Screen_Button_Tray_Up(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_Button_Tray_Up;
+extern lv_obj_t * ui_Radio_Screen_Button_Tray_Up_Image;
+void ui_event_Radio_Screen_Button_Tray_Down(lv_event_t * e);
+extern lv_obj_t * ui_Radio_Screen_Button_Tray_Down;
+extern lv_obj_t * ui_Radio_Screen_Button_Tray_Down_Image;
 // CUSTOM VARIABLES
-extern lv_obj_t * uic_Main_Screen;
-extern lv_obj_t * uic_Main_Screen_Artist;
-extern lv_obj_t * uic_Main_Screen_Station;
-extern lv_obj_t * uic_Main_Screen_Commercial;
-extern lv_obj_t * uic_Main_Screen_Title;
-extern lv_obj_t * uic_Main_Screen_No_WIFI_Image;
-extern lv_obj_t * uic_Main_Screen_WIFI_Image;
-extern lv_obj_t * uic_Main_Screen_Line_Image;
-extern lv_obj_t * uic_Main_Screen_Clock_Label;
-extern lv_obj_t * uic_Main_Screen_Panel_Tray;
-extern lv_obj_t * uic_Main_Screen_Mode_Button;
-extern lv_obj_t * uic_Main_Screen_Mode_Button_Label;
-extern lv_obj_t * uic_Main_Screen_Tune_Button;
-extern lv_obj_t * uic_Main_Screen_Tune_Button_Label;
-extern lv_obj_t * uic_Main_Screen_Button_Tray_Up;
-extern lv_obj_t * uic_Main_Screen_Button_Tray_Up_Image;
-extern lv_obj_t * uic_Main_Screen_Button_Tray_Down;
-extern lv_obj_t * uic_Main_Screen_Button_Tray_Down_Image;
+extern lv_obj_t * uic_Radio_Screen;
+extern lv_obj_t * uic_Radio_Screen_Artist;
+extern lv_obj_t * uic_Radio_Screen_Station;
+extern lv_obj_t * uic_Radio_Screen_Commercial;
+extern lv_obj_t * uic_Radio_Screen_Title;
+extern lv_obj_t * uic_Radio_Screen_No_WIFI_Image;
+extern lv_obj_t * uic_Radio_Screen_WIFI_Image;
+extern lv_obj_t * uic_Radio_Screen_Line_Image;
+extern lv_obj_t * uic_Radio_Screen_Clock_Label;
+extern lv_obj_t * uic_Radio_Screen_Panel_Tray;
+extern lv_obj_t * uic_Radio_Screen_Mode_Button;
+extern lv_obj_t * uic_Radio_Screen_Mode_Button_Label;
+extern lv_obj_t * uic_Radio_Screen_Tune_Button;
+extern lv_obj_t * uic_Radio_Screen_Tune_Button_Label;
+extern lv_obj_t * uic_Radio_Screen_Button_Tray_Up;
+extern lv_obj_t * uic_Radio_Screen_Button_Tray_Up_Image;
+extern lv_obj_t * uic_Radio_Screen_Button_Tray_Down;
+extern lv_obj_t * uic_Radio_Screen_Button_Tray_Down_Image;
 
 // SCREEN: ui_Volume_Screen
 void ui_Volume_Screen_screen_init(void);
@@ -187,6 +187,16 @@ extern lv_obj_t * ui_Message_Screen_Message_Label;
 // CUSTOM VARIABLES
 extern lv_obj_t * uic_Message_Screen;
 extern lv_obj_t * uic_Message_Screen_Message_Label;
+
+// SCREEN: ui_Configuration_Screen
+void ui_Configuration_Screen_screen_init(void);
+extern lv_obj_t * ui_Configuration_Screen;
+extern lv_obj_t * ui_Configuration_Screen_Button1;
+extern lv_obj_t * ui_Configuration_Screen_Button2;
+extern lv_obj_t * ui_Configuration_Screen_Button3;
+extern lv_obj_t * ui_Configuration_Screen_Button4;
+// CUSTOM VARIABLES
+extern lv_obj_t * uic_Configuration_Screen;
 
 // EVENTS
 

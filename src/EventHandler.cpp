@@ -11,7 +11,28 @@
 
 void modeSelected(lv_event_t * e)
 {
+    char mode[200];
+    lv_roller_get_selected_str(uic_Mode_Screen_Mode_Roller, mode, 200);
+    Log.infoln("Selected mode: %s",mode);
 
+    switch(mode[0])
+    {
+        case 'R':
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_MODE_SELECTED_RADIO);
+            break;
+        case 'C':
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_MODE_SELECTED_CLOCK);
+            break;
+        case 'N':
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_MODE_SELECTED_NETWORK);
+            break;
+        case 'P':
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_MODE_SELECTED_PROTON);
+            break;
+        case 'G':
+            Orchestrator.send(ORCHESTRATOR_MESSAGE_MODE_SELECTED_GAME);
+            break;
+    }
 }
 
 void keyboardReadyKey(lv_event_t * e)
@@ -118,6 +139,11 @@ void audio_id3lyrics(fs::File& file, const size_t pos, const size_t size){
 
 
 void audio_icydescription(const char* info){
+    if(info != NULL && strlen(info) > 0)
+    {
+        Display.send(DISPLAY_MESSAGE_COMMERCIAL,info);
+    }
+
     Log.infoln("icydescription   %s",info);
 }
 

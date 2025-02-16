@@ -17,8 +17,8 @@
 #define DISPLAY_MESSAGE_WIFI_DISCONNECTED 5
 #define DISPLAY_MESSAGE_COMMERCIAL 6
 #define DISPLAY_MESSAGE_ERROR 7
-#define DISPLAY_MESSAGE_SCROLL_STATION_UP 8
-#define DISPLAY_MESSAGE_SCROLL_STATION_DOWN 9
+#define DISPLAY_MESSAGE_SCROLL_UP 8
+#define DISPLAY_MESSAGE_SCROLL_DOWN 9
 #define DISPLAY_MESSAGE_UPDATE_CLOCK 11
 #define DISPLAY_MESSAGE_CLEAR_MAIN_SCREEN 12
 
@@ -68,6 +68,11 @@ private:
     void showScreen(uint16_t screenId, const char * message = NULL);
     void updateStationListDisplay();
     void createStationListPage(size_t stationIndex);
+
+    void scrollStationUp();
+    void scrollStationDown();
+    void scrollModeUp();
+    void scrollModeDown();
 
 
 

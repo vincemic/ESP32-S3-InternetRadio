@@ -13,7 +13,7 @@ void ui_Mode_Screen_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Mode_Screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Mode_Screen_Mode_Roller = lv_roller_create(ui_Mode_Screen);
-    lv_roller_set_options(ui_Mode_Screen_Mode_Roller, "Radio\nClock\nGame\nProton", LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_options(ui_Mode_Screen_Mode_Roller, "Radio\nClock\nGame\nProton\nConfigure", LV_ROLLER_MODE_NORMAL);
     lv_roller_set_selected(ui_Mode_Screen_Mode_Roller, 2, LV_ANIM_OFF);
     lv_obj_set_width(ui_Mode_Screen_Mode_Roller, 300);
     lv_obj_set_height(ui_Mode_Screen_Mode_Roller, 162);

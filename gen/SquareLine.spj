@@ -549,12 +549,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Artist",
+                "strval": "Radio Screen Artist",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Artist",
+                    "strval": "Radio_Screen_Artist",
                     "InheritedType": 10
                   }
                 ],
@@ -725,12 +725,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Station",
+                "strval": "Radio Screen Station",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Station",
+                    "strval": "Radio_Screen_Station",
                     "InheritedType": 10
                   }
                 ],
@@ -895,12 +895,13 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Commercial",
+                "strval": "Radio Screen Commercial",
                 "childs": [
                   {
                     "nid": 15,
+                    "flags": 1048576,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Commercial",
+                    "strval": "Radio_Screen_Commercial",
                     "InheritedType": 10
                   }
                 ],
@@ -1047,12 +1048,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Title",
+                "strval": "Radio Screen Title",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Title",
+                    "strval": "Radio_Screen_Title",
                     "InheritedType": 10
                   }
                 ],
@@ -1247,12 +1248,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen No WIFI Image",
+                "strval": "Radio Screen No WIFI Image",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_No_WIFI_Image",
+                    "strval": "Radio_Screen_No_WIFI_Image",
                     "InheritedType": 10
                   }
                 ],
@@ -1471,12 +1472,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen WIFI Image",
+                "strval": "Radio Screen WIFI Image",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_WIFI_Image",
+                    "strval": "Radio_Screen_WIFI_Image",
                     "InheritedType": 10
                   }
                 ],
@@ -1694,12 +1695,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Line Image",
+                "strval": "Radio Screen Line Image",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Line_Image",
+                    "strval": "Radio_Screen_Line_Image",
                     "InheritedType": 10
                   }
                 ],
@@ -1841,12 +1842,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Clock Label",
+                "strval": "Radio Screen Clock Label",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Clock_Label",
+                    "strval": "Radio_Screen_Clock_Label",
                     "InheritedType": 10
                   }
                 ],
@@ -2002,12 +2003,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Mode Button Label",
+                        "strval": "Radio Screen Mode Button Label",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Mode_Button_Label",
+                            "strval": "Radio_Screen_Mode_Button_Label",
                             "InheritedType": 10
                           }
                         ],
@@ -2128,12 +2129,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Mode Button",
+                    "strval": "Radio Screen Mode Button",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Mode_Button",
+                        "strval": "Radio_Screen_Mode_Button",
                         "InheritedType": 10
                       }
                     ],
@@ -2471,12 +2472,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Tune Button Label",
+                        "strval": "Radio Screen Tune Button Label",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Tune_Button_Label",
+                            "strval": "Radio_Screen_Tune_Button_Label",
                             "InheritedType": 10
                           }
                         ],
@@ -2597,13 +2598,13 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Tune Button",
+                    "strval": "Radio Screen Tune Button",
                     "childs": [
                       {
                         "nid": 15,
                         "flags": 1048576,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Tune_Button",
+                        "strval": "Radio_Screen_Tune_Button",
                         "InheritedType": 10
                       }
                     ],
@@ -2941,12 +2942,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Button Tray Up Image",
+                        "strval": "Radio Screen Button Tray Up Image",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Button_Tray_Up_Image",
+                            "strval": "Radio_Screen_Button_Tray_Up_Image",
                             "InheritedType": 10
                           }
                         ],
@@ -3097,12 +3098,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Button Tray Up",
+                    "strval": "Radio Screen Button Tray Up",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Button_Tray_Up",
+                        "strval": "Radio_Screen_Button_Tray_Up",
                         "InheritedType": 10
                       }
                     ],
@@ -3423,12 +3424,12 @@
                       {
                         "nid": 10,
                         "strtype": "OBJECT/Name",
-                        "strval": "Main Screen Button Tray Down Image",
+                        "strval": "Radio Screen Button Tray Down Image",
                         "childs": [
                           {
                             "nid": 15,
                             "strtype": "_codename/Codename",
-                            "strval": "Main_Screen_Button_Tray_Down_Image",
+                            "strval": "Radio_Screen_Button_Tray_Down_Image",
                             "InheritedType": 10
                           }
                         ],
@@ -3573,12 +3574,12 @@
                   {
                     "nid": 10,
                     "strtype": "OBJECT/Name",
-                    "strval": "Main Screen Button Tray Down",
+                    "strval": "Radio Screen Button Tray Down",
                     "childs": [
                       {
                         "nid": 15,
                         "strtype": "_codename/Codename",
-                        "strval": "Main_Screen_Button_Tray_Down",
+                        "strval": "Radio_Screen_Button_Tray_Down",
                         "InheritedType": 10
                       }
                     ],
@@ -3880,12 +3881,12 @@
               {
                 "nid": 10,
                 "strtype": "OBJECT/Name",
-                "strval": "Main Screen Panel Tray",
+                "strval": "Radio Screen Panel Tray",
                 "childs": [
                   {
                     "nid": 15,
                     "strtype": "_codename/Codename",
-                    "strval": "Main_Screen_Panel_Tray",
+                    "strval": "Radio_Screen_Panel_Tray",
                     "InheritedType": 10
                   }
                 ],
@@ -4042,12 +4043,12 @@
           {
             "nid": 10,
             "strtype": "OBJECT/Name",
-            "strval": "Main Screen",
+            "strval": "Radio Screen",
             "childs": [
               {
                 "nid": 15,
                 "strtype": "_codename/Codename",
-                "strval": "Main_Screen",
+                "strval": "Radio_Screen",
                 "InheritedType": 10
               }
             ],
@@ -5901,13 +5902,13 @@
               {
                 "nid": 1020,
                 "strtype": "ROLLER/Options",
-                "strval": "Radio\\nClock\\nGame\\nProton",
+                "strval": "Radio\\nClock\\nGame\\nProton\\nConfigure",
                 "InheritedType": 10
               },
               {
                 "nid": 1030,
                 "strtype": "ROLLER/Mode",
-                "strval": "INFINITE",
+                "strval": "NORMAL",
                 "InheritedType": 3
               },
               {
@@ -5962,6 +5963,33 @@
                 "strtype": "ROLLER/Style_selected",
                 "strval": "lv.PART.SELECTED, Text, Rectangle",
                 "InheritedType": 11
+              },
+              {
+                "disabled": false,
+                "nid": 1001296,
+                "strtype": "_event/EventHandler",
+                "strval": "CLICKED",
+                "childs": [
+                  {
+                    "nid": 1001297,
+                    "strtype": "_event/name",
+                    "strval": "Event18",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001298,
+                    "strtype": "_event/condition_C",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1001299,
+                    "strtype": "_event/condition_P",
+                    "strval": "",
+                    "InheritedType": 10
+                  }
+                ],
+                "InheritedType": 4
               }
             ],
             "saved_objtypeKey": "ROLLER"
@@ -10627,6 +10655,566 @@
           }
         ],
         "saved_objtypeKey": "SCREEN"
+      },
+      {
+        "guid": "GUID93662580-15219S389445",
+        "deepid": 334511929,
+        "children": [
+          {
+            "guid": "GUID6772993-822158S46941446",
+            "deepid": -1609626319,
+            "dont_export": false,
+            "locked": false,
+            "properties": [
+              {
+                "nid": 10,
+                "strtype": "OBJECT/Name",
+                "strval": "Configuration Screen Button1",
+                "InheritedType": 10
+              },
+              {
+                "nid": 20,
+                "strtype": "OBJECT/Layout",
+                "InheritedType": 1
+              },
+              {
+                "Flow": 0,
+                "Wrap": false,
+                "Reversed": false,
+                "MainAlignment": 0,
+                "CrossAlignment": 0,
+                "TrackAlignment": 0,
+                "LayoutType": 0,
+                "nid": 30,
+                "strtype": "OBJECT/Layout_type",
+                "strval": "No_layout",
+                "InheritedType": 13
+              },
+              {
+                "nid": 40,
+                "strtype": "OBJECT/Transform",
+                "InheritedType": 1
+              },
+              {
+                "nid": 50,
+                "flags": 17,
+                "strtype": "OBJECT/Position",
+                "intarray": [
+                  -83,
+                  48
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 60,
+                "flags": 17,
+                "strtype": "OBJECT/Size",
+                "intarray": [
+                  100,
+                  50
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 70,
+                "strtype": "OBJECT/Align",
+                "strval": "CENTER",
+                "InheritedType": 3
+              },
+              {
+                "nid": 90,
+                "flags": 1048576,
+                "strtype": "OBJECT/Flags",
+                "InheritedType": 1
+              },
+              {
+                "nid": 230,
+                "strtype": "OBJECT/Scrollable",
+                "strval": "False",
+                "InheritedType": 2
+              },
+              {
+                "nid": 260,
+                "strtype": "OBJECT/Scroll_on_focus",
+                "strval": "True",
+                "InheritedType": 2
+              },
+              {
+                "nid": 300,
+                "strtype": "OBJECT/Scrollbar_mode",
+                "strval": "AUTO",
+                "InheritedType": 3
+              },
+              {
+                "nid": 310,
+                "strtype": "OBJECT/Scroll_direction",
+                "strval": "ALL",
+                "InheritedType": 3
+              },
+              {
+                "nid": 320,
+                "flags": 1048576,
+                "strtype": "OBJECT/States",
+                "InheritedType": 1
+              },
+              {
+                "part": "lv.PART.MAIN",
+                "childs": [],
+                "nid": 1010,
+                "strtype": "BUTTON/Style_main",
+                "strval": "lv.PART.MAIN, Rectangle, Pad, Text, Transform",
+                "InheritedType": 11
+              }
+            ],
+            "saved_objtypeKey": "BUTTON"
+          },
+          {
+            "guid": "GUID50971859-822160S49613446",
+            "deepid": -2093199542,
+            "dont_export": false,
+            "locked": false,
+            "properties": [
+              {
+                "nid": 10,
+                "strtype": "OBJECT/Name",
+                "strval": "Configuration Screen Button2",
+                "InheritedType": 10
+              },
+              {
+                "nid": 20,
+                "strtype": "OBJECT/Layout",
+                "InheritedType": 1
+              },
+              {
+                "Flow": 0,
+                "Wrap": false,
+                "Reversed": false,
+                "MainAlignment": 0,
+                "CrossAlignment": 0,
+                "TrackAlignment": 0,
+                "LayoutType": 0,
+                "nid": 30,
+                "strtype": "OBJECT/Layout_type",
+                "strval": "No_layout",
+                "InheritedType": 13
+              },
+              {
+                "nid": 40,
+                "strtype": "OBJECT/Transform",
+                "InheritedType": 1
+              },
+              {
+                "nid": 50,
+                "flags": 17,
+                "strtype": "OBJECT/Position",
+                "intarray": [
+                  61,
+                  42
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 60,
+                "flags": 17,
+                "strtype": "OBJECT/Size",
+                "intarray": [
+                  100,
+                  50
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 70,
+                "strtype": "OBJECT/Align",
+                "strval": "CENTER",
+                "InheritedType": 3
+              },
+              {
+                "nid": 90,
+                "flags": 1048576,
+                "strtype": "OBJECT/Flags",
+                "InheritedType": 1
+              },
+              {
+                "nid": 230,
+                "strtype": "OBJECT/Scrollable",
+                "strval": "False",
+                "InheritedType": 2
+              },
+              {
+                "nid": 260,
+                "strtype": "OBJECT/Scroll_on_focus",
+                "strval": "True",
+                "InheritedType": 2
+              },
+              {
+                "nid": 300,
+                "strtype": "OBJECT/Scrollbar_mode",
+                "strval": "AUTO",
+                "InheritedType": 3
+              },
+              {
+                "nid": 310,
+                "strtype": "OBJECT/Scroll_direction",
+                "strval": "ALL",
+                "InheritedType": 3
+              },
+              {
+                "nid": 320,
+                "flags": 1048576,
+                "strtype": "OBJECT/States",
+                "InheritedType": 1
+              },
+              {
+                "part": "lv.PART.MAIN",
+                "childs": [],
+                "nid": 1010,
+                "strtype": "BUTTON/Style_main",
+                "strval": "lv.PART.MAIN, Rectangle, Pad, Text, Transform",
+                "InheritedType": 11
+              }
+            ],
+            "saved_objtypeKey": "BUTTON"
+          },
+          {
+            "guid": "GUID32756688-822162S53608446",
+            "deepid": -212635277,
+            "dont_export": false,
+            "locked": false,
+            "properties": [
+              {
+                "nid": 10,
+                "strtype": "OBJECT/Name",
+                "strval": "Configuration Screen Button3",
+                "InheritedType": 10
+              },
+              {
+                "nid": 20,
+                "strtype": "OBJECT/Layout",
+                "InheritedType": 1
+              },
+              {
+                "Flow": 0,
+                "Wrap": false,
+                "Reversed": false,
+                "MainAlignment": 0,
+                "CrossAlignment": 0,
+                "TrackAlignment": 0,
+                "LayoutType": 0,
+                "nid": 30,
+                "strtype": "OBJECT/Layout_type",
+                "strval": "No_layout",
+                "InheritedType": 13
+              },
+              {
+                "nid": 40,
+                "strtype": "OBJECT/Transform",
+                "InheritedType": 1
+              },
+              {
+                "nid": 50,
+                "flags": 17,
+                "strtype": "OBJECT/Position",
+                "intarray": [
+                  -96,
+                  -74
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 60,
+                "flags": 17,
+                "strtype": "OBJECT/Size",
+                "intarray": [
+                  100,
+                  50
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 70,
+                "strtype": "OBJECT/Align",
+                "strval": "CENTER",
+                "InheritedType": 3
+              },
+              {
+                "nid": 90,
+                "flags": 1048576,
+                "strtype": "OBJECT/Flags",
+                "InheritedType": 1
+              },
+              {
+                "nid": 230,
+                "strtype": "OBJECT/Scrollable",
+                "strval": "False",
+                "InheritedType": 2
+              },
+              {
+                "nid": 260,
+                "strtype": "OBJECT/Scroll_on_focus",
+                "strval": "True",
+                "InheritedType": 2
+              },
+              {
+                "nid": 300,
+                "strtype": "OBJECT/Scrollbar_mode",
+                "strval": "AUTO",
+                "InheritedType": 3
+              },
+              {
+                "nid": 310,
+                "strtype": "OBJECT/Scroll_direction",
+                "strval": "ALL",
+                "InheritedType": 3
+              },
+              {
+                "nid": 320,
+                "flags": 1048576,
+                "strtype": "OBJECT/States",
+                "InheritedType": 1
+              },
+              {
+                "part": "lv.PART.MAIN",
+                "childs": [],
+                "nid": 1010,
+                "strtype": "BUTTON/Style_main",
+                "strval": "lv.PART.MAIN, Rectangle, Pad, Text, Transform",
+                "InheritedType": 11
+              }
+            ],
+            "saved_objtypeKey": "BUTTON"
+          },
+          {
+            "guid": "GUID7346589-822164S56247446",
+            "deepid": -1067560077,
+            "dont_export": false,
+            "locked": false,
+            "properties": [
+              {
+                "nid": 10,
+                "strtype": "OBJECT/Name",
+                "strval": "Configuration Screen Button4",
+                "InheritedType": 10
+              },
+              {
+                "nid": 20,
+                "strtype": "OBJECT/Layout",
+                "InheritedType": 1
+              },
+              {
+                "Flow": 0,
+                "Wrap": false,
+                "Reversed": false,
+                "MainAlignment": 0,
+                "CrossAlignment": 0,
+                "TrackAlignment": 0,
+                "LayoutType": 0,
+                "nid": 30,
+                "strtype": "OBJECT/Layout_type",
+                "strval": "No_layout",
+                "InheritedType": 13
+              },
+              {
+                "nid": 40,
+                "strtype": "OBJECT/Transform",
+                "InheritedType": 1
+              },
+              {
+                "nid": 50,
+                "flags": 17,
+                "strtype": "OBJECT/Position",
+                "intarray": [
+                  77,
+                  -74
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 60,
+                "flags": 17,
+                "strtype": "OBJECT/Size",
+                "intarray": [
+                  100,
+                  50
+                ],
+                "InheritedType": 7
+              },
+              {
+                "nid": 70,
+                "strtype": "OBJECT/Align",
+                "strval": "CENTER",
+                "InheritedType": 3
+              },
+              {
+                "nid": 90,
+                "flags": 1048576,
+                "strtype": "OBJECT/Flags",
+                "InheritedType": 1
+              },
+              {
+                "nid": 230,
+                "strtype": "OBJECT/Scrollable",
+                "strval": "False",
+                "InheritedType": 2
+              },
+              {
+                "nid": 260,
+                "strtype": "OBJECT/Scroll_on_focus",
+                "strval": "True",
+                "InheritedType": 2
+              },
+              {
+                "nid": 300,
+                "strtype": "OBJECT/Scrollbar_mode",
+                "strval": "AUTO",
+                "InheritedType": 3
+              },
+              {
+                "nid": 310,
+                "strtype": "OBJECT/Scroll_direction",
+                "strval": "ALL",
+                "InheritedType": 3
+              },
+              {
+                "nid": 320,
+                "flags": 1048576,
+                "strtype": "OBJECT/States",
+                "InheritedType": 1
+              },
+              {
+                "part": "lv.PART.MAIN",
+                "childs": [],
+                "nid": 1010,
+                "strtype": "BUTTON/Style_main",
+                "strval": "lv.PART.MAIN, Rectangle, Pad, Text, Transform",
+                "InheritedType": 11
+              }
+            ],
+            "saved_objtypeKey": "BUTTON"
+          }
+        ],
+        "isPage": true,
+        "editor_posx": 1940,
+        "editor_posy": -740,
+        "dont_export": false,
+        "locked": false,
+        "properties": [
+          {
+            "nid": 10,
+            "strtype": "OBJECT/Name",
+            "strval": "Configuration Screen",
+            "childs": [
+              {
+                "nid": 15,
+                "strtype": "_codename/Codename",
+                "strval": "Configuration_Screen",
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 10
+          },
+          {
+            "nid": 20,
+            "strtype": "OBJECT/Layout",
+            "InheritedType": 1
+          },
+          {
+            "Flow": 0,
+            "Wrap": false,
+            "Reversed": false,
+            "MainAlignment": 0,
+            "CrossAlignment": 0,
+            "TrackAlignment": 0,
+            "LayoutType": 0,
+            "nid": 30,
+            "strtype": "OBJECT/Layout_type",
+            "strval": "No_layout",
+            "InheritedType": 13
+          },
+          {
+            "nid": 40,
+            "strtype": "OBJECT/Transform",
+            "InheritedType": 1
+          },
+          {
+            "nid": 90,
+            "flags": 1048576,
+            "strtype": "OBJECT/Flags",
+            "InheritedType": 1
+          },
+          {
+            "nid": 230,
+            "strtype": "OBJECT/Scrollable",
+            "strval": "False",
+            "InheritedType": 2
+          },
+          {
+            "nid": 300,
+            "strtype": "OBJECT/Scrollbar_mode",
+            "strval": "AUTO",
+            "InheritedType": 3
+          },
+          {
+            "nid": 310,
+            "strtype": "OBJECT/Scroll_direction",
+            "strval": "ALL",
+            "InheritedType": 3
+          },
+          {
+            "nid": 320,
+            "flags": 1048576,
+            "strtype": "OBJECT/States",
+            "InheritedType": 1
+          },
+          {
+            "nid": 1010,
+            "strtype": "SCREEN/Screen",
+            "InheritedType": 1
+          },
+          {
+            "nid": 1020,
+            "strtype": "SCREEN/Temporary",
+            "strval": "False",
+            "InheritedType": 2
+          },
+          {
+            "part": "lv.PART.MAIN",
+            "childs": [
+              {
+                "nid": 10000,
+                "strtype": "_style/StyleState",
+                "strval": "DEFAULT",
+                "childs": [
+                  {
+                    "nid": 10520,
+                    "strtype": "_style/Bg_Color",
+                    "intarray": [
+                      0,
+                      0,
+                      0,
+                      255
+                    ],
+                    "InheritedType": 7
+                  }
+                ],
+                "InheritedType": 1
+              }
+            ],
+            "nid": 1040,
+            "strtype": "SCREEN/Style_main",
+            "strval": "lv.PART.MAIN, Rectangle, Pad, Text",
+            "InheritedType": 11
+          },
+          {
+            "part": "lv.PART.SCROLLBAR",
+            "childs": [],
+            "nid": 1050,
+            "strtype": "SCREEN/Style_scrollbar",
+            "strval": "lv.PART.SCROLLBAR, Rectangle, Pad",
+            "InheritedType": 11
+          }
+        ],
+        "saved_objtypeKey": "SCREEN"
       }
     ],
     "dont_export": false,
@@ -11271,7 +11859,7 @@
     "uiExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio\\src\\ui",
     "projectExportFolderPath": "C:\\Users\\vjm\\source\\repos\\ESP32-S3-InternetRadio",
     "custom_variable_prefix": "uic",
-    "backup_cnt": 63,
+    "backup_cnt": 66,
     "autosave_cnt": 0,
     "lvgl_version": "9.1.0",
     "callfuncsexport": "C_FILE",
@@ -11287,7 +11875,7 @@
     "drive_fatfs_path": "",
     "naming": "Screen_Name",
     "naming_force_lowercase": false,
-    "nidcnt": 1001296,
+    "nidcnt": 1001300,
     "BitDepth": 16,
     "Name": "SquareLine"
   }

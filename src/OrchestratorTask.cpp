@@ -45,24 +45,26 @@ void OrchestratorTask::tick()
                 Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, "Connected to WiFi");
                 break;  
             case ORCHESTRATOR_MESSAGE_ROTARY_LEFT:
-               if(Display.getActiveScreen() == ui_Station_Selection_Screen)
-                {
-                     Display.send(DISPLAY_MESSAGE_SCROLL_STATION_DOWN);
-                } 
-                else if(Display.getActiveScreen() == ui_Main_Screen )
+
+                if(Display.getActiveScreen() == uic_Radio_Screen )
                 {
                     Sound.send(SOUND_MESSAGE_TURN_DOWN_VOLUME);
-                }
+                }   
+                else
+                {
+                     Display.send(DISPLAY_MESSAGE_SCROLL_DOWN);
+                } 
                 break;
             case ORCHESTRATOR_MESSAGE_ROTARY_RIGHT:
-                if(Display.getActiveScreen() == ui_Station_Selection_Screen)
-                {
-                     Display.send(DISPLAY_MESSAGE_SCROLL_STATION_UP);
-                } 
-                else if(Display.getActiveScreen() == ui_Main_Screen )
+               
+                if(Display.getActiveScreen() == uic_Radio_Screen )
                 {
                     Sound.send(SOUND_MESSAGE_TURN_UP_VOLUME);
-                }
+                } 
+                else 
+                {
+                     Display.send(DISPLAY_MESSAGE_SCROLL_UP);
+                } 
                 break;
             case ORCHESTRATOR_MESSAGE_ROTARY_PUSH:
                 if(Display.getActiveScreen() == ui_Station_Selection_Screen)
@@ -91,6 +93,22 @@ void OrchestratorTask::tick()
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY:
                 startStationSelectedFlow();
+                break;
+
+            case ORCHESTRATOR_MESSAGE_MODE_SELECTED_RADIO:
+                Display.send(DISPLAY_MESSAGE_SCREEN_RADIO);
+                break;
+            case ORCHESTRATOR_MESSAGE_MODE_SELECTED_CLOCK:
+                Display.send(DISPLAY_MESSAGE_SCREEN_CLOCK);
+                break;
+            case ORCHESTRATOR_MESSAGE_MODE_SELECTED_NETWORK:
+                Display.send(DISPLAY_MESSAGE_SCREEN_NETWORK);
+                break;
+            case ORCHESTRATOR_MESSAGE_MODE_SELECTED_PROTON:
+                Display.send(DISPLAY_MESSAGE_SCREEN_MODE);
+                break;
+            case ORCHESTRATOR_MESSAGE_MODE_SELECTED_GAME:
+                Display.send(DISPLAY_MESSAGE_SCREEN_MODE);
                 break;
             default:
                 break;
