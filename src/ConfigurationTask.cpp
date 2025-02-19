@@ -4,7 +4,7 @@
 #define PREFERENCE_NAME_SPACE "internet_radio"
 #define PREFERENCE_WIFI_SSID "wifi_ssid"
 #define PREFERENCE_WIFI_PASSWORD "wifi_password"
-#define PREFERENCE_LAST_STATION "last_station"
+#define PREFERENCE_LAST_STATION_STREAM_URL "last_station"
 #define PREFERENCE_LAST_MODE "last_mode"
 #define PREFERENCE_LAST_VOLUME "last_volume"
 #define PREFERENCE_IP_ADDRESS "ip_address"
@@ -47,10 +47,10 @@ String ConfigurationTask::getWifiSSID() {
 }
 
 void ConfigurationTask::setLastStation(const char* station) {
-    preferences.putString(PREFERENCE_LAST_STATION, station);
+    preferences.putString(PREFERENCE_LAST_STATION_STREAM_URL, station);
 }
 String ConfigurationTask::getLastStation() {
-    return preferences.getString(PREFERENCE_LAST_STATION);
+    return preferences.getString(PREFERENCE_LAST_STATION_STREAM_URL);
 }
 
 void ConfigurationTask::setLastMode(const char *mode)

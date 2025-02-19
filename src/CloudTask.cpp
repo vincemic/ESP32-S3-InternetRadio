@@ -39,25 +39,33 @@ void CloudTask::tick()
         {
             case CLOUD_MESSAGE_DOWNLOAD_STATION_NAMES:
                 Log.infoln("Download station names started");
-                    downloadStationNames();
-                
+                getFile(CLOUD_STATION_LIST_FILE, CLOUD_STATIONS_URL);
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
+            break;
+            case CLOUD_MESSAGE_DOWNLOAD_STATION_INFORMATION:
+            
+                Log.infoln("Download station information started for %s", threadMessage.message);
+                String url(CLOUD_STATION_URL);
+                url.concat('/');
+                url.concat(threadMessage.message);
+                getFile(CLOUD_STATION_FILE, url.c_str());
+            
+                Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_INFORMATION_DOWNLOADED);
             break;
         }
     }
 
 }
 
-void CloudTask::getFile(const char *filePath)
+bool CloudTask::getFile(const char *filePath, const char *url)
 {
     WiFiClientSecure wifiClient;
     wifiClient.setInsecure();
     HTTPClient httpClient;
-    String path = String(F("https://bitdogttsbucket.s3.amazonaws.com"));
-
-    path.concat(filePath);
-
+    bool result = false;
+ 
     Log.traceln(F("[HTTPS] begin..."));
-    if (httpClient.begin(wifiClient, path))
+    if (httpClient.begin(wifiClient, url))
     {
         httpClient.setTimeout(45000);
         // HTTPS
@@ -65,39 +73,42 @@ void CloudTask::getFile(const char *filePath)
         // start connection and send HTTP header
         int httpCode = httpClient.GET();
 
-        // httpCode will be negative on error
-        if (httpCode > 0)
+
+        // HTTP header has been send and Server response header has been handled
+        Log.traceln(F("[HTTPS] GET... code: %d"), httpCode);
+
+        // file found at server
+        if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
         {
-            // HTTP header has been send and Server response header has been handled
-            Log.traceln(F("[HTTPS] GET... code: %d"), httpCode);
+            Log.traceln(F("[HTTPS] Saving to file: %s"), filePath);
+            File file = SD.open(filePath, FILE_WRITE, true);
 
-            // file found at server
-            if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
-            {
-                Log.traceln(F("[HTTPS] Saving to file: %s"), filePath);
-                File file = SD.open(filePath, FILE_WRITE, true);
-
-                if (file)
-                    httpClient.writeToStream(&file);
-                else
-                    Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
-
-                file.close();    
+            if (file) {
+                httpClient.writeToStream(&file);
+                file.close(); 
+                result = true;  
+                
+                Log.errorln(F("[HTTPS] Saved file: %s"), filePath);
             }
+            else 
+            {
+                Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
+            }
+
         }
         else
         {
             Log.errorln(F("[HTTPS] GET... failed, error: %s"), httpClient.errorToString(httpCode).c_str());
         }
 
-        Log.errorln(F("[HTTPS] Saved file: %s"), filePath);
+        httpClient.end();
     }
     else
     {
         Log.errorln(F("[HTTPS] Unable to create client"));
     }
 
-    httpClient.end();
+    return result;
 }
 
 bool CloudTask::downloadIPAddress(String &ipAddress)
@@ -182,70 +193,6 @@ void CloudTask::createTTSFile(const __FlashStringHelper *text,  const char *file
     https.end();
 }
 
-void CloudTask::downloadStationNames() {
-
-    WiFiClientSecure wifiClient;
-    wifiClient.setInsecure();
-    HTTPClient httpClient;
-    String path = String(F("https://api.laut.fm/station_names"));
-    const char * filePath = STATION_LIST_FILE;
-
-
-
-    const char* keys[] = {"Transfer-Encoding"};
-    httpClient.collectHeaders(keys, 1);
-
-    Log.traceln(F("[HTTPS] begin..."));
-    if (httpClient.begin(wifiClient, path))
-    {
-        httpClient.setReuse(false);
-        httpClient.setTimeout(30000);
-        httpClient.setConnectTimeout(30000);
-        // Set the Accept header to application/json
-        httpClient.addHeader("Accept", "application/json"); 
-
-        // HTTPS
-        Log.traceln(F("[HTTPS] GET..."));
-        
-        // start connection and send HTTP header
-        int httpCode = httpClient.GET();
-
-        // httpCode will be negative on error
-        if (httpCode > 0)
-        {
-            // HTTP header has been send and Server response header has been handled
-            Log.traceln(F("[HTTPS] GET... code: %d"), httpCode);
-
-            // file found at server
-            if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
-            {
-                Log.traceln(F("[HTTPS] Saving to file: %s"), filePath);
-                File file = SD.open(filePath, FILE_WRITE, true);
-
-                if (file) 
-                {
-                    httpClient.writeToStream(&file);
-                    file.close(); 
-
-                }
-                else
-                    Log.traceln(F("[HTTPS] Could not open SD file: %s"), filePath);
-
-            }
-        }
-        else
-        {
-            Log.errorln(F("[HTTPS] GET... failed, error: %s"), httpClient.errorToString(httpCode).c_str());
-        }
-
-    }
-    else
-    {
-        Log.errorln(F("[HTTPS] Unable to create client"));
-    }
-
-    Orchestrator.send(ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED);
-}
 
 bool CloudTask::downloadStation(JsonDocument &stationJson, String &stationName) {
     char url[400];

@@ -64,7 +64,10 @@ bool AsyncFlow::tick() {
 
     if(!stepResult && step->repeat < 1) {
         Log.infoln("Step failed: %s", step->label);
-        failureCallback(step->label);
+
+        if(failureCallback != NULL)
+            failureCallback(step->label);
+            
         // set to the end of the steps
         currentStep = steps.size();
         return false;

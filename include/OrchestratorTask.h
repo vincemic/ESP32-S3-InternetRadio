@@ -28,12 +28,12 @@ typedef void (*asyncflow_configure_cb)(AsyncFlowConfiguration* configuration);
 #define ORCHESTRATOR_MESSAGE_MODE_SELECTED_NETWORK 19
 #define ORCHESTRATOR_MESSAGE_MODE_SELECTED_PROTON 20
 #define ORCHESTRATOR_MESSAGE_MODE_SELECTED_GAME 21
+#define ORCHESTRATOR_MESSAGE_STATION_INFORMATION_DOWNLOADED 22
 
 
 #define MAX_STATION_SETS 500
 #define STATION_SET_SIZE 50
 
-#define STATION_LIST_FILE "/station_list.json"
 
 
 class OrchestratorTask : public ThreadTask
@@ -43,7 +43,6 @@ public:
     static bool begin();
     void tick();
 
-    JsonDocument stationJson = JsonDocument(&spiRamAllocator);
     size_t stationSetIndexes[MAX_STATION_SETS];
     size_t stationSetCount = 0;
     char * stationNamesString = NULL;
@@ -57,7 +56,6 @@ private:
 
     static void startStationSelectedFlow();
 
-    static bool downloadStationInfo();
     static bool logPartitions();
     static bool logMemory();
     static bool startRadio();
@@ -65,6 +63,9 @@ private:
     static bool downloadTimezone();
     static bool beginTime();
     static bool downloadStationNames();
+    static bool loadStationNames();
+    static bool downloadStationInfomation();
+    static bool loadStationInformation();
  
     static bool showStationSelectionScreen();
     static bool showMessageScreen(const char* text);
@@ -72,13 +73,14 @@ private:
     static bool showIPAddress();
     static bool showTimezone();
     static bool showGettingStations();
-    static bool areStationNamesDownloaded();
+    static bool isStationNamesDownloaded();
+    static bool isStationInfomrationDownloaded();
     static bool updateStationSelectionScreen();
     static bool clearRadioScreen();
 
     static bool setMessageScreenMessage(const char* message);
     static bool setInitialized();
-    static bool createPagedStationNameList();
+
 
 
   
@@ -92,8 +94,8 @@ private:
     String stationName;
     bool newIPAdderss = false;
     bool initialized = false;
-    SpiRamAllocator spiRamAllocator;
-    bool stationListDownloaded = false;
+    bool stationsNamesDownloaded = false;
+    bool stationInformationDownloaded = false;
     uint16_t currentStation = 0;
 
 };

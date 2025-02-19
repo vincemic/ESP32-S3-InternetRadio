@@ -89,7 +89,7 @@ void OrchestratorTask::tick()
                 lv_textarea_set_text(ui_Network_Screen_Password_Text_Area, Configuration.getWifiPassword().c_str());
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_LIST_DOWNLOADED:
-                stationListDownloaded = true;
+                stationsNamesDownloaded = true;
                 break;
             case ORCHESTRATOR_MESSAGE_STATION_SELECTED_PLAY:
                 startStationSelectedFlow();
@@ -109,6 +109,9 @@ void OrchestratorTask::tick()
                 break;
             case ORCHESTRATOR_MESSAGE_MODE_SELECTED_GAME:
                 Display.send(DISPLAY_MESSAGE_SCREEN_MODE);
+                break;
+            case ORCHESTRATOR_MESSAGE_STATION_INFORMATION_DOWNLOADED:
+                stationInformationDownloaded = true;
                 break;
             default:
                 break;
@@ -137,7 +140,7 @@ void OrchestratorTask::tick()
         Device.tick();
         Sound.tick();
         Time.tick();
-
+        Cloud.tick();
         Display.tick();
     }
  
@@ -174,8 +177,8 @@ void OrchestratorTask::startup()
         ->addStep("show getting stations", 40, showGettingStations)
         ->addStep("download station names", 40, downloadStationNames)
         // Wait 1000ms for the station list to be downloaded, repeat 100 times if nessary
-        ->addStep("wait for station list", 1000, areStationNamesDownloaded, 100)
-        ->addStep("creating paged station list", 40, createPagedStationNameList)
+        ->addStep("wait for station list", 1000, isStationNamesDownloaded, 100)
+        ->addStep("creating paged station list", 40, loadStationNames)
         ->addStep("update station selection screen", 40, updateStationSelectionScreen)
         ->addStep("partitions", 40, logPartitions)
         ->addStep("memory", 40, logMemory)
@@ -214,16 +217,23 @@ void OrchestratorTask::startStationSelectedFlow()
         flowConfig
         ->addStep("clear main screen", 40, clearRadioScreen)
         ->addStep("show message screen", 40, showMessageScreen, "Getting station info")
-        ->addStep("download station info", 40, downloadStationInfo)
+        ->addStep("download station information", 40, downloadStationInfomation)
+        ->addStep("wait for station infomration", 1000, isStationInfomrationDownloaded, 100)
+        ->addStep("load station information", 40, loadStationInformation)
         ->addStep("start radio", 40, startRadio);
         
     });
     
 }
 
-bool OrchestratorTask::areStationNamesDownloaded()
+bool OrchestratorTask::isStationNamesDownloaded()
 {
-    return Orchestrator.stationListDownloaded;
+    return Orchestrator.stationsNamesDownloaded;
+}
+
+bool OrchestratorTask::isStationInfomrationDownloaded()
+{
+    return Orchestrator.stationInformationDownloaded;
 }
 
 bool OrchestratorTask::updateStationSelectionScreen()
@@ -237,20 +247,6 @@ bool OrchestratorTask::clearRadioScreen()
 {
     Display.send(DISPLAY_MESSAGE_CLEAR_MAIN_SCREEN);
     return true;
-}
-
-bool OrchestratorTask::downloadStationInfo()
-{
-    String stationName = Display.getSelectedStation();
-    Log.infoln("Downloading station info for %s", stationName.c_str());
-    
-    if(Cloud.downloadStation(Orchestrator.stationJson,stationName)) {
-        const char * streamUrl = Orchestrator.stationJson["stream_url"].as<const char *>();
-        Configuration.setLastStation(streamUrl);
-        return true;
-    }
-        
-    return false;
 }
 
 
@@ -349,6 +345,14 @@ bool OrchestratorTask::downloadStationNames(){
     return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATION_NAMES);
 }
 
+bool OrchestratorTask::downloadStationInfomation()
+{
+    String stationName = Display.getSelectedStation();
+    Log.infoln("Downloading station info for %s", stationName.c_str());
+    
+    return Cloud.send(CLOUD_MESSAGE_DOWNLOAD_STATION_INFORMATION, stationName.c_str());
+}
+
 bool OrchestratorTask::showIPAddress() {
     return Display.send(DISPLAY_MESSAGE_SCREEN_MESSAGE_MESSAGE, Orchestrator.ipAddress.c_str());
 }
@@ -367,14 +371,14 @@ bool OrchestratorTask::setInitialized() {
     return true;
 }
 
-bool OrchestratorTask::createPagedStationNameList()
+bool OrchestratorTask::loadStationNames()
 {
 
-    File file = SD.open(STATION_LIST_FILE, FILE_READ);
+    File file = SD.open(CLOUD_STATION_LIST_FILE, FILE_READ);
     
     if (file) 
     {
-        Log.traceln("Reading file: %s size: %d", STATION_LIST_FILE, file.size());
+        Log.traceln("Reading file: %s size: %d", CLOUD_STATION_LIST_FILE, file.size());
 
         // Because we are removing json formatting, the data in the buffer
         // will be smaller than the file size
@@ -387,7 +391,7 @@ bool OrchestratorTask::createPagedStationNameList()
         Orchestrator.stationNamesString = (char *) ps_malloc(bufferSize);
         Orchestrator.stationSetCount = 0;
 
-        Log.traceln("Reading file: %s size: %d into memory buffer", STATION_LIST_FILE, file.size());
+        Log.traceln("Reading file: %s size: %d into memory buffer", CLOUD_STATION_LIST_FILE, file.size());
         size_t bytesRead = file.readBytes(Orchestrator.stationNamesString, bufferSize);
         file.close();
 
@@ -408,6 +412,40 @@ bool OrchestratorTask::createPagedStationNameList()
     }
    
     return true;
+}
+
+bool OrchestratorTask::loadStationInformation()
+{
+    SpiRamAllocator spiRamAllocator;
+    JsonDocument stationJson = JsonDocument(&spiRamAllocator);
+    File file = SD.open(CLOUD_STATION_FILE, FILE_READ);
+    bool result = false;
+            
+    if(file)
+    {
+        DeserializationError error = deserializeJson(stationJson, file);
+
+        if(error.code() == DeserializationError::Ok)
+        {
+            const char * streamUrl = stationJson["stream_url"].as<const char *>();
+            Log.errorln(F("Stream url: %s"), streamUrl);
+            Configuration.setLastStation(streamUrl);
+            result = true;
+        }
+        else
+        {
+            Log.errorln(F("Error parsing JSON code: %d"), error.code());
+            result = false;
+        }
+
+    } 
+    else 
+    {
+        Log.errorln(F("Error opening file %s"), CLOUD_STATION_FILE);
+        result = false;
+    }
+
+    return result;
 }
 
 void OrchestratorTask::getStationSetIndexes() {
